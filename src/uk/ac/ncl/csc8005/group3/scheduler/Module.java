@@ -4,21 +4,42 @@ import java.util.*;
 public class Module {
 	private String id;
 	private ArrayList<String> clashedModules; // other Modules that must be ran at same time 
-	private Map<String,Integer> ModuleDetails= new HashMap<String,Integer>(); // modules that cannot be ran on same day (ie other modules also taken by students on this module)
+	private HashMap<String,Integer> ModuleDetails; // modules that cannot be ran on same day (ie other modules also taken by students on this module)
 	private double examLength;// length of examination
 	private int moduleSize; //number of students in module
+	private String type; //<----change to enum
 	
-	public Module(String id, ArrayList<String> clashedModules, HashMap<String,Integer> ModuleDetails, double examLength, int moduleSize){
+	public Module(String id, ArrayList<String> clashedModules, HashMap<String,Integer> ModuleDetails, double examLength, int moduleSize, String type){
 		if (moduleSize>0){
 			this.id=id;
 			this.clashedModules= new ArrayList<String>(clashedModules);
 			this.ModuleDetails= new HashMap<String,Integer>();
 			this.examLength= examLength;
 			this.moduleSize=moduleSize;
+			this.type=type;
 		}else{
 			throw new IllegalArgumentException("Module size is 0");
 		}
 	}
+	
+	
+	public Module(ArrayList<Module> modules){
+		HashMap<String, Integer> ModuleDetails2=new HashMap<String, Integer>();
+		for(Module module:modules){
+			this.id=module.getId()+this.id;
+			this.moduleSize=module.getModuleSize()+this.moduleSize;
+			ModuleDetails2.putAll(module.getModuleDetails());
+			if (module.getExamLength()>this.examLength){ // note, might need different room types as well.
+				this.examLength=module.getExamLength();
+			}
+			type=module.getType();			
+		}
+	}
+	
+	public String getType(){
+		return type;
+	}
+	
 	public ArrayList<String> getClashedModules() {
 		return  (clashedModules);//defensive programming
 	}
@@ -30,10 +51,10 @@ public class Module {
 		clashedModules.add(id);
 	}
 	
-	public Map<String,Integer> getModuleDetails() {
+	public HashMap<String,Integer> getModuleDetails() {
 		return  ModuleDetails;//defensive programming
 	}
-	public void setModuleDetails(Map<String,Integer> coupledModules) {
+	public void setModuleDetails(HashMap<String,Integer> coupledModules) {
 		this.ModuleDetails = coupledModules;
 	}
 	

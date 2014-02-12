@@ -32,6 +32,7 @@ public class Room {
 	}
 
 	public void addModule(Module module){
+		//need more conditions adding!
 		if (module.getModuleSize()<capacity){
 			if (module.getExamLength()+roomFireBreak < timeLeftInRoom){
 				modules.add(module);
