@@ -3,7 +3,6 @@ import java.util.*;
 public class Room {
 	private String roomNumber;
 	private String roomType;
-	private int seat;
 	private ArrayList<Module> modules;
 	private double roomStart; //startTime for using room, eg 9:00
 	private double roomEnd; //end time for using room, eg 17:00
@@ -11,11 +10,10 @@ public class Room {
 	private double roomFireBreak; //time that must be between each exam end and start, for this room.
 	private int capacity;
 
- 	public Room(String roomNumber, String roomType, int seat, double roomStart, double roomEnd, double roomFireBreak, int capacity)
+ 	public Room(String roomNumber, String roomType, double roomStart, double roomEnd, double roomFireBreak, int capacity)
 	{
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
-		this.seat = seat;
 		this.modules=new ArrayList<Module>();
 		this.roomStart=roomStart;
 		this.roomEnd=roomEnd;
@@ -32,10 +30,7 @@ public class Room {
 	{
 		roomType = type;
 	}
-	public void setSeat(int amount)
-	{
-		seat = amount;
-	}
+
 	public void addModule(Module module){
 		if (module.getModuleSize()<capacity){
 			if (module.getExamLength()+roomFireBreak < timeLeftInRoom){
@@ -59,10 +54,7 @@ public class Room {
 	{
 		return roomType;
 	}
-	public int getSeat()
-	{
-		return seat;
-	}
+
 	public ArrayList<Module> getModules(){
 		return new ArrayList<Module>(modules);
 	}
@@ -77,15 +69,13 @@ public class Room {
 		return timeLeftInRoom;
 	}
 
-	
+/*	
 	@Override
 	public String toString() {
 		return "Room [roomNumber=" + roomNumber + ", roomType=" + roomType
 				+ ", seat=" + seat + ", modules=" + modules + ", roomStart="
 				+ roomStart + ", roomEnd=" + roomEnd + ", timeLeftInRoom="
 				+ timeLeftInRoom + ", roomFireBreak=" + roomFireBreak + "]";
-	}
-	
-
+	}*/
 	
 }
