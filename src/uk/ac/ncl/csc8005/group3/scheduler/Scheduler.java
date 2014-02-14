@@ -21,11 +21,11 @@ public class Scheduler {
 		
 		this.file= new File(file);
 		
-		db = new DatabaseIO(this.file);
+//c		db = new DatabaseIO(this.file);
 		
-		modules=new ArrayList<Module>(db.getModule());
-	    rooms= new ArrayList<Room>(db.getRooms());
-	    days=new ArrayList<Day>();	//<-- add size, remove arraylist
+//c		modules=new ArrayList<Module>(db.getModule());
+//c	    rooms= new ArrayList<Room>(db.getRooms());
+//c	    days=new ArrayList<Day>();	//<-- add size, remove arraylist
 	    
 
 	    
