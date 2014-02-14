@@ -9,14 +9,10 @@ public class Scheduler {
 	private ArrayList<Module> modules; 	
 	private ArrayList<Room> rooms;
 	private ArrayList<Day> days;
-//	private Date examStart;
-//	private Date examEnd;
-//	private int numberOfDays;
+
 	
 	private File file;
 	private DatabaseIO db;
-	
-	final long millisecondsInADay = 1000 * 60 * 60 * 24;
 	
 	public Scheduler(String file){
 	//public Scheduler(String file, String examStart, String examEnd){
@@ -31,9 +27,7 @@ public class Scheduler {
 	    rooms= new ArrayList<Room>(db.getRooms());
 	    days=new ArrayList<Day>();	//<-- add size, remove arraylist
 	    
-	    //this.examStart=new SimpleDateFormat("d MMMM, yyyy", Locale.ENGLISH).parse(examStart);
-	    //this.examEnd=new SimpleDateFormat("d MMMM, yyyy", Locale.ENGLISH).parse(examEnd);;
-	    //numberOfDays = (int) ((this.examStart.getTime() - this.examEnd.getTime())/ millisecondsInADay ); // <---check
+
 	    
 	}
 
@@ -87,8 +81,6 @@ public class Scheduler {
 		
 		modules.addAll(newModules);
 	} 
-		
-	
 	
 	public void generateSchedule(){
 		ArrayList<String> unScheduledErrors = new ArrayList<String>();
