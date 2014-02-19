@@ -1,5 +1,8 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 import java.util.*;
+//TODO
+// add times!!
+// check for clashes
 
 public class Day {
 	private ArrayList<Room> rooms;
@@ -9,9 +12,12 @@ public class Day {
 		this.rooms= new ArrayList<Room>(rooms);
 	}
 	
-	public void addModule(Module module) throws IllegalArgumentException  {
+	public boolean addModule(Module module) throws IllegalArgumentException  {
 		boolean scheduled=false;
 		int count=0;
+		
+		
+		
 		
 		//check not already scheduled!
 		for (Module scheduledModule:scheduledModules){
@@ -38,6 +44,29 @@ public class Day {
 				
 		}
 		
+		return scheduled;
+		
 	}
+	
+	public void removeModule(Module module){
+		for(Room lookForRoom:rooms){
+			if(lookForRoom.findModule(module)==true)
+				{
+				lookForRoom.removeModule(module);
+				}
+				
+		}
+		
+	}
+	
+//	public boolean lookFor(Module module){
+//		for(Module lookingforModule:scheduledModules){
+//			if (module.equals(lookingforModule)){
+//					return true;
+//			}
+//		}
+//		return false;
+//		
+//	}
 	
 }
