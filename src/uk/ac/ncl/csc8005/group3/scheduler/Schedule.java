@@ -27,12 +27,35 @@ public class Schedule {
 	    return numberOfDays;
 	}
 	
-	public void scheduleModule(){
+	public boolean scheduleModule(Module module){
+		boolean scheduledModule =false;
+		try{
+			for(int i=0; i<days.length; i++){
+				if (days[i].addModule(module)==true){
+					scheduledModule=true;
+					scheduleOrder.push(module);
+					break;
+				}
+			}
+		}catch(IllegalArgumentException e){	
+			throw new IllegalArgumentException();
+		}
+		return scheduledModule;
 		
 	}
 	
-	public void removeLastModule(){
-		
+	public Module removeLastModule(){
+		Module lastModule=scheduleOrder.pop();
+		days[findModuleDay(lastModule)].removeModule(lastModule);
+		return lastModule;
+	}
+	
+	private int findModuleDay(Module module){
+		for(int i=0; i<days.length; i++){
+			if (days.lookFor(module)==true){
+				return i;
+			}
+		}
 		
 	}
 	

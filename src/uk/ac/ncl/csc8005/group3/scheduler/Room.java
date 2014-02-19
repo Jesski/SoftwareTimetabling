@@ -26,6 +26,7 @@ public class Room {
 	{
 		roomNumber = number;
 	}
+	
 	public void setRoomType(String type)
 	{
 		roomType = type;
@@ -68,6 +69,15 @@ public class Room {
 	}
 	public double getTimeLeftInRoom(){
 		return timeLeftInRoom;
+	}
+	
+	public boolean findModule(Module module){
+		return modules.contains(module);
+	}
+	
+	public void removeModule(Module module){
+		modules.remove(module);
+		timeLeftInRoom= timeLeftInRoom + module.getExamLength();
 	}
 
 /*	

@@ -9,8 +9,8 @@ public class Scheduler {
 	private ArrayList<Module> modules; 	
 	private ArrayList<Room> rooms;
 	private ArrayList<Day> days;
+	private Schedule x;
 
-	
 	private File file;
 	private DatabaseIO db;
 	
@@ -26,9 +26,7 @@ public class Scheduler {
 //c		modules=new ArrayList<Module>(db.getModule());
 //c	    rooms= new ArrayList<Room>(db.getRooms());
 //c	    days=new ArrayList<Day>();	//<-- add size, remove arraylist
-	    
-
-	    
+	       
 	}
 
 	
@@ -82,22 +80,50 @@ public class Scheduler {
 		modules.addAll(newModules);
 	} 
 	
-	public void generateSchedule(){
-		ArrayList<String> unScheduledErrors = new ArrayList<String>();
-		for (Module module:modules){ //these can be swapped?
-			try{		
-				for (Day day:days){ // check.
-					try{
-						day.addModule(module);
-					} catch(Exception e){
-					}			
-				}
-			}catch(Exception e){
-				unScheduledErrors.add(module.getId());
-			}
+//	public void generateSchedule(){
+//		ArrayList<String> unScheduledErrors = new ArrayList<String>();
+//		for (Module module:modules){ //these can be swapped?
+//			try{		
+//				for (Day day:days){ // check.
+//					try{
+//						day.addModule(module);
+//					} catch(Exception e){
+//					}			
+//				}
+//			}catch(Exception e){
+//				unScheduledErrors.add(module.getId());
+//			}
+//			
+//		}
+//	}
+	
+	
+
+	//TODO Backwards tracking +recursion
+	private void addmodule(Module module){
+	
+		try {
 			
+			Iterator<Module> itr= modules.iterator();
+			while (itr.hasNext()){
+				Module ItrModule=itr.next();
+				x.scheduleModule(ItrModule);
+				itr.remove();
+			}
 		}
-	}	
+		
+		catch(Exception e)
+		{
+			x.removeLastModule();
+			addmodule(module);
+	
+		}
+			
+	
 }
+		
+	}
+
+
 	
 	
