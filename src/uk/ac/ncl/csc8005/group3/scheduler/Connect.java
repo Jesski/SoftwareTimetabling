@@ -1,6 +1,7 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.*;
 
 public class Connect {
 
@@ -12,7 +13,7 @@ public class Connect {
 	       {
 	           String userName = "t8005t2";
 	           String password = ".oweRaps";
-	           String url = "jdbc:mysql://homepages.cs.ncl.ac.uk:3306";
+	           String url = "jdbc:mysql://server.ncl.ac.uk/t8005t2";
 	           Class.forName ("com.mysql.jdbc.Driver").newInstance ();
 	           conn = DriverManager.getConnection (url, userName, password);
 	           System.out.println ("Database connection established");
@@ -35,6 +36,5 @@ public class Connect {
 	           }
 	       }
 	   }	
-	
-	
+
 }
