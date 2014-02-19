@@ -8,12 +8,12 @@ public class Connect {
 	   public static void main (String[] args)
 	   {
 	       Connection conn = null;
-
+// 128.240.148.134
 	       try
 	       {
 	           String userName = "t8005t2";
 	           String password = ".oweRaps";
-	           String url = "jdbc:mysql://server.ncl.ac.uk/t8005t2";
+	           String url = "jdbc:mysql://128.240.148.134/t8005t2:3306";
 	           Class.forName ("com.mysql.jdbc.Driver").newInstance ();
 	           conn = DriverManager.getConnection (url, userName, password);
 	           System.out.println ("Database connection established");
