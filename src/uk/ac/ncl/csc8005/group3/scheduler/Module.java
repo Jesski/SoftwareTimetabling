@@ -36,6 +36,15 @@ public class Module {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return "Module [id=" + id + ", clashedModules=" + clashedModules
+				+ ", coupledModules=" + coupledModules + ", examLength="
+				+ examLength + ", moduleSize=" + moduleSize + ", type=" + type
+				+ "]";
+	}
+
+
 	public String getType(){
 		return type;
 	}

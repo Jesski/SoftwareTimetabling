@@ -15,8 +15,7 @@ public class Room {
 									// start, for this room.
 	private int capacity;
 
-	public Room(String roomNumber, String roomType, double roomStart,
-		double roomEnd, double roomFireBreak, int capacity) {
+	public Room(String roomNumber, String roomType, double roomStart,double roomEnd, double roomFireBreak, int capacity) {
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
 		this.modules = new ArrayList<Module>();

@@ -8,18 +8,23 @@ public class Day {
 
 	public Day(ArrayList<Room> rooms) {
 		this.rooms = new ArrayList<Room>(rooms);
+		scheduledModules = new HashSet<Module>() ;
 	}
 
+	
 	public boolean addModule(Module module) throws IllegalArgumentException {
 		boolean scheduled = false;
 		boolean coupled = false;
 		int count = 0;
-
+		
+		if(scheduledModules.size()==0){
+		}else{		
 		for (Module moduleTwo : scheduledModules) {
 			if (checkCoupledModules(module, moduleTwo) == true) {
 				coupled = true;
 			}
 		}
+	}
 
 		if (coupled == false) {
 			// try to add module to each room.. without clashes. If cannot then
