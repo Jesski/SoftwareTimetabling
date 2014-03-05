@@ -19,9 +19,9 @@ public class DatabaseIO {
 
 	       try
 	       {
-	           String userName = "root";
-	           String password = "root";
-	           String url = "jdbc:mysql://localhost:3306";
+	           String userName = "t8005t2"; //root
+	           String password = ".oweRaps"; //root
+	           String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; //jdbc:mysql://localhost:3306
 	           Class.forName ("com.mysql.jdbc.Driver").newInstance ();
 	           conn = DriverManager.getConnection (url, userName, password);
 	           System.out.println ("Database connection established");
@@ -71,7 +71,7 @@ public class DatabaseIO {
 	   public HashMap<String, Integer> getCoupledModules(String id,Connection conn, Statement stmt){
 		   //modules that have to be ran on the same day.
 		   //String part is module ID that it's clashed with, integer is how many students take that module.
-		   String query = "SELECT ForeignID FROM dbinput .coupledModules WHERE moduleID = " +id;
+		   String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID = " +id;
 		   HashMap<String, Integer> coupledModules = new HashMap<String, Integer>();
 		   try{
 			   stmt = conn.createStatement();
@@ -92,7 +92,7 @@ public class DatabaseIO {
 	   
 	   
 	   public ArrayList<Module> populateModules(Connection conn, Statement stmt){
-		   String query = "SELECT * FROM dbinput .modules";
+		   String query = "SELECT * FROM t8005t2 .modules";
 		   ArrayList<Module> modules = new ArrayList<Module>();
 		   try{
 			   stmt = conn.createStatement();
@@ -119,7 +119,7 @@ public class DatabaseIO {
 	   
 	   
 	   public ArrayList<Room> populateRooms(Connection conn, Statement stmt){
-		   String query = "SELECT * FROM dbinput .rooms";
+		   String query = "SELECT * FROM t8005t2 .rooms";
 		   ArrayList<Room> rooms = new ArrayList<Room>();
 		   try{
 			   stmt = conn.createStatement();
@@ -146,7 +146,7 @@ public class DatabaseIO {
 	   
 	   //Supply this with a student ID and you will get a list of modules
 	   public ArrayList<String> query1(int studentid, Connection conn, Statement stmt){
-		   String query = "SELECT name FROM dbinput .modules WHERE ID IN (SELECT ID FROM dbinput .takes WHERE StudentID = " + studentid + ")";
+		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM dbinput .takes WHERE StudentID = " + studentid + ")";
 		   ArrayList<String> modules = new ArrayList<String>();
 		   try{
 
@@ -169,7 +169,7 @@ public class DatabaseIO {
 	   
 	   //Supply a module name and get an array of student ids taking that module
 	   public ArrayList<Integer> query2(String name, Connection conn, Statement stmt){
-		   String query = "SELECT StudentID FROM dbinput .takes WHERE ID IN (SELECT ID FROM dbinput .modules WHERE name = '" + name + "')";
+		   String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM dbinput .modules WHERE name = '" + name + "')";
 		   ArrayList<Integer> students = new ArrayList<Integer>();
 		   try{
 
