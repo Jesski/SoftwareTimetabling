@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
+//make a static class. Object factory??
 
 public class Connect {
-
+/*
 	   public static void main (String[] args)
-	   {
+	   {*/
 	       Connection conn = null;
 	       ArrayList<String> modules = new ArrayList<String>();
 	       ArrayList<Integer> students = new ArrayList<Integer>();
@@ -76,7 +76,7 @@ public class Connect {
 	   }
 
 	   
-	   //Supply a module and get an array of student ids taking that module
+	   //Supply a module name and get an array of student ids taking that module
 	   public ArrayList<Integer> query2(String name, Connection conn, Statement stmt){
 		   String query = "SELECT StudentID FROM dbinput .takes WHERE ID IN (SELECT ID FROM dbinput .modules WHERE name = '" + name + "')";
 		   ArrayList<Integer> students = new ArrayList<Integer>();
@@ -95,6 +95,6 @@ public class Connect {
 	           System.err.println (e.getMessage ());
 	       }
 	   return students;    	       
-	   }
+//	   }
 
 }

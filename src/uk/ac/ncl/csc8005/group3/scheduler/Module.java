@@ -4,16 +4,16 @@ import java.util.*;
 public class Module {
 	private String id;
 	private ArrayList<String> clashedModules; // other Modules that must be ran at same time 
-	private HashMap<String,Integer> ModuleDetails; // modules that cannot be ran on same day (ie other modules also taken by students on this module)
+	private HashMap<String,Integer> coupledModules; // modules that cannot be ran on same day (ie other modules also taken by students on this module)
 	private double examLength;// length of examination
 	private int moduleSize; //number of students in module
 	private String type; //<----change to enum
 	
-	public Module(String id, ArrayList<String> clashedModules, HashMap<String,Integer> ModuleDetails, double examLength, int moduleSize, String type){
+	public Module(String id, ArrayList<String> clashedModules, HashMap<String,Integer> coupledModules, double examLength, int moduleSize, String type){
 		if (moduleSize>0){
 			this.id=id;
 			this.clashedModules= new ArrayList<String>(clashedModules);
-			this.ModuleDetails= new HashMap<String,Integer>();
+			this.coupledModules= new HashMap<String,Integer>(coupledModules);
 			this.examLength= examLength;
 			this.moduleSize=moduleSize;
 			this.type=type;
@@ -52,10 +52,10 @@ public class Module {
 	}
 	
 	public HashMap<String,Integer> getModuleDetails() {
-		return  ModuleDetails;//defensive programming
+		return  coupledModules;//defensive programming
 	}
 	public void setModuleDetails(HashMap<String,Integer> coupledModules) {
-		this.ModuleDetails = coupledModules;
+		this.coupledModules = coupledModules;
 	}
 	
 	public void setExamLength(double examLength){

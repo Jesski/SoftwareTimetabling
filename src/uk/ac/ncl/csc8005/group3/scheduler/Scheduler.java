@@ -6,17 +6,15 @@ import java.io.*;
 public class Scheduler {
 	private ArrayList<Module> modules;
 
-	private File file;
 	private DatabaseIO db;
 	private Date examStart;
 	private Date examEnd;
 	private Schedule schedule = new Schedule(examStart, examEnd);
 
-	public Scheduler(String file) {
+	public Scheduler() {
 
 		ArrayList<String> temp;
 
-		this.file = new File(file);
 
 		// c db = new DatabaseIO(this.file);
 
