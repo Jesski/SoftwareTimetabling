@@ -12,25 +12,27 @@ public class DatabaseIO {
 
 	   public static void main (String[] args)
 	   {
+	       System.out.println("hello");
+	       
 	       Connection conn = null;
 	       ArrayList<String> modules = new ArrayList<String>();
 	       ArrayList<Integer> students = new ArrayList<Integer>();
 	       Statement stmt = null;
-
 	       try
 	       {
 	           String userName = "t8005t2"; //root
-	           String password = ".oweRaps"; //root
+	           String password = ".oweRaps"; //root 
 	           String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; //jdbc:mysql://localhost:3306
 	           Class.forName ("com.mysql.jdbc.Driver").newInstance ();
 	           conn = DriverManager.getConnection (url, userName, password);
-	           System.out.println ("Database connection established");
+	           System.out.println ("Database connection established");	           
 	           
 	           DatabaseIO connect=new DatabaseIO();
-	           modules = connect.query1(1,conn,stmt);
+	           modules = connect.query1(1,conn,stmt);/*
 	           System.out.println(modules);
 	           students = connect.query2("CSC8001",conn,stmt);
 	           System.out.println(students);
+*/
 	        		   
 	       }
 	       catch (Exception e)
@@ -54,7 +56,7 @@ public class DatabaseIO {
 
 	   }
 	   
-	   
+	  /* 
 	   public ArrayList<String> getClashedModules(String id,Connection conn, Statement stmt){
 		   ArrayList<String> ClashedModules=new ArrayList<String>();
 		   ArrayList<Integer> SID = query2(id, conn, stmt);
@@ -142,14 +144,13 @@ public class DatabaseIO {
 	       }
 	   return rooms;  		   
 	   }
-	   
+	   */
 	   
 	   //Supply this with a student ID and you will get a list of modules
 	   public ArrayList<String> query1(int studentid, Connection conn, Statement stmt){
-		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM dbinput .takes WHERE StudentID = " + studentid + ")";
+		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = " + studentid + ")";
 		   ArrayList<String> modules = new ArrayList<String>();
 		   try{
-
 			   stmt = conn.createStatement();
 			   ResultSet rs = stmt.executeQuery(query);
 			   // while there are still results, loop through and get the name, add it to the module array.
@@ -165,7 +166,7 @@ public class DatabaseIO {
 	       }
 	   return modules;    	       
 	   }
-
+/*
 	   
 	   //Supply a module name and get an array of student ids taking that module
 	   public ArrayList<Integer> query2(String name, Connection conn, Statement stmt){
@@ -187,5 +188,5 @@ public class DatabaseIO {
 	       }
 	   return students;    	       
 	   }
-
+*/
 }
