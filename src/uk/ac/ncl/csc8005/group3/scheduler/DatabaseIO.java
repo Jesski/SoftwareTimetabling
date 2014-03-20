@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //make a static class. Object factory??
 
@@ -12,7 +11,6 @@ public class DatabaseIO {
 
 	   public static void main (String[] args)
 	   {
-	       System.out.println("hello");
 	       
 	       Connection conn = null;
 	       ArrayList<String> modules = new ArrayList<String>();
@@ -28,16 +26,16 @@ public class DatabaseIO {
 	           System.out.println ("Database connection established");	           
 	           
 	           DatabaseIO connect=new DatabaseIO();
-	           modules = connect.query1(1,conn,stmt);/*
-	           System.out.println(modules);
-	           students = connect.query2("CSC8001",conn,stmt);
-	           System.out.println(students);
-*/
+	           modules = connect.query1(1,conn,stmt);
+	          // System.out.println(modules);
+	           //students = connect.query2("CSC8001",conn,stmt);
+	          // System.out.println(students);
+
 	        		   
 	       }
 	       catch (Exception e)
 	       {
-	           System.err.println ("Cannot connect to database server");
+	           System.err.println ("Cannot connect to database server...");
 	           System.err.println (e.getMessage ());
 	       }
 	       finally
@@ -56,7 +54,7 @@ public class DatabaseIO {
 
 	   }
 	   
-	  /* 
+	  /*
 	   public ArrayList<String> getClashedModules(String id,Connection conn, Statement stmt){
 		   ArrayList<String> ClashedModules=new ArrayList<String>();
 		   ArrayList<Integer> SID = query2(id, conn, stmt);
@@ -144,8 +142,8 @@ public class DatabaseIO {
 	       }
 	   return rooms;  		   
 	   }
-	   */
 	   
+	   */
 	   //Supply this with a student ID and you will get a list of modules
 	   public ArrayList<String> query1(int studentid, Connection conn, Statement stmt){
 		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = " + studentid + ")";
@@ -166,8 +164,7 @@ public class DatabaseIO {
 	       }
 	   return modules;    	       
 	   }
-/*
-	   
+	   /*
 	   //Supply a module name and get an array of student ids taking that module
 	   public ArrayList<Integer> query2(String name, Connection conn, Statement stmt){
 		   String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM dbinput .modules WHERE name = '" + name + "')";
