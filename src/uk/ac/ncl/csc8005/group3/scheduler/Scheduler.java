@@ -20,38 +20,15 @@ public class Scheduler {
 		ArrayList<String> clashedModules3 = new ArrayList<String>();
 		ArrayList<String> clashedModules4 = new ArrayList<String>();
 		ArrayList<String> clashedModules5 = new ArrayList<String>();// other
-																	// Modules
-																	// that must
-																	// be ran at
-																	// same time
 		HashMap<String, Integer> coupledModules1 = new HashMap<String, Integer>();
 		HashMap<String, Integer> coupledModules2 = new HashMap<String, Integer>();
 		HashMap<String, Integer> coupledModules3 = new HashMap<String, Integer>();
 		HashMap<String, Integer> coupledModules4 = new HashMap<String, Integer>();
 		HashMap<String, Integer> coupledModules5 = new HashMap<String, Integer>();// modules
-																					// that
-																					// cannot
-																					// be
-																					// ran
-																					// on
-																					// same
-																					// day
-																					// (ie
-																					// other
-																					// modules
-																					// also
-																					// taken
-																					// by
-																					// students
-																					// on
-																					// this
-																					// module)
-
 		clashedModules1.add("CSC8005");
 		clashedModules5.add("CSC8001");
 		clashedModules2.add("CSC8004");
 		clashedModules4.add("CSC8002");
-
 		coupledModules1.put("CSC8004", 10);
 		coupledModules3.put("CSC8005", 10);
 		modules.add(new Module("CSC8001", clashedModules1, coupledModules1,
@@ -82,52 +59,53 @@ public class Scheduler {
 		System.out.println("Ran3");
 		manageDupicateModules();
 		System.out.println("Ran4");
-		unscheduledModules.addAll(modules);
-		System.out.println("Ran5");
-		System.out.println(unscheduledModules.peek());
-		addmodule(unscheduledModules, null);
-		System.out.println("Ran6");
-
 	}
 
 	public void manageDupicateModules() {
-		// creating Lookup table for Id
-		// THIS IS BROKEN!!
-		HashMap<String, Integer> lookUpId;
-		lookUpId = new HashMap<String, Integer>();
-
-		int count = 0;
-		for (Module module : modules) {
-			lookUpId.put(module.getId(), count);
-			count++;
-		}
-
-		ArrayList<Integer> modulePos = new ArrayList<Integer>();
-		ArrayList<Module> clashedModules = new ArrayList<Module>();
-		ArrayList<Module> newModules = new ArrayList<Module>();
-		ArrayList<Boolean> alreadyRan = new ArrayList<Boolean>();
+		HashMap<String, Integer> lookUpId=new HashMap<String, Integer>();
+		HashMap<String,Boolean> alreadRan=new HashMap<String,Boolean>();
 		ArrayList<String> tempModuleIds = new ArrayList<String>();
-
 		for (int x = 0; x < modules.size(); x++) {
-			alreadyRan.add(false);
-		}
-
-		for (int x = 0; x < modules.size(); x++) {
-			if (alreadyRan.get(x) == false) {
-				tempModuleIds.addAll(modules.get(x).getClashedModules());
-				if (tempModuleIds.size() > 0) {
-					for (String id : tempModuleIds) {
-						modulePos.add(lookUpId.get(id));
-						alreadyRan.set(lookUpId.get(id), true);
-					}
-					for (Integer y : modulePos) {
-						clashedModules.add(modules.get(y));
-					}
-					newModules.add(new Module(clashedModules));
-				}
-			} else {
+			if (modules.get(x).getClashedModules().size() > 0) {
+				lookUpId.put(modules.get(x).getId(), x);	
+				alreadRan.put(modules.get(x).getId(), false);
 			}
 		}
+		
+		String superModuleName;
+		double ExamLength;
+		int moduleSize;
+		String Roomtype;
+		ArrayList<String> clashedModules3 = new ArrayList<String>();
+		HashMap<String, Integer> superCoupledModules=new HashMap<String, Integer>();	
+		HashMap<String, Integer> patch=new HashMap<String, Integer>();	
+		
+		for (Map.Entry<String, Integer> entry : lookUpId.entrySet()) {
+		    String key = entry.getKey();
+		    Integer value = entry.getValue();
+		    if(alreadRan.get(key)==false){
+		    	superModuleName=key+" ";
+		    	Module tempModule=modules.get(value);
+		    	ExamLength=tempModule.getExamLength();
+		    	moduleSize=tempModule.getModuleSize();
+		    	Roomtype=tempModule.getType();
+		    	tempModuleIds=tempModule.getClashedModules();
+		    	for(String d:tempModuleIds){
+		    		tempModule=modules.get(lookUpId.get(d));
+		    		superModuleName+=d+" ";
+		    		moduleSize+=tempModule.getModuleSize();
+		    		patch=tempModule.getCoupledModules();
+		    		Map<String,Integer> tmp = new HashMap(patch);
+		    		tmp.keySet().removeAll(superCoupledModules.keySet());
+		    		superCoupledModules.putAll(tmp);
+		    		//what if two coupledMdules are same
+		    		alreadRan.put(d, true);
+		    	}
+		    	modules.add(new Module(superModuleName, clashedModules3, superCoupledModules,
+						ExamLength, moduleSize, Roomtype));	//change clashedModules3
+		    }
+		}
+		
 
 		Iterator<Module> itr = modules.iterator();
 
@@ -137,18 +115,16 @@ public class Scheduler {
 				itr.remove();
 			}
 		}
-
-		modules.addAll(newModules);
 	}
 
-	int count = 0;
+	
 
-	public void addmodule(ArrayList<Module> unscheduled, Module previouslyScheduled) {
+	/*public void addmodule(ArrayList<Module> unscheduled, Module previouslyScheduled) {
 		// THIS IS AN INFINITE LOOP
 		System.out.println(count);
 		count = count + 1;
 		Module previousModule = null;
-
+int count = 0;
 		if (unscheduled.isEmpty()==false) {
 		
 			Module module = unscheduled.();
@@ -172,6 +148,6 @@ public class Scheduler {
 			} finally {
 				addmodule(unscheduled, previousModule);
 			}
-	}
+	}*/
 
 }

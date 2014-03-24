@@ -60,6 +60,9 @@ public class Module {
 	public ArrayList<String> getClashedModules() {
 		return clashedModules;
 	}
+	public HashMap<String, Integer>getCoupledModules() {
+		return coupledModules;
+	}
 
 	public void setClashedModules(ArrayList<String> clashedModules) {
 		this.clashedModules = clashedModules;
