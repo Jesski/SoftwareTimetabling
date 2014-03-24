@@ -38,6 +38,10 @@ public class UI {
 				try {
 					UI window = new UI();
 					window.frame.setVisible(true);
+					
+					DatabaseIO db = new DatabaseIO();
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

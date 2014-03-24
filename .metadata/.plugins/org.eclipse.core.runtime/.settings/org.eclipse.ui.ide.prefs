@@ -1,5 +1,7 @@
-PROBLEMS_FILTERS_MIGRATE=true
+#Mon Mar 24 12:33:40 GMT 2014
 eclipse.preferences.version=1
-platformState=1367862054093
-quickStart=false
+TASKS_FILTERS_MIGRATE=true
 tipsAndTricks=true
+platformState=1392375802905
+quickStart=false
+PROBLEMS_FILTERS_MIGRATE=true
