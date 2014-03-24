@@ -4,11 +4,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-	//	Scheduler schedule= new Scheduler();
+	Scheduler schedule= new Scheduler();
 		
-	//	schedule.generateSchedule();
+	schedule.generateSchedule();
 		
-		DatabaseIO db = new DatabaseIO();
+		//DatabaseIO db = new DatabaseIO();
 
 	}
 		 

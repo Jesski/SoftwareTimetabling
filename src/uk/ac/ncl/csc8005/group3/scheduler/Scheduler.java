@@ -3,6 +3,8 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 import java.util.*;
 import java.io.*;
 
+import uk.ac.ncl.csc8005.group3.scheduler.Utils.SortedArrayList;
+
 public class Scheduler {
 	private ArrayList<Module> modules = new ArrayList<Module>();
 	private Stack<Module> unscheduledModules;
@@ -55,15 +57,15 @@ public class Scheduler {
 		coupledModules1.put("CSC8004", 10);
 		coupledModules3.put("CSC8005", 10);
 		modules.add(new Module("CSC8001", clashedModules1, coupledModules1,
-				20.00, 15, "CMP"));
+				2.00, 15, "CMP"));
 		modules.add(new Module("CSC8002", clashedModules2, coupledModules2,
-				15.00, 35, "LCT"));
+				1.00, 35, "LCT"));
 		modules.add(new Module("CSC8003", clashedModules3, coupledModules3,
-				30.00, 100, "LCT"));
+				3.00, 100, "LCT"));
 		modules.add(new Module("CSC8004", clashedModules4, coupledModules4,
-				40.00, 21, "ART"));
+				4.00, 21, "ART"));
 		modules.add(new Module("CSC8005", clashedModules5, coupledModules5,
-				20.00, 35, "CMP"));
+				2.00, 35, "CMP"));
 	}
 
 	public Scheduler() {
@@ -78,14 +80,14 @@ public class Scheduler {
 		System.out.println("Ran1");
 		addData();
 		System.out.println("Ran2");
-		unscheduledModules = new Stack<Module>();
+		//unscheduledModules = new Stack<Module>();
 		System.out.println("Ran3");
-		manageDupicateModules();
+		//manageDupicateModules();
 		System.out.println("Ran4");
-		unscheduledModules.addAll(modules);
+		//unscheduledModules.addAll(modules);
 		System.out.println("Ran5");
-		System.out.println(unscheduledModules.peek());
-		addmodule(unscheduledModules, null);
+		//System.out.println(unscheduledModules.peek());
+		beginScheduler();
 		System.out.println("Ran6");
 
 	}
@@ -141,8 +143,7 @@ public class Scheduler {
 		modules.addAll(newModules);
 	}
 
-	int count = 0;
-
+/*
 	public void addmodule(ArrayList<Module> unscheduled, Module previouslyScheduled) {
 		// THIS IS AN INFINITE LOOP
 		System.out.println(count);
@@ -172,6 +173,64 @@ public class Scheduler {
 			} finally {
 				addmodule(unscheduled, previousModule);
 			}
-	}
+	}*/
 
+				
+		public void beginScheduler(){
+			SortedArrayList<Module> unscheduledModules = new SortedArrayList<Module>();
+			for (Module module: modules){
+				unscheduledModules.add(module);
+			}
+			
+			for (Module module: unscheduledModules){
+				System.out.println(module.toString());
+			}
+			
+			addmodules(unscheduledModules, null, false, 0);
+			
+			System.out.println(schedule);
+		}
+		
+		
+		private boolean addmodules(SortedArrayList<Module> unscheduledModules, Module previouslyScheduled, boolean looping, int count) {
+			int attemptedModuleCount =count;
+			Module moduleToSchedule;
+			
+			if (previouslyScheduled==null && looping==false){
+				// if null, means successfully scheduled last module.. therefore need to being going through arraylist again.
+				attemptedModuleCount=0;
+			}
+			
+			if (previouslyScheduled!=null && looping==false){
+				// if not null, means unsuccessfully scheduled last module.. therefore need to continue going through Arraylist at from +1 after last previously scheduled module.
+				unscheduledModules.add(previouslyScheduled);
+				attemptedModuleCount=unscheduledModules.indexOf(previouslyScheduled)+1;
+			}
+			
+			if (unscheduledModules.isEmpty()){ 
+				System.out.println("Generated schedule");
+				return true; // if nothing left to schedule, stop
+				
+			}else{
+				moduleToSchedule = unscheduledModules.get(attemptedModuleCount); //get biggest none attempted scheduled module in array
+				attemptedModuleCount++; // increment counter for next time
+			}
+			
+			if (schedule.scheduleModule(moduleToSchedule)==false){//attempt to schedule the module, if false try to schedule next module
+				if (attemptedModuleCount>unscheduledModules.size()){
+					//if attempted every possible branch of this node & cannot schedule, remove last scheduled module & continue from where left off.
+					try{
+						addmodules(unscheduledModules, schedule.removeLastModule(),false,count);
+					}catch(ArrayIndexOutOfBoundsException e){ //if this error thrown, then schedule is empty, and attempt at scheduling first module has been exhausted
+						return false;
+					}
+					addmodules(unscheduledModules, null, true,count); //call self with null and looping (acts like while loop)
+				}
+			}else{
+				unscheduledModules.remove(moduleToSchedule); //removed now scheduled module from unscheduled arrayList;
+				addmodules(unscheduledModules, null, false,count); //call self with new unscheduled list
+			}
+			System.out.println("could not generate schedule");
+			return false;				
+	}	
 }

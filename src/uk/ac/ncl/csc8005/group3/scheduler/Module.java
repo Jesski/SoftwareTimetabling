@@ -1,8 +1,9 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 
+import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 import java.util.*;
 
-public class Module {
+public class Module implements Comparable<Module>{
 	private String id;
 	private ArrayList<String> clashedModules; // other Modules that must be ran
 												// at same time
@@ -14,6 +15,7 @@ public class Module {
 	private double examLength;// length of examination
 	private int moduleSize; // number of students in module
 	private String type; // <----change to enum
+	private Time time;
 
 	public Module(String id, ArrayList<String> clashedModules,
 			HashMap<String, Integer> coupledModules, double examLength,
@@ -50,7 +52,7 @@ public class Module {
 		return "Module [id=" + id + ", clashedModules=" + clashedModules
 				+ ", coupledModules=" + coupledModules + ", examLength="
 				+ examLength + ", moduleSize=" + moduleSize + ", type=" + type
-				+ "]";
+				+ ", time=" + time + "]";
 	}
 
 	public String getType() {
@@ -93,6 +95,15 @@ public class Module {
 	public String getId() {
 		return id;
 	}
+	
+	public void setTime(Time time){
+		this.time=time;		
+	}
+	
+	public Time getTime(){
+		return time;		
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -126,5 +137,20 @@ public class Module {
 		if (moduleSize != other.moduleSize)
 			return false;
 		return true;
+	}
+
+	
+
+    /**
+     * sets logic for comparison of two module objects.
+     * Modules are compared and stored by size (number of pupils), with larger modules returning higher values.
+     *  
+     * @return 0 if objects are the same
+     * @return <0 if in a.compareTo(b) a<b
+     * @return >0 if in a.compareTo(b) a>b
+     */
+	@Override
+	public int compareTo(Module module) {
+		return (module.getModuleSize()-this.moduleSize);
 	}
 }

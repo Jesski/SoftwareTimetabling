@@ -38,7 +38,7 @@ public class Day {
 				}
 					
 				//if count become bigger than no of rooms
-				if (count > (rooms.size() - 1)) {
+				if (count >= (rooms.size() - 1)) {
 					attemptToSchedule = false;//exit loop
 					return false;
 				}
@@ -46,6 +46,11 @@ public class Day {
 			}
 		}
 		return false; //should never reach here.
+	}
+
+	@Override
+	public String toString() {
+		return "Day [rooms=" + rooms + "]";
 	}
 
 	//check this!!!!

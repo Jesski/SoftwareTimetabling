@@ -2,6 +2,8 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.*;
 
+import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
+
 public class Room {
 	private String roomNumber;
 	private String roomType;
@@ -28,7 +30,7 @@ public class Room {
 	}
 
 	public Room(String roomNumber, String roomType, double roomStart,
-			double roomEnd, double roomFireBreak, int capacity) {
+		double roomEnd, double roomFireBreak, int capacity) {
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
 		this.modules = new ArrayList<Module>();
@@ -67,15 +69,24 @@ public class Room {
 		}
 
 		modules.add(module);
+		module.setTime(Time.doubleAsTime(roomStart+((roomEnd - roomStart)-timeLeftInRoom)));
+		
 		timeLeftInRoom = timeLeftInRoom - module.getExamLength()
 				- roomFireBreak;
 		return true;
 	}
 
-	/*--- Get methods ---*/
-
 	public String getRoomNumber() {
 		return roomNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Room [roomNumber=" + roomNumber + ", roomType=" + roomType
+				+ ", modules=" + modules + ", roomStart=" + roomStart
+				+ ", roomEnd=" + roomEnd + ", timeLeftInRoom=" + timeLeftInRoom
+				+ ", roomFireBreak=" + roomFireBreak + ", capacity=" + capacity
+				+ "]";
 	}
 
 	public String getRoomType() {
