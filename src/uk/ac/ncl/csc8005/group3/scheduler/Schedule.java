@@ -12,6 +12,11 @@ public class Schedule {
 	// private Date examEnd = new Date("25/01/2014");
 	private static final int MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
+	@Override
+	public String toString() {
+		return "Schedule [days=" + Arrays.toString(days) + "]";
+	}
+
 	public Schedule() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
@@ -54,9 +59,9 @@ public class Schedule {
 		return false; // if not correctly scheduled, return true.
 	}
 
-	public Module removeLastModule() {
+	public Module removeLastModule() throws ArrayIndexOutOfBoundsException{
 		if (scheduleOrder.size() == 0) {
-			return null;
+			throw new ArrayIndexOutOfBoundsException("Schedule is empty!");
 		} else {
 			Module lastModule = scheduleOrder.pop();
 			days[findModuleDay(lastModule)].removeModule(lastModule);
