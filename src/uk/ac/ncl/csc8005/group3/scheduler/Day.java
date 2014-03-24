@@ -8,81 +8,78 @@ public class Day {
 
 	public Day(ArrayList<Room> rooms) {
 		this.rooms = new ArrayList<Room>(rooms);
-		scheduledModules = new HashSet<Module>() ;
+		scheduledModules = new HashSet<Module>();
 	}
 
-	
-	public boolean addModule(Module module) throws IllegalArgumentException {
-		boolean scheduled = false;
+	public boolean addModule(Module module){
+		boolean attemptToSchedule=true;
 		boolean coupled = false;
 		int count = 0;
-		
-		if(scheduledModules.size()==0){
-		}else{		
-		for (Module moduleTwo : scheduledModules) {
-			if (checkCoupledModules(module, moduleTwo) == true) {
-				coupled = true;
+
+		if (scheduledModules.size() != 0){
+			for (Module moduleTwo : scheduledModules) {
+				if (checkCoupledModules(module, moduleTwo) == -1) {
+					//ie cannot be scheduled today, as already scheduled one of its clashed modules
+					//can be changed to allow for coupled modules to be scheduled on same day.. will need re-write of room/times class
+					return false;
+				}
 			}
 		}
-	}
 
 		if (coupled == false) {
 			// try to add module to each room.. without clashes. If cannot then
 			// throw exception.
-			while (scheduled == false) {
-				// needs to take into account room sizes.
-				try {
-					rooms.get(count).addModule(module);
+			while (attemptToSchedule==true) {
+				if (rooms.get(count).addModule(module)==true){
+					//successfully scheduled a module
 					scheduledModules.add(module);
-					scheduled = true; // update scheduled files.
-				} catch (IllegalArgumentException e) {
+					attemptToSchedule = false;//exit loop
+					return true;
 				}
+					
+				//if count become bigger than no of rooms
 				if (count > (rooms.size() - 1)) {
-					throw new IllegalArgumentException(
-							"Not possible to schedule");
+					attemptToSchedule = false;//exit loop
+					return false;
 				}
 				count = count + 1;
 			}
 		}
-		else{
-		}
-		
-		return scheduled;
-
+		return false; //should never reach here.
 	}
 
-	public boolean checkCoupledModules(Module moduleOne, Module moduleTwo) {
-		// NOTE, boolean can be changed to int, to allow for partially correct
-		// schedule.
+	//check this!!!!
+	public int checkCoupledModules(Module moduleOne, Module moduleTwo) {
 		boolean coupled = false;
-
-		Map<String, Integer> moduleOneCoupledModules = moduleOne
-				.getModuleDetails();
-
-		Iterator it = moduleOneCoupledModules.entrySet().iterator();
+		int coupledValue=0;
+		
+		Map<String, Integer> moduleOneCoupledModules = moduleOne.getModuleDetails();
+		Iterator<Map.Entry<String, Integer>> it = moduleOneCoupledModules.entrySet().iterator();
 
 		while (it.hasNext()) {
-			Map.Entry<String, Integer> temp = (Map.Entry<String, Integer>) it
-					.next();
+			Map.Entry<String, Integer> temp = (Map.Entry<String, Integer>) it.next();
 
 			if (temp.getKey().equals(moduleTwo.getId())) {
-				coupled = true;
+				coupledValue=coupledValue+temp.getValue();
+				coupled=true;
 			}
 		}
-
-		return coupled;
+		
+		if(coupled==false){
+			return -1; // if not coupled return -1
+		}
+		return coupledValue; // return number of coupled modules (ie number of students also taking other modules already scheduled on same day).
 	}
 
-	public void removeModule(Module module) {
+	public boolean removeModule(Module module) {
 		for (Room lookForRoom : rooms) {
-			if (lookForRoom.findModule(module) == true) {
-				lookForRoom.removeModule(module);
-			}
-
+			if (lookForRoom.removeModule(module) == true) 
+			return true;
 		}
-
+		return false;
 	}
-
+	
+	///  is this needed?
 	public boolean lookFor(Module module) {
 		for (Module lookingforModule : scheduledModules) {
 			if (module.getId().equals(lookingforModule.getId())) {
@@ -91,5 +88,4 @@ public class Day {
 		}
 		return false;
 	}
-
 }
