@@ -27,16 +27,15 @@ public class DatabaseIO {
 	           conn = DriverManager.getConnection (url, userName, password);
 	           System.out.println ("Database connection established");	           
 	           
-	           DatabaseIO connect=new DatabaseIO();
-	           modules = connect.query1(1,conn,stmt);
+	 	           modules = query1(1,conn,stmt);
 	           System.out.println(modules);
-	           students = connect.query2("CSC8001",conn,stmt);
+	           students = query2("CSC8001",conn,stmt);
 	           System.out.println(students);
-	           clashed = connect.getClashedModules("CSC8001",conn,stmt);
+	           clashed = getClashedModules("CSC8001",conn,stmt);
 	           System.out.println(clashed);
-	           System.out.println(connect.getCoupledModules("CSC8001",conn,stmt));
-	           System.out.println(connect.populateModules(conn, stmt));
-	           System.out.println(connect.populateRooms(conn, stmt));
+	           System.out.println(getCoupledModules("CSC8001",conn,stmt));
+	           System.out.println(populateModules(conn, stmt));
+	           System.out.println(populateRooms(conn, stmt));
 	       }
 	       catch (Exception e)
 	       {
