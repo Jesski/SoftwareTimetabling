@@ -3,11 +3,13 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 import java.util.*;
 import java.io.*;
 
+
+import uk.ac.ncl.csc8005.group3.scheduler.Module;
+import uk.ac.ncl.csc8005.group3.scheduler.Schedule;
 import uk.ac.ncl.csc8005.group3.scheduler.Utils.SortedArrayList;
 
 public class Scheduler {
 	private ArrayList<Module> modules = new ArrayList<Module>();
-	private Stack<Module> unscheduledModules;
 
 	// private DatabaseIO db;
 	private Date examStart;
@@ -57,25 +59,75 @@ public class Scheduler {
 		System.out.println("Ran1");
 		addData();
 		System.out.println("Ran2");
-		//unscheduledModules = new Stack<Module>();
+		
 		System.out.println("Ran3");
-		//manageDupicateModules();
+		manageDupicateModules(modules);
 		System.out.println("Ran4");
-<<<<<<< HEAD
-=======
-		//unscheduledModules.addAll(modules);
+
 		System.out.println("Ran5");
 		//System.out.println(unscheduledModules.peek());
 		beginScheduler();
 		System.out.println("Ran6");
 
->>>>>>> 0f7eb197c9795c4763f540e4b25eafeea1f6d393
+	}
+	
+	///// possible other method for managing modules -- not sure if it works either
+	public ArrayList<Module> manageDupicateModules(ArrayList<Module> modules){
+		ArrayList<Module> managedModules = new ArrayList<Module>(); // array of now non repeated, coupled modules.
+		ArrayList<Module> modulesWithClashes = new ArrayList<Module>(); // array ofModuels that need to be clashed
+		Module tempModule;
+		ArrayList<String> tempClashed = new ArrayList<String>(); // array of moduels that are clashed with current module
+		boolean finishedClashing =false;
+	
+		managedModules.addAll(modules);
+		
+		//build list of all clashed modules
+		for (Module module:modules){
+			if (module.getClashedModules().size() > 0) {
+				modulesWithClashes.add(module);
+				managedModules.remove(module); // create list of none clashed modules
+			}
+		}
+		
+		while(!finishedClashing){ // while not finished clashing
+			tempModule= modulesWithClashes.get(0); // Get module on top of list
+			tempClashed= tempModule.getClashedModules(); // Get this modules clashed modules
+			ArrayList<Module> modulesToBeClashedTogether = new ArrayList<Module>();
+			
+			boolean finishedSingleClash =false;
+			int count =0;
+			while(!finishedSingleClash){ //cycle through the entire temp clashed list, finding and removing from modules with clashes
+				String moduleTofind= tempClashed.get(count);
+				
+				boolean found=false;
+				int count2=0;
+				modulesToBeClashedTogether.clear(); // intalise before creating list of modules that need to be clashed together.
+				while(!found){ //cycle through modules with clashes list looking for moduletoFind &remove
+					if (modulesWithClashes.get(count2).getId().equals(moduleTofind)){
+						modulesToBeClashedTogether.add(modulesWithClashes.get(count2));//save found modules in one array list,as can be used to create the new module
+						modulesWithClashes.remove(count2);
+						found=true;
+					}
+					count2++;
+				}
+				
+				if (tempClashed.size()==count+1){ // if ran for each module in modules list of clashed modules, then finished this module so exit loop.
+					finishedSingleClash=true;
+				}				
+				count++;
+			}
+			managedModules.add(new Module(modulesToBeClashedTogether)); //create the new super module from old
+			modulesWithClashes.remove(tempModule); //remove module from to be clashed list as now clashed
+		}
+		
+		return managedModules;
 	}
 
 	public void manageDupicateModules() {
 		HashMap<String, Integer> lookUpId=new HashMap<String, Integer>();
 		HashMap<String,Boolean> alreadRan=new HashMap<String,Boolean>();
 		ArrayList<String> tempModuleIds = new ArrayList<String>();
+		
 		for (int x = 0; x < modules.size(); x++) {
 			if (modules.get(x).getClashedModules().size() > 0) {
 				lookUpId.put(modules.get(x).getId(), x);	
@@ -86,21 +138,27 @@ public class Scheduler {
 		String superModuleName;
 		double ExamLength;
 		int moduleSize;
+		
 		String Roomtype;
+		
 		ArrayList<String> clashedModules3 = new ArrayList<String>();
 		HashMap<String, Integer> superCoupledModules=new HashMap<String, Integer>();	
 		HashMap<String, Integer> patch=new HashMap<String, Integer>();	
 		
 		for (Map.Entry<String, Integer> entry : lookUpId.entrySet()) {
+			
 		    String key = entry.getKey();
 		    Integer value = entry.getValue();
+		    
 		    if(alreadRan.get(key)==false){
 		    	superModuleName=key+" ";
+		    	
 		    	Module tempModule=modules.get(value);
 		    	ExamLength=tempModule.getExamLength();
 		    	moduleSize=tempModule.getModuleSize();
 		    	Roomtype=tempModule.getType();
 		    	tempModuleIds=tempModule.getClashedModules();
+		    	
 		    	for(String d:tempModuleIds){
 		    		tempModule=modules.get(lookUpId.get(d));
 		    		superModuleName+=d+" ";
@@ -127,44 +185,6 @@ public class Scheduler {
 			}
 		}
 	}
-
-<<<<<<< HEAD
-	
-
-	/*public void addmodule(ArrayList<Module> unscheduled, Module previouslyScheduled) {
-=======
-/*
-	public void addmodule(ArrayList<Module> unscheduled, Module previouslyScheduled) {
->>>>>>> 0f7eb197c9795c4763f540e4b25eafeea1f6d393
-		// THIS IS AN INFINITE LOOP
-		System.out.println(count);
-		count = count + 1;
-		Module previousModule = null;
-int count = 0;
-		if (unscheduled.isEmpty()==false) {
-		
-			Module module = unscheduled.();
-			module.toString();
-
-			try {
-				if (previouslyScheduled != null) {
-					unscheduled.push(previouslyScheduled);
-				}
-				schedule.scheduleModule(module);
-
-			} catch (Exception e) {
-				previousModule = schedule.removeLastModule();
-				if (previousModule == null) {
-					Module module2 = unscheduled.pop();
-					unscheduled.push(module);
-					unscheduled.push(module2);
-				} else {
-					unscheduled.push(module);
-				}
-			} finally {
-				addmodule(unscheduled, previousModule);
-			}
-	}*/
 
 				
 		public void beginScheduler(){
