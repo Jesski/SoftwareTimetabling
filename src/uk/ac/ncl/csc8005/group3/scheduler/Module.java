@@ -15,7 +15,7 @@ public class Module implements Comparable<Module>{
 	private double examLength;// length of examination
 	private int moduleSize; // number of students in module
 	private String type; // <----change to enum
-	private Time time;
+	private Time time; // time exam is scheduled for
 
 	public Module(String id, ArrayList<String> clashedModules,
 			HashMap<String, Integer> coupledModules, double examLength,

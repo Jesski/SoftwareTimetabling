@@ -10,43 +10,10 @@ import uk.ac.ncl.csc8005.group3.scheduler.Utils.SortedArrayList;
 
 public class Scheduler {
 	private ArrayList<Module> modules = new ArrayList<Module>();
-
-	// private DatabaseIO db;
-	private Date examStart;
-	private Date examEnd;
-	private Schedule schedule = new Schedule();
-
-	// private Schedule schedule = new Schedule(examStart, examEnd);
-
-	public void addData() {
-		ArrayList<String> clashedModules1 = new ArrayList<String>();
-		ArrayList<String> clashedModules2 = new ArrayList<String>();
-		ArrayList<String> clashedModules3 = new ArrayList<String>();
-		ArrayList<String> clashedModules4 = new ArrayList<String>();
-		ArrayList<String> clashedModules5 = new ArrayList<String>();// other
-		HashMap<String, Integer> coupledModules1 = new HashMap<String, Integer>();
-		HashMap<String, Integer> coupledModules2 = new HashMap<String, Integer>();
-		HashMap<String, Integer> coupledModules3 = new HashMap<String, Integer>();
-		HashMap<String, Integer> coupledModules4 = new HashMap<String, Integer>();
-		HashMap<String, Integer> coupledModules5 = new HashMap<String, Integer>();// modules
-		clashedModules1.add("CSC8005");
-		clashedModules5.add("CSC8001");
-		clashedModules2.add("CSC8004");
-		clashedModules4.add("CSC8002");
-		coupledModules1.put("CSC8004", 10);
-		coupledModules3.put("CSC8005", 10);
-		modules.add(new Module("CSC8001", clashedModules1, coupledModules1,
-				2.00, 15, "CMP"));
-		modules.add(new Module("CSC8002", clashedModules2, coupledModules2,
-				1.00, 35, "LCT"));
-		modules.add(new Module("CSC8003", clashedModules3, coupledModules3,
-				3.00, 100, "LCT"));
-		modules.add(new Module("CSC8004", clashedModules4, coupledModules4,
-				4.00, 21, "ART"));
-		modules.add(new Module("CSC8005", clashedModules5, coupledModules5,
-				2.00, 35, "CMP"));
-	}
-
+	private ArrayList<Room> rooms = new ArrayList<Room>();
+	
+	private Schedule schedule; 
+	
 	public Scheduler() {
 		// c db = new DatabaseIO(this.file);
 		// c modules=new ArrayList<Module>(db.getModule());
@@ -54,20 +21,16 @@ public class Scheduler {
 		// c days=new ArrayList<Day>(); //<-- add size, remove arraylist
 	}
 
-	public void generateSchedule() {
+
+	public void generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
 
 		System.out.println("Ran1");
-		addData();
+		schedule= new Schedule(rooms, examPeriodLength);
 		System.out.println("Ran2");
-		
-		System.out.println("Ran3");
 		manageDupicateModules(modules);
+		System.out.println("Ran3");
+		beginScheduler(manageDupicateModules(modules));
 		System.out.println("Ran4");
-
-		System.out.println("Ran5");
-		//System.out.println(unscheduledModules.peek());
-		beginScheduler();
-		System.out.println("Ran6");
 
 	}
 	
@@ -116,8 +79,13 @@ public class Scheduler {
 				}				
 				count++;
 			}
+			modulesToBeClashedTogether.add(tempModule);
 			managedModules.add(new Module(modulesToBeClashedTogether)); //create the new super module from old
 			modulesWithClashes.remove(tempModule); //remove module from to be clashed list as now clashed
+			
+			if (modulesWithClashes.size()==0){ // if ran for each module in modules list of clashed modules, then finished this module so exit loop.
+				finishedClashing=true;
+			}				
 		}
 		
 		return managedModules;
@@ -187,9 +155,9 @@ public class Scheduler {
 	}
 
 				
-		public void beginScheduler(){
+		public void beginScheduler(ArrayList<Module> managedModules){
 			SortedArrayList<Module> unscheduledModules = new SortedArrayList<Module>();
-			for (Module module: modules){
+			for (Module module: managedModules){
 				unscheduledModules.add(module);
 			}
 			
