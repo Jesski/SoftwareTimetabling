@@ -10,15 +10,10 @@ public class Scheduler {
 	boolean generatedSuccessfully=false;// stores boolean, changed when schedule successfully generated, global due to recursion.	
 	private Schedule schedule;  //stores the schedule.
 	
-	public Scheduler() {
-		// c db = new DatabaseIO(this.file);
-		// c modules=new ArrayList<Module>(db.getModule());
-		// c rooms= new ArrayList<Room>(db.getRooms());
-		// c days=new ArrayList<Day>(); //<-- add size, remove arraylist
-	}
+	public Scheduler() {}
 
 
-	public void generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
+	public ArrayList<Module> generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
 
 		System.out.println("Ran1");
 		schedule= new Schedule(rooms, examPeriodLength);
@@ -31,7 +26,8 @@ public class Scheduler {
 		for (Module module:modules){
 			System.out.println(module);
 		}
-
+		
+		return modules;
 	}
 	
 	///// possible other method for managing modules -- Works!!
