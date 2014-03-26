@@ -18,12 +18,18 @@ public class SchedulerTest {
 	@Test
 	public void testGenerateSchedule(){
 		addData();
-		
 		Scheduler scheduler = new Scheduler();
-		
 		scheduler.generateSchedule(modules, rooms, 5);
 		
 	}
+	
+	@Test
+	public void manageDupicateModulesTest(){
+		addData();
+		Scheduler scheduler = new Scheduler();
+		scheduler.manageDupicateModules(modules);
+	}
+	
 
 	public void addData() {
 		ArrayList<String> clashedModules1 = new ArrayList<String>();
@@ -59,4 +65,7 @@ public class SchedulerTest {
 		rooms.add(new Room("4", "LCT", 9.00, 12.00, 0.00, 1000));
 		rooms.add(new Room("5", "LCT", 13.00, 17.00, 0.00, 1000));
 	}
+	
+
+	
 }

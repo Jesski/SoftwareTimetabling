@@ -69,7 +69,8 @@ public class Room {
 		}
 
 		modules.add(module);
-		module.setTime(Time.doubleAsTime(roomStart+((roomEnd - roomStart)-timeLeftInRoom)));
+		module.setTime(Time.doubleAsTime(roomStart+((roomEnd - roomStart)-timeLeftInRoom))); // sets scheduled time in this room
+		module.setRoom(roomNumber);
 		
 		timeLeftInRoom = timeLeftInRoom - module.getExamLength()
 				- roomFireBreak;

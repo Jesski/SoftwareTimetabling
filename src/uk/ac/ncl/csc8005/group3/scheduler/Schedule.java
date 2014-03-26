@@ -15,7 +15,7 @@ public class Schedule {
 		days = new Day[ExamPeriodLength];
 
 		for (int i = 0; i < 4; i++) {
-			days[i] = new Day(rooms);
+			days[i] = new Day(i, rooms);
 		}
 	}
 

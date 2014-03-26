@@ -5,10 +5,12 @@ import java.util.*;
 public class Day {
 	private ArrayList<Room> rooms;
 	private HashSet<Module> scheduledModules;
+	private int dayNumber;
 
-	public Day(ArrayList<Room> rooms) {
+	public Day(int dayNumber, ArrayList<Room> rooms) {
 		this.rooms = new ArrayList<Room>(rooms);
 		scheduledModules = new HashSet<Module>();
+		this.dayNumber=dayNumber;
 	}
 
 	public boolean addModule(Module module){
@@ -33,6 +35,7 @@ public class Day {
 				if (rooms.get(count).addModule(module)==true){
 					//successfully scheduled a module
 					scheduledModules.add(module);
+					module.setDayNumber(dayNumber); // set the day in the module that the module has been scheduled too.
 					attemptToSchedule = false;//exit loop
 					return true;
 				}
@@ -58,7 +61,11 @@ public class Day {
 		boolean coupled = false;
 		int coupledValue=0;
 		
-		Map<String, Integer> moduleOneCoupledModules = moduleOne.getModuleDetails();
+		if(moduleOne.getCoupledModules()==null){ // ie if module 1 has no coupled modules, then cannot be coupled so return zero.
+			return -1;
+		}
+		
+		Map<String, Integer> moduleOneCoupledModules = moduleOne.getCoupledModules(); // what if coupled modules ==null? Throws exception!!
 		Iterator<Map.Entry<String, Integer>> it = moduleOneCoupledModules.entrySet().iterator();
 
 		while (it.hasNext()) {
