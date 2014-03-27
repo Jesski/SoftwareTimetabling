@@ -9,14 +9,28 @@ import java.util.HashMap;
 //make a static class. Object factory??
 
 public class DatabaseIO {
+    
+	
+	public ArrayList<Module> getModules() {
+		return modules;
+	}
 
+	ArrayList<Module> modules = new ArrayList<Module>();
+    ArrayList<Integer> students = new ArrayList<Integer>();
+    ArrayList<String> clashed = new ArrayList<String>();
+    public ArrayList<Room> getRooms() {
+		return rooms;
+	}
+
+	ArrayList<Room> rooms = new ArrayList<Room>();
+    
+    
+    
 	   public DatabaseIO()
 	   {
 	       
 	       Connection conn = null;
-	       ArrayList<String> modules = new ArrayList<String>();
-	       ArrayList<Integer> students = new ArrayList<Integer>();
-	       ArrayList<String> clashed = new ArrayList<String>();
+	   
 	       Statement stmt = null;
 	       try
 	       {
@@ -27,7 +41,7 @@ public class DatabaseIO {
 	           conn = DriverManager.getConnection (url, userName, password);
 	           System.out.println ("Database connection established");	           
 	           
-	 	           modules = query1(1,conn,stmt);
+	 	           modules = populateModules(conn,stmt);
 	           System.out.println(modules);
 	           students = query2("CSC8001",conn,stmt);
 	           System.out.println(students);
@@ -35,7 +49,7 @@ public class DatabaseIO {
 	           System.out.println(clashed);
 	           System.out.println(getCoupledModules("CSC8001",conn,stmt));
 	           System.out.println(populateModules(conn, stmt));
-	           System.out.println(populateRooms(conn, stmt));
+	           rooms=populateRooms(conn, stmt);
 	       }
 	       catch (Exception e)
 	       {
