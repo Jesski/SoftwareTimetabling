@@ -90,17 +90,19 @@ public class DatabaseIO {
 		   return ClashedModules;
 	   }
 	   
-	   public HashMap<String, Integer> getCoupledModules(String id,Connection conn, Statement stmt){
+	   public HashMap<String, Integer> getCoupledModules(String name,Connection conn, Statement stmt){
 		   //modules that have to be ran on the same day.
 		   //String part is module ID that it's clashed with, integer is how many students take that module.
-		   String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + id + "')";
+		   String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
 		   HashMap<String, Integer> coupledModules = new HashMap<String, Integer>();
+		   
 		   try{
 			   stmt = conn.createStatement();
 			   ResultSet rs = stmt.executeQuery(query);
 			   while(rs.next()){
 				   	String foreignID = rs.getString("foreignID");
-				   	coupledModules.put(foreignID, 0);
+				   	int numberOfStudents = numberOfStudents(conn, stmt, foreignID);
+				   	coupledModules.put(foreignID, numberOfStudents);
 			   }
 		   }
 	       catch (Exception e)
@@ -111,6 +113,29 @@ public class DatabaseIO {
 	   return coupledModules;    	
 	   }
 	 
+	   
+	   
+	   public int numberOfStudents(Connection conn, Statement stmt, String name){
+		   String query = "SELECT COUNT(*) FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
+		   int count = 0;
+		   try{
+			   stmt = conn.createStatement();
+			   ResultSet rs = stmt.executeQuery(query);
+			   while(rs.next()){
+				   count = rs.getInt("COUNT(*)");
+				   System.out.println(count);
+			   }
+		   }
+	       catch (Exception e)
+	       {
+	           System.err.println ("Cannot connect to database server");
+	           System.err.println (e.getMessage ());
+	       }
+	   return count;  		   
+	   }
+	   
+	   
+	   
 	   
 	   
 	   public ArrayList<Module> populateModules(Connection conn, Statement stmt){
