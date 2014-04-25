@@ -17,6 +17,13 @@ public class Room {
 									// start, for this room. Default 1 hour
 	private int capacity;
 
+	/**
+	 * @param roomNumber
+	 * @param roomType
+	 * @param roomStart
+	 * @param roomEnd
+	 * @param capacity
+	 */
 	public Room(String roomNumber, String roomType, double roomStart,
 			double roomEnd, int capacity) {
 		this.roomNumber = roomNumber;
@@ -29,6 +36,14 @@ public class Room {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * @param roomNumber
+	 * @param roomType
+	 * @param roomStart
+	 * @param roomEnd
+	 * @param roomFireBreak
+	 * @param capacity
+	 */
 	public Room(String roomNumber, String roomType, double roomStart,
 		double roomEnd, double roomFireBreak, int capacity) {
 		this.roomNumber = roomNumber;
@@ -41,14 +56,24 @@ public class Room {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * @param number
+	 */
 	public void setRoomNumber(String number) {
 		roomNumber = number;
 	}
 
+	/**
+	 * @param type
+	 */
 	public void setRoomType(String type) {
 		roomType = type;
 	}
 
+	/**
+	 * @param module
+	 * @return
+	 */
 	public boolean addModule(Module module) {
 		// need more conditions adding!
 
@@ -77,10 +102,16 @@ public class Room {
 		return true;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getRoomNumber() {
 		return roomNumber;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Room [roomNumber=" + roomNumber + ", roomType=" + roomType
@@ -90,26 +121,45 @@ public class Room {
 				+ "]";
 	}
 
+	/**
+	 * @return
+	 */
 	public String getRoomType() {
 		return roomType;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Module> getModules() {
 		return new ArrayList<Module>(modules);
 	}
 
+	/**
+	 * @return
+	 */
 	public double getRoomStart() {
 		return roomStart;
 	}
 
+	/**
+	 * @return
+	 */
 	public double getRoomEnd() {
 		return roomEnd;
 	}
 
+	/**
+	 * @return
+	 */
 	public double getTimeLeftInRoom() {
 		return timeLeftInRoom;
 	}
 
+	/**
+	 * @param module
+	 * @return
+	 */
 	public boolean removeModule(Module module) {
 		if (modules.contains(module)){
 			modules.remove(module);

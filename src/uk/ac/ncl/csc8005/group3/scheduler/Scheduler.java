@@ -14,23 +14,23 @@ public class Scheduler {
 
 
 	public ArrayList<Module> generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
-
-		System.out.println("Ran1");
 		schedule= new Schedule(rooms, examPeriodLength);
-		System.out.println("Ran2");
 		manageDupicateModules(modules);
-		System.out.println("Ran3");
 		beginScheduler(manageDupicateModules(modules));
-		System.out.println("Ran4");
 		
-		for (Module module:modules){
-			System.out.println(module);
-		}
+		//for (Module module:modules){
+		//	System.out.println(module);
+		//}
 		
 		return modules;
 	}
 	
-	///// possible other method for managing modules -- Works!!
+	
+	/**
+	 * bundles clashed modules together, to allow them to be ran at same time.
+	 * @param modules Arraylist of all modules to be scheduled
+	 * @return sorted ArrayList of all modules, with clashed modules organised together as Super modules
+	 */
 	public ArrayList<Module> manageDupicateModules(ArrayList<Module> modules){
 		ArrayList<Module> managedModules = new ArrayList<Module>(); // array of now non repeated, coupled modules.
 		ArrayList<Module> modulesWithClashes = new ArrayList<Module>(); // array ofModuels that need to be clashed
@@ -87,7 +87,7 @@ public class Scheduler {
 		return managedModules;
 	}
 				
-		public void beginScheduler(ArrayList<Module> managedModules){
+		private void beginScheduler(ArrayList<Module> managedModules){
 			SortedArrayList<Module> unscheduledModules = new SortedArrayList<Module>();
 			
 			

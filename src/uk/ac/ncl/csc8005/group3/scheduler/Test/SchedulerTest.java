@@ -12,26 +12,28 @@ import uk.ac.ncl.csc8005.group3.scheduler.Room;
 import uk.ac.ncl.csc8005.group3.scheduler.Scheduler;
 
 public class SchedulerTest {
-	ArrayList<Module> modules = new ArrayList<Module>();
-	ArrayList<Room> rooms = new ArrayList<Room>();
+	ArrayList<Module> modules;
+	ArrayList<Room> rooms;
 		
 	@Test
 	public void testGenerateSchedule(){
 		addData();
 		Scheduler scheduler = new Scheduler();
 		scheduler.generateSchedule(modules, rooms, 5);
-		
 	}
 	
 	@Test
 	public void manageDupicateModulesTest(){
 		addData();
 		Scheduler scheduler = new Scheduler();
-		scheduler.manageDupicateModules(modules);
+		assertEquals("should only be 3 modules now",3, scheduler.manageDupicateModules(modules).size());
+		assertNotEquals(modules.size(), scheduler.manageDupicateModules(modules).size());
 	}
 	
 
 	public void addData() {
+		modules = new ArrayList<Module>();
+		rooms= new ArrayList<Room>();
 		ArrayList<String> clashedModules1 = new ArrayList<String>();
 		ArrayList<String> clashedModules2 = new ArrayList<String>();
 		ArrayList<String> clashedModules3 = new ArrayList<String>();

@@ -7,19 +7,10 @@ import org.junit.Test;
 public class ModuleTest {
 
 	@Test
-	public void testHashCode() {
+	public void testCompareTo() {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testModuleStringArrayListOfStringHashMapOfStringIntegerDoubleIntString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testModuleArrayListOfModule() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testToString() {
@@ -27,18 +18,12 @@ public class ModuleTest {
 	}
 
 	@Test
-	public void testAddClashedModule() {
+	public void testHashCode() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetModuleDetails() {
+	public void testEquals() {
 		fail("Not yet implemented");
 	}
-
-	@Test
-	public void testSetExamLength() {
-		fail("Not yet implemented");
-	}
-
 }

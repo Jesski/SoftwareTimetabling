@@ -14,6 +14,14 @@ public class Module implements Comparable<Module>{
 	private int day;// the day the module has been scheduled for.
 	private String room; //the room module has been scheduled for.
 
+	/**
+	 * @param id
+	 * @param clashedModules
+	 * @param coupledModules
+	 * @param examLength
+	 * @param moduleSize
+	 * @param type
+	 */
 	public Module(String id, ArrayList<String> clashedModules, HashMap<String, Integer> coupledModules, double examLength, int moduleSize, String type) {
 		if (moduleSize > 0) {
 			this.id = id;
@@ -27,7 +35,10 @@ public class Module implements Comparable<Module>{
 		}
 	}
 
-	public Module(ArrayList<Module> modules) {
+	/**
+	 * @param modules
+	 */
+	Module(ArrayList<Module> modules) {
 		this.id="";
 		this.moduleSize=0;
 		this.clashedModules = new ArrayList<String>();
@@ -46,6 +57,9 @@ public class Module implements Comparable<Module>{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Module [id=" + id + ", clashedModules=" + clashedModules
@@ -54,72 +68,125 @@ public class Module implements Comparable<Module>{
 				+ ", time=" + time + ", day=" + day + ", room=" + room + "]";
 	}
 
+	/**
+	 * Returns the moduels type
+	 * @return type the module type
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Returns the ArrayList of the modules clashed Modules
+	 * @return clashed modules, and arrayList of teh clashed modules
+	 */
 	public ArrayList<String> getClashedModules() {
 		return clashedModules;
 	}
 
+	//not sure if needed?
+	/**
+	 * 
+	 * @param clashedModules
+	 */
 	public void setClashedModules(ArrayList<String> clashedModules) {
 		this.clashedModules = clashedModules;
 
 	}
 
-	public void addClashedModule(String id) {
-		clashedModules.add(id);
-	}
-
+	/**
+	 * @return
+	 */
 	public HashMap<String, Integer> getCoupledModules() {
 		return coupledModules;
 	}
 
+	//not sure if needed?
+	/**
+	 * @param coupledModules
+	 */
 	public void setCoupledModules(HashMap<String, Integer> coupledModules) {
 		this.coupledModules = coupledModules;
 	}
 
+	//not sure if needed?
+	/**
+	 * @param examLength
+	 */
 	public void setExamLength(double examLength) {
 		this.examLength = examLength;
 	}
 
+	/**
+	 * @return
+	 */
 	public double getExamLength() {
 		return examLength;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getModuleSize() {
 		return moduleSize;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getId() {
 		return id;
 	}
 	
+	/**
+	 * @param time
+	 */
 	public void setTime(Time time){
 		this.time=time;		
 	}
 	
+	/**
+	 * @return
+	 */
 	public Time getTime(){
 		return time;		
 	}
 	
+	//not sure if needed?
+	/**
+	 * @param day
+	 */
 	public void setDayNumber(int day){
 		this.day=day;		
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getDayNumber(){
 		return day;		
 	}
 	
+	//not sure if needed?
+	/**
+	 * @param room
+	 */
 	public void setRoom(String room){
 		this.room=room;		
 	}
 	
+	//not sure if needed?
+	/**
+	 * @return
+	 */
 	public String getRoomName(){
 		return room;		
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,6 +199,9 @@ public class Module implements Comparable<Module>{
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -164,6 +234,9 @@ public class Module implements Comparable<Module>{
      * @return <0 if in a.compareTo(b) a<b
      * @return >0 if in a.compareTo(b) a>b
      */
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Module module) {
 		return (module.getModuleSize()-this.moduleSize);

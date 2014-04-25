@@ -7,7 +7,17 @@ import org.junit.Test;
 public class ScheduleTest {
 
 	@Test
-	public void test() {
+	public void testScheduleModule() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveLastModule() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testToString() {
 		fail("Not yet implemented");
 	}
 

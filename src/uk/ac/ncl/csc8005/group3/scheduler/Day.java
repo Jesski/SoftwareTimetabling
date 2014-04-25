@@ -20,6 +20,7 @@ public class Day {
 
 	/**
 	 * Attempts to add a module to the day, if module cannot be added returns false.
+	 * Does not handle clashed modules - These are handled in scheduler method of program.
 	 * @param module the module to be added
 	 * @return false if module was not added successfully, true otherwise.
 	 */
@@ -98,8 +99,10 @@ public class Day {
 	}
 
 	/**
-	 * @param module
-	 * @return
+	 * Removes a module from the scheduled modules for the day.
+	 * 
+	 * @param module module to be removed
+	 * @return true if successful, false if not.
 	 */
 	public boolean removeModule(Module module) {
 		for (Room lookForRoom : rooms) {
@@ -109,7 +112,6 @@ public class Day {
 		return false;
 	}
 	
-	///  is this needed?
 	/**
 	 * @param module
 	 * @return

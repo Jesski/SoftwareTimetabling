@@ -6,8 +6,7 @@ import java.util.*;
 public class Schedule {
 	private Stack<Module> scheduleOrder;
 	private Day[] days;
-	private ArrayList<Room> rooms;
-
+	
 	public Schedule(ArrayList<Room> rooms, int ExamPeriodLength) {
 		rooms = new ArrayList<Room>(rooms);
 		
