@@ -13,25 +13,8 @@ import java.util.HashMap;
 public class DatabaseIO {
     Connection conn = null;
     Statement stmt = null;
-	
-	public ArrayList<Module> getModules() {
-		return modules;
-	}
-
-	ArrayList<Module> modules = new ArrayList<Module>();
-    ArrayList<Integer> students = new ArrayList<Integer>();
-    ArrayList<String> clashed = new ArrayList<String>();
-    public ArrayList<Room> getRooms() {
-		return rooms;
-	}
-
-	ArrayList<Room> rooms = new ArrayList<Room>();
     
-    
-    
-	   public DatabaseIO()
-	   {
-	       
+	public DatabaseIO(){
 	       try
 	       {
 	    	   openDatabase();
@@ -56,6 +39,23 @@ public class DatabaseIO {
 	       }
 
 	   }
+	
+	public ArrayList<Module> getModules() {
+		return modules;
+	}
+
+	ArrayList<Module> modules = new ArrayList<Module>();
+    ArrayList<Integer> students = new ArrayList<Integer>();
+    ArrayList<String> clashed = new ArrayList<String>();
+    public ArrayList<Room> getRooms() {
+		return rooms;
+	}
+
+	ArrayList<Room> rooms = new ArrayList<Room>();
+    
+    
+    
+
 	   
 	  
 	   /*
@@ -69,8 +69,8 @@ public class DatabaseIO {
        	conn = DriverManager.getConnection (url, userName, password);
        	System.out.println ("Database connection established");	           
        
-	           modules = populateModules();
-	           System.out.println(modules);
+	   modules = populateModules();
+	   System.out.println(modules);
        students = query2("CSC8001");
        System.out.println(students);
        clashed = getClashedModules("CSC8001");
@@ -85,7 +85,7 @@ public class DatabaseIO {
 	   /*
 	    * Returns all module titles from the database
 	    */
-	   public ArrayList<String> getModuletitles(){
+	   private ArrayList<String> getModuletitles(){
 		   String query = "SELECT name FROM t8005t2 .modules";
 		   ArrayList<String> modules = new ArrayList<String>();
 		   try{
@@ -112,7 +112,7 @@ public class DatabaseIO {
 	    * Lists all the other modules that the studentID is also taking.
 	    * @param ID of the student
 	    */
-	   public ArrayList<String> getClashedModules(String id){
+	   private ArrayList<String> getClashedModules(String id){
 		   ArrayList<String> ClashedModules=new ArrayList<String>();
 		   ArrayList<Integer> SID = query2(id);
 		   
@@ -130,7 +130,7 @@ public class DatabaseIO {
 	    * 
 	    * @param name of module.
 	    */
-	   public HashMap<String, Integer> getCoupledModules(String name){
+	   private HashMap<String, Integer> getCoupledModules(String name){
 		   //String part is module ID that it's clashed with, integer is how many students take that module.
 		   String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
 		   HashMap<String, Integer> coupledModules = new HashMap<String, Integer>();
@@ -156,7 +156,7 @@ public class DatabaseIO {
 	   /*
 	    * Returns the number of students taking a particular module.
 	    */
-	   public int numberOfStudents(String name){
+	   private int numberOfStudents(String name){
 		   String query = "SELECT COUNT(*) FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
 		   int count = 0;
 		   try{
@@ -179,7 +179,7 @@ public class DatabaseIO {
 	   
 	   
 	   //Populates all modules with data from the database.
-	   public ArrayList<Module> populateModules(){
+	   private ArrayList<Module> populateModules(){
 		   String query = "SELECT * FROM t8005t2 .modules";
 		   ArrayList<Module> modules = new ArrayList<Module>();
 		   try{
@@ -206,7 +206,7 @@ public class DatabaseIO {
   
 	   
 	     
-	   public ArrayList<Room> populateRooms(){
+	   private ArrayList<Room> populateRooms(){
 		   String query = "SELECT * FROM t8005t2 .rooms";
 		   ArrayList<Room> rooms = new ArrayList<Room>();
 		   try{
@@ -232,7 +232,7 @@ public class DatabaseIO {
 	   }
 	   
 	   //Supply this with a student ID and you will get a list of modules
-	   public ArrayList<String> query1(int studentid){
+	   private ArrayList<String> query1(int studentid){
 		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = " + studentid + ")";
 		   ArrayList<String> modules = new ArrayList<String>();
 		   try{
@@ -253,7 +253,7 @@ public class DatabaseIO {
 	   }
 	   
 	   //Supply a module name and get an array of student IDs taking that module
-	   public ArrayList<Integer> query2(String name){
+	   private ArrayList<Integer> query2(String name){
 		   String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name = '" + name + "')";
 		   ArrayList<Integer> students = new ArrayList<Integer>();
 		   try{
@@ -276,11 +276,11 @@ public class DatabaseIO {
 	   
 	   
 	   //Delete data in table output.
-	   public void deleteTable(){
+	   private void deleteTable(){
 		   String deleteQuery = "DELETE FROM t8005t2 .output";
 		   try{
 			   stmt = conn.createStatement();
-			   int rs = stmt.executeUpdate(deleteQuery);
+			   stmt.executeUpdate(deleteQuery);
 		   }
 	       catch (Exception e)
 	       {
@@ -301,11 +301,11 @@ public class DatabaseIO {
 	   }
 	   
 	   //Insert statement to write to the output database.
-	   public void writeToDB(String moduleID, double examLength, int time, String room, Date date){
+	   	private void writeToDB(String moduleID, double examLength, int time, String room, Date date){
 		   String query = "INSERT t8005t2 .output values('" +moduleID + "','" +examLength + "','" + time + "','" + room + "','" + date + "')";
 		   try{
 			   stmt = conn.createStatement();
-			   int rs2 = stmt.executeUpdate(query);
+			   stmt.executeUpdate(query);
 		   }
 	       catch (Exception e)
 	       {

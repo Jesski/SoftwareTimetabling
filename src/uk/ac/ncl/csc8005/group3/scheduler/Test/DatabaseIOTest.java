@@ -41,7 +41,7 @@ public class DatabaseIOTest {
 		
 		System.out.println("hello");
 	}
-	*/
+	
 
 	
 	@Test 
@@ -71,7 +71,20 @@ public class DatabaseIOTest {
 		System.out.println("check1");
 		db.writeAllToDB(modules, cal);
 		System.out.println("check2");
-		
-		
+	}
+	*/
+	
+	@Test
+	public void testGetModules(){
+		DatabaseIO db = new DatabaseIO();
+		System.out.println(db.getModules());
+		System.out.println("check");
+	}
+	
+	@Test
+	public void testGetRooms(){
+		DatabaseIO db = new DatabaseIO();
+		System.out.println(db.getRooms());
+		System.out.println("check2");
 	}
 }
