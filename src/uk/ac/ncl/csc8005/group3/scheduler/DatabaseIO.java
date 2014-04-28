@@ -80,6 +80,27 @@ public class DatabaseIO {
 	   
 	   
 	   
+	   //Returns all module titles.
+	   public ArrayList<String> getModuletitles(){
+		   String query = "SELECT name FROM t8005t2 .modules";
+		   ArrayList<String> modules = new ArrayList<String>();
+		   try{
+			   stmt = conn.createStatement();
+			   ResultSet rs = stmt.executeQuery(query);
+			   while(rs.next()){
+				   	String name = rs.getString("name");
+				   	modules.add(name);
+			   }
+		   }
+	       catch (Exception e)
+	       {
+	           System.err.println ("Cannot connect to database server");
+	           System.err.println (e.getMessage ());
+	       }
+	   return modules;  		   
+	   }
+	   
+	   
 	   
 	   
 	   /*
@@ -146,7 +167,7 @@ public class DatabaseIO {
 	   
 	   
 	   
-	   
+	   //Populates all modules with data from the database.
 	   public ArrayList<Module> populateModules(){
 		   String query = "SELECT * FROM t8005t2 .modules";
 		   ArrayList<Module> modules = new ArrayList<Module>();
