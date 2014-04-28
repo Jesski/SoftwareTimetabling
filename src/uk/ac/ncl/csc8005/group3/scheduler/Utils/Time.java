@@ -1,5 +1,9 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Utils;
 
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class Time {
 	private final int hour;
 	private final int minute;

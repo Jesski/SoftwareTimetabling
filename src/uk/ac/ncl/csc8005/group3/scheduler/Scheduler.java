@@ -6,23 +6,37 @@ import uk.ac.ncl.csc8005.group3.scheduler.Module;
 import uk.ac.ncl.csc8005.group3.scheduler.Schedule;
 import uk.ac.ncl.csc8005.group3.scheduler.Utils.SortedArrayList;
 
+
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class Scheduler {	
 	boolean generatedSuccessfully=false;// stores boolean, changed when schedule successfully generated, global due to recursion.	
 	private Schedule schedule;  //stores the schedule.
+	private ArrayList<Module> scheduledModules;
 	
 	public Scheduler() {}
 
-
-	public ArrayList<Module> generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
+	/**
+	 * algorithm of the program
+	 * @param modules Arraylist of all modules to be scheduled
+	 * @param rooms Arraylist of all rooms to be scheduled
+	 * @param examPeriodLength the numberOfdays which the exams can be schedule in
+	 * @return 
+	 */
+	public boolean generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
 		schedule= new Schedule(rooms, examPeriodLength);
-		manageDupicateModules(modules);
 		beginScheduler(manageDupicateModules(modules));
 		
-		//for (Module module:modules){
-		//	System.out.println(module);
-		//}
-		
-		return modules;
+		if (generatedSuccessfully=true){
+			scheduledModules=modules;
+		}
+		return generatedSuccessfully;
+	}
+	
+	public ArrayList<Module> getScheduledModules(){
+		return scheduledModules;
 	}
 	
 	
@@ -47,6 +61,11 @@ public class Scheduler {
 				managedModules.remove(module); // create list of none clashed modules
 			}
 		}
+		
+		if (modulesWithClashes.size()==0){
+			finishedClashing=true;
+		}
+		
 		
 		while(!finishedClashing){ // while not finished clashing
 			tempModule= modulesWithClashes.get(0); // Get module on top of list
@@ -106,6 +125,14 @@ public class Scheduler {
 			
 		}
 		
+		/*
+		 * Attempts to schedule a module to the schedule(part of the algorithm)
+		 * @param unscheduledModules the list of modules that need to be schedule 
+		 * @param previouslyScheduled the module which was last scheduled in the schedule 
+		 * @param looping used to create a loop when self calling
+		 * @param count
+		 * @return true if nothing left to schedule and stops the algorithm, false otehrwise
+		 */	
 		private boolean addmodules(SortedArrayList<Module> unscheduledModules, Module previouslyScheduled, boolean looping, int count) {
 			int attemptedModuleCount =count;
 			Module moduleToSchedule;

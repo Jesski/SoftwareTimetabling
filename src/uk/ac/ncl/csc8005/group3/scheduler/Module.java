@@ -3,6 +3,10 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 import java.util.*;
 
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class Module implements Comparable<Module>{
 	private String id;
 	private ArrayList<String> clashedModules; // other Modules that must be ran at same time
@@ -15,12 +19,13 @@ public class Module implements Comparable<Module>{
 	private String room; //the room module has been scheduled for.
 
 	/**
-	 * @param id
-	 * @param clashedModules
-	 * @param coupledModules
-	 * @param examLength
-	 * @param moduleSize
-	 * @param type
+	 * Constructor for objects of type module
+	 * @param id - id of the module
+	 * @param clashedModules- arraylist of modules that need to be clashed with this module(ran at the same time as the module)
+	 * @param coupledModules- arraylist of modules that need to be couple with this module(cannot be ran at the same time as the module because the students do both these modules so they cannot be at the same place at the same time)
+	 * @param examLength- the length of the exam for this module
+	 * @param moduleSize- the number of people who do this module
+	 * @param type- the type of room which the exam needs to be conducted in
 	 */
 	public Module(String id, ArrayList<String> clashedModules, HashMap<String, Integer> coupledModules, double examLength, int moduleSize, String type) {
 		if (moduleSize > 0) {
@@ -35,10 +40,13 @@ public class Module implements Comparable<Module>{
 		}
 	}
 
+
+	
 	/**
-	 * @param modules
+	 * Constructor for objects of type module, used to create super modules, by collating several together
+	 * @param modules- ArrayList of modules
 	 */
-	Module(ArrayList<Module> modules) {
+	public Module(ArrayList<Module> modules) {
 		this.id="";
 		this.moduleSize=0;
 		this.clashedModules = new ArrayList<String>();
@@ -56,7 +64,7 @@ public class Module implements Comparable<Module>{
 			type = module.getType();
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -69,7 +77,7 @@ public class Module implements Comparable<Module>{
 	}
 
 	/**
-	 * Returns the moduels type
+	 * Returns the modules type
 	 * @return type the module type
 	 */
 	public String getType() {
@@ -78,7 +86,7 @@ public class Module implements Comparable<Module>{
 
 	/**
 	 * Returns the ArrayList of the modules clashed Modules
-	 * @return clashed modules, and arrayList of teh clashed modules
+	 * @return clashed modules, and arrayList of the clashed modules
 	 */
 	public ArrayList<String> getClashedModules() {
 		return clashedModules;
@@ -95,7 +103,7 @@ public class Module implements Comparable<Module>{
 	}
 
 	/**
-	 * @return
+	 * @return returns a hashmap of coupled modules with the module id and number of students in each module
 	 */
 	public HashMap<String, Integer> getCoupledModules() {
 		return coupledModules;
@@ -111,35 +119,35 @@ public class Module implements Comparable<Module>{
 
 	//not sure if needed?
 	/**
-	 * @param examLength
+	 * @param examLength 
 	 */
 	public void setExamLength(double examLength) {
 		this.examLength = examLength;
 	}
 
 	/**
-	 * @return
+	 * @return the length of exam for this module
 	 */
 	public double getExamLength() {
 		return examLength;
 	}
 
 	/**
-	 * @return
+	 * @return the number of students taking this module
 	 */
 	public int getModuleSize() {
 		return moduleSize;
 	}
 
 	/**
-	 * @return
+	 * @return the id of the module
 	 */
 	public String getId() {
 		return id;
 	}
 	
 	/**
-	 * @param time
+	 * @param time 
 	 */
 	public void setTime(Time time){
 		this.time=time;		
@@ -182,49 +190,6 @@ public class Module implements Comparable<Module>{
 	public String getRoomName(){
 		return room;		
 	}
-	
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(examLength);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + moduleSize;
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Module other = (Module) obj;
-		if (Double.doubleToLongBits(examLength) != Double
-				.doubleToLongBits(other.examLength))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (moduleSize != other.moduleSize)
-			return false;
-		return true;
-	}
-
-	
 
     /**
      * sets logic for comparison of two module objects.

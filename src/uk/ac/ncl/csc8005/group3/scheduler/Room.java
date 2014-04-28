@@ -4,6 +4,10 @@ import java.util.*;
 
 import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class Room {
 	private String roomNumber;
 	private String roomType;
@@ -18,11 +22,12 @@ public class Room {
 	private int capacity;
 
 	/**
-	 * @param roomNumber
-	 * @param roomType
-	 * @param roomStart
-	 * @param roomEnd
-	 * @param capacity
+	 * * Constructor for objects of type room
+	 * @param roomNumber- of the room
+	 * @param roomType- of the room-e.g computer lab, exam hall etc
+	 * @param roomStart- the time the room is available from
+	 * @param roomEnd- the time the room ends
+	 * @param capacity- of the room
 	 */
 	public Room(String roomNumber, String roomType, double roomStart,
 			double roomEnd, int capacity) {
@@ -37,12 +42,14 @@ public class Room {
 	}
 
 	/**
-	 * @param roomNumber
-	 * @param roomType
-	 * @param roomStart
-	 * @param roomEnd
-	 * @param roomFireBreak
-	 * @param capacity
+	 * * Constructor for objects of type room with a fire break as well
+	 * @param roomNumber- of the room
+	 * @param roomType- of the room-e.g computer lab, exam hall etc
+	 * @param roomStart- the time the room is available from
+	 * @param roomEnd- the time the room ends
+	 * @param capacity- of the room
+	 * @param roomFireBreak- the free time between two exams
+
 	 */
 	public Room(String roomNumber, String roomType, double roomStart,
 		double roomEnd, double roomFireBreak, int capacity) {
@@ -71,8 +78,8 @@ public class Room {
 	}
 
 	/**
-	 * @param module
-	 * @return
+	 * @param module that we are trying to schedule into this room
+	 * @return true if this module can be scheduled in this room
 	 */
 	public boolean addModule(Module module) {
 		// need more conditions adding!
@@ -103,7 +110,7 @@ public class Room {
 	}
 
 	/**
-	 * @return
+	 * @return roomNumber of the room
 	 */
 	public String getRoomNumber() {
 		return roomNumber;
@@ -136,29 +143,29 @@ public class Room {
 	}
 
 	/**
-	 * @return
+	 * @return the start time of the room
 	 */
 	public double getRoomStart() {
 		return roomStart;
 	}
 
 	/**
-	 * @return
+	 * @return the end time of the room
 	 */
 	public double getRoomEnd() {
 		return roomEnd;
 	}
 
 	/**
-	 * @return
+	 * @return the time free in the room which can all be used to schedule further exams
 	 */
 	public double getTimeLeftInRoom() {
 		return timeLeftInRoom;
 	}
 
 	/**
-	 * @param module
-	 * @return
+	 * @param module that is trying to be removed from the schedule for this room
+	 * @return true if the module has been removed successfully
 	 */
 	public boolean removeModule(Module module) {
 		if (modules.contains(module)){
