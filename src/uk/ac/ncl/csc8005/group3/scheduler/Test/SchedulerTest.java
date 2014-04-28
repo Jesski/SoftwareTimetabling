@@ -24,13 +24,13 @@ public class SchedulerTest {
 	}
 	
 	@Test
+
 	//public void manageDupicateModulesTest(){
 	//	addData();
 	//	Scheduler scheduler = new Scheduler();
 	//	assertEquals("should only be 3 modules now",3, scheduler.manageDupicateModules(modules).size());
 	//	assertFalse(modules.size()==scheduler.manageDupicateModules(modules).size());
 	//}
-	
 
 	public void addData() {
 		modules = new ArrayList<Module>();
