@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-//make a static class. Object factory??
+
 
 public class DatabaseIO {
     Connection conn = null;
@@ -31,7 +31,6 @@ public class DatabaseIO {
 	   public DatabaseIO()
 	   {
 	       
-
 	       try
 	       {
 	    	   openDatabase();
@@ -58,7 +57,9 @@ public class DatabaseIO {
 	   }
 	   
 	  
-	   
+	   /*
+	    * Opens the connection to the database. This needs to be executed before any query is ran.
+	    */
 	   public void openDatabase() throws Exception{
        	String userName = "t8005t2"; //t8005t2
        	String password = ".oweRaps"; //.oweRaps
@@ -80,7 +81,9 @@ public class DatabaseIO {
 	   
 	   
 	   
-	   //Returns all module titles.
+	   /*
+	    * Returns all module titles from the database
+	    */
 	   public ArrayList<String> getModuletitles(){
 		   String query = "SELECT name FROM t8005t2 .modules";
 		   ArrayList<String> modules = new ArrayList<String>();
@@ -94,7 +97,7 @@ public class DatabaseIO {
 		   }
 	       catch (Exception e)
 	       {
-	           System.err.println ("Cannot connect to database server");
+	           System.err.println ("Cannot run query");
 	           System.err.println (e.getMessage ());
 	       }
 	   return modules;  		   
@@ -105,7 +108,8 @@ public class DatabaseIO {
 	   
 	   /*
 	    * Finds the modules that have students taking both modules.
-	    * All the other modules that the students taking id are also taking.
+	    * Lists all the other modules that the studentID is also taking.
+	    * @param ID of the student
 	    */
 	   public ArrayList<String> getClashedModules(String id){
 		   ArrayList<String> ClashedModules=new ArrayList<String>();
@@ -120,8 +124,12 @@ public class DatabaseIO {
 		   return ClashedModules;
 	   }
 	   
+	   /*
+	    * Finds the modules that have to be ran on the same day as the module given.
+	    * 
+	    * @param name of module.
+	    */
 	   public HashMap<String, Integer> getCoupledModules(String name){
-		   //modules that have to be ran on the same day.
 		   //String part is module ID that it's clashed with, integer is how many students take that module.
 		   String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
 		   HashMap<String, Integer> coupledModules = new HashMap<String, Integer>();
@@ -144,7 +152,9 @@ public class DatabaseIO {
 	   }
 	 
 	   
-	   
+	   /*
+	    * Returns the number of students taking a particular module.
+	    */
 	   public int numberOfStudents(String name){
 		   String query = "SELECT COUNT(*) FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name= '" + name + "')";
 		   int count = 0;
