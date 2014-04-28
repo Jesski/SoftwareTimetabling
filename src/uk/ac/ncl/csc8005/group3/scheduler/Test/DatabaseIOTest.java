@@ -1,14 +1,22 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.junit.Test;
 
 import uk.ac.ncl.csc8005.group3.scheduler.DatabaseIO;
+import uk.ac.ncl.csc8005.group3.scheduler.Module;
+import uk.ac.ncl.csc8005.group3.scheduler.Room;
+import uk.ac.ncl.csc8005.group3.scheduler.Scheduler;
 
 public class DatabaseIOTest {
 
-	@Test
+	/**
+	 * @Test
+	 *
 	public void testDatabase() {
 		
 
@@ -33,5 +41,37 @@ public class DatabaseIOTest {
 		
 		System.out.println("hello");
 	}
+	*/
 
+	
+	@Test 
+	public void testWriteAllToDB(){
+		ArrayList<Module> modules;
+		ArrayList<Room> rooms;
+		modules = new ArrayList<Module>();
+		rooms= new ArrayList<Room>();
+		ArrayList<String> clashedModules1 = new ArrayList<String>();
+		HashMap<String, Integer> coupledModules1 = new HashMap<String, Integer>();
+		modules.add(new Module("CSC8001", clashedModules1, coupledModules1, 2.00, 15, "CMP"));		
+		rooms.add(new Room("1", "CMP", 10.00, 17.00, 1.00, 200));
+		
+		Scheduler scheduler = new Scheduler();
+		scheduler.generateSchedule(modules, rooms, 5);
+		modules=scheduler.getScheduledModules();
+		
+		System.out.println(modules.get(0));
+		
+		DatabaseIO db = new DatabaseIO();
+		try{
+		db.openDatabase();
+		}catch(Exception e){}
+		
+		Calendar cal = Calendar.getInstance();
+		
+		System.out.println("check1");
+		db.writeAllToDB(modules, cal);
+		System.out.println("check2");
+		
+		
+	}
 }
