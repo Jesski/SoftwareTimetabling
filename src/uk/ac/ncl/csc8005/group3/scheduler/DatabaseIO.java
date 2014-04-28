@@ -314,4 +314,25 @@ public class DatabaseIO {
 	       }
    	   }
 	   
+	   
+	   
+	   
+	   
+	   //Insert statement to write to the output database.
+	   public void writeToinputDB(String moduleID, double examLength, int time, String room, Date date){
+		   String query = "INSERT t8005t2 .output values('" +moduleID + "','" +examLength + "','" + time + "','" + room + "','" + date + "')";
+		   try{
+			   stmt = conn.createStatement();
+			   int rs2 = stmt.executeUpdate(query);
+		   }
+	       catch (Exception e)
+	       {
+	           System.err.println ("Problem executing query");
+	           System.err.println (e.getMessage ());
+	       }
+   	   }
+	   
+	   
+	   
+	   
 }
