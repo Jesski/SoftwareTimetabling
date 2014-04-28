@@ -1,7 +1,6 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Test;
 
-import java.sql.Connection;
-import java.sql.Statement;
+import java.util.Calendar;
 
 import org.junit.Test;
 
@@ -12,9 +11,24 @@ public class DatabaseIOTest {
 	@Test
 	public void testDatabase() {
 		
+
+		
+		
+
+
 		DatabaseIO db = new DatabaseIO();
-		System.out.print(db.getModules());
-		System.out.print(db.getRooms());
+
+		Calendar cal = Calendar.getInstance();
+		java.sql.Date date=new java.sql.Date(cal.getTime().getTime());
+
+		try{
+		db.openDatabase();
+		}
+		catch (Exception e){
+		}
+		
+		db.WriteToDB("moduleID", 5.0, 1000, "room", date);
+		System.out.println("hello");
 	}
 
 }
