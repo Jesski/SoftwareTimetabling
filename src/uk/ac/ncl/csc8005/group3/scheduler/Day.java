@@ -1,7 +1,10 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.*;
-
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class Day {
 	private ArrayList<Room> rooms;
 	private HashSet<Module> scheduledModules;
@@ -10,7 +13,7 @@ public class Day {
 	/**
 	 * Constructor for objects of type day
 	 * @param dayNumber number of day in the schedule
-	 * @param rooms all room avilable to hold exams
+	 * @param rooms all room available to hold exams
 	 */
 	public Day(int dayNumber, ArrayList<Room> rooms) {
 		this.rooms = new ArrayList<Room>(rooms);
@@ -70,12 +73,11 @@ public class Day {
 		return "Day [rooms=" + rooms + "]";
 	}
 
-	//check this!!!!
 	/**
 	 * Returns number of pupils in one module that are also in another module.
 	 * @param moduleOne first module to be checked
-	 * @param moduleTwo second moduel to be checked
-	 * @return value of coipling, zero if modules are not coupled.
+	 * @param moduleTwo second module to be checked
+	 * @return value of coupling, zero if modules are not coupled.
 	 */
 	public int checkCoupledModules(Module moduleOne, Module moduleTwo) {
 		int coupledValue=0;
@@ -113,8 +115,9 @@ public class Day {
 	}
 	
 	/**
-	 * @param module
-	 * @return
+	 * Looks for module in Day
+	 * @param module Module to be found
+	 * @return boolean, true if found, false if not
 	 */
 	public boolean lookFor(Module module) {
 		for (Module lookingforModule : scheduledModules) {

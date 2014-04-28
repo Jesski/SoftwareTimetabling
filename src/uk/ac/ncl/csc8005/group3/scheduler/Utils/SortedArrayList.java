@@ -1,6 +1,11 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Utils;
 import java.util.*;
 
+
+/**
+ * @author:  Denny S Antony & Luke McMahon 
+ * Date: 28/04/2014
+ */
 public class SortedArrayList<E extends Comparable<? super E>> extends ArrayList<E>{
 
     /**
