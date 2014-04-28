@@ -3,9 +3,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 
@@ -289,14 +289,14 @@ public class DatabaseIO {
 	       }
 	   }
 	   
-	   public boolean writeAllToDB(ArrayList<Module> schedule, final Calendar startDateMaster){
+	   public void writeAllToDB(ArrayList<Module> schedule, final Calendar startDateMaster){
+		   deleteTable();
 		   Calendar startDate = (Calendar) startDateMaster.clone();
 		   
 		   for(Module module:schedule){  
 		   startDate.add(Calendar.DATE, module.getDayNumber());
-		   Date examDate=startDate.getTime();
-		   
-			   writeTODB(module.getId(), module.getExamLength(), module.getTime().getFullTimeInMinutes(), module.getRoomName(),examDate);
+		   java.sql.Date examDate = new java.sql.Date(startDate.getTime().getTime());
+		   writeToDB(module.getId(), module.getExamLength(), module.getTime().getFullTimeInMinutes(), module.getRoomName(),examDate);
 		   }
 	   }
 	   
