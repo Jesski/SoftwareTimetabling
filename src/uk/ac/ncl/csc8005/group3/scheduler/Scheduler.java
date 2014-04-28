@@ -23,7 +23,7 @@ public class Scheduler {
 	 * @param modules Arraylist of all modules to be scheduled
 	 * @param rooms Arraylist of all rooms to be scheduled
 	 * @param examPeriodLength the numberOfdays which the exams can be schedule in
-	 * @return 
+	 * @return boolean True if generated succesfully, false if not
 	 */
 	public boolean generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
 		schedule= new Schedule(rooms, examPeriodLength);
@@ -35,8 +35,20 @@ public class Scheduler {
 		return generatedSuccessfully;
 	}
 	
-	public ArrayList<Module> getScheduledModules(){
+	public ArrayList<Module> getScheduledModules()throws IllegalStateException{
+		if (generatedSuccessfully==false){
+			throw new IllegalStateException("must generate schedule first");
+		}
 		return scheduledModules;
+	}
+	
+	public ArrayList<Module> generateAndReturnSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws RuntimeException{
+		if (generateSchedule(modules,rooms,examPeriodLength)==true){
+			return getScheduledModules();
+		}else{
+			throw new RuntimeException("Cannot generate schedule");
+		}
+
 	}
 	
 	

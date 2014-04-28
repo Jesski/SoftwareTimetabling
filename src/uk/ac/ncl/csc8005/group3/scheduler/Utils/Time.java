@@ -23,6 +23,10 @@ public class Time {
 		}
 	}
 	
+	public int getFullTimeInMinutes(){
+		return (hour*60+minute);
+	}
+	
 	public int getHour(){
 		return hour;
 	}

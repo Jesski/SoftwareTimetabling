@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -275,7 +276,7 @@ public class DatabaseIO {
 	   
 	   
 	   //Delete data in table output.
-	   public void DeleteTable(){
+	   public void deleteTable(){
 		   String deleteQuery = "DELETE FROM t8005t2 .output";
 		   try{
 			   stmt = conn.createStatement();
@@ -287,10 +288,20 @@ public class DatabaseIO {
 	           System.err.println (e.getMessage ());
 	       }
 	   }
-	       
+	   
+	   public boolean writeAllToDB(ArrayList<Module> schedule, final Calendar startDateMaster){
+		   Calendar startDate = (Calendar) startDateMaster.clone();
+		   
+		   for(Module module:schedule){  
+		   startDate.add(Calendar.DATE, module.getDayNumber());
+		   Date examDate=startDate.getTime();
+		   
+			   writeTODB(module.getId(), module.getExamLength(), module.getTime().getFullTimeInMinutes(), module.getRoomName(),examDate);
+		   }
+	   }
 	   
 	   //Insert statement to write to the output database.
-	   public void WriteToDB(String moduleID, double examLength, int time, String room, Date date){
+	   public void writeToDB(String moduleID, double examLength, int time, String room, Date date){
 		   String query = "INSERT t8005t2 .output values('" +moduleID + "','" +examLength + "','" + time + "','" + room + "','" + date + "')";
 		   try{
 			   stmt = conn.createStatement();
