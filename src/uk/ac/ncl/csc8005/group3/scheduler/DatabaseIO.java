@@ -199,7 +199,6 @@ public class DatabaseIO {
 	   return rooms;  		   
 	   }
 	   
-	  /* */
 	   //Supply this with a student ID and you will get a list of modules
 	   public ArrayList<String> query1(int studentid){
 		   String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = " + studentid + ")";
@@ -221,7 +220,7 @@ public class DatabaseIO {
 	   return modules;    	       
 	   }
 	   
-	   //Supply a module name and get an array of student ids taking that module
+	   //Supply a module name and get an array of student IDs taking that module
 	   public ArrayList<Integer> query2(String name){
 		   String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name = '" + name + "')";
 		   ArrayList<Integer> students = new ArrayList<Integer>();
@@ -243,13 +242,27 @@ public class DatabaseIO {
 	   }
 	   
 	   
-	   //Insert statement to write to the output database.
-	   public void WriteToDB(String moduleID, double examLength, int time, String room, Date date){
+	   
+	   //Delete data in table output.
+	   public void DeleteTable(){
 		   String deleteQuery = "DELETE FROM t8005t2 .output";
-		   String query = "INSERT t8005t2 .output values('" +moduleID + "','" +examLength + "','" + time + "','" + room + "','" + date + "')";
 		   try{
 			   stmt = conn.createStatement();
 			   int rs = stmt.executeUpdate(deleteQuery);
+		   }
+	       catch (Exception e)
+	       {
+	           System.err.println ("Problem executing query");
+	           System.err.println (e.getMessage ());
+	       }
+	   }
+	       
+	   
+	   //Insert statement to write to the output database.
+	   public void WriteToDB(String moduleID, double examLength, int time, String room, Date date){
+		   String query = "INSERT t8005t2 .output values('" +moduleID + "','" +examLength + "','" + time + "','" + room + "','" + date + "')";
+		   try{
+			   stmt = conn.createStatement();
 			   int rs2 = stmt.executeUpdate(query);
 		   }
 	       catch (Exception e)
@@ -257,7 +270,6 @@ public class DatabaseIO {
 	           System.err.println ("Problem executing query");
 	           System.err.println (e.getMessage ());
 	       }
-   
-	   }
+   	   }
 	   
 }

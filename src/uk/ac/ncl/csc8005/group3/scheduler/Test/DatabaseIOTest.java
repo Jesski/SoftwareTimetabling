@@ -27,7 +27,10 @@ public class DatabaseIOTest {
 		catch (Exception e){
 		}
 		
+		db.DeleteTable();
 		db.WriteToDB("moduleID", 5.0, 1000, "room", date);
+		db.WriteToDB("moduleID2", 5.0, 1000, "room", date);
+		
 		System.out.println("hello");
 	}
 
