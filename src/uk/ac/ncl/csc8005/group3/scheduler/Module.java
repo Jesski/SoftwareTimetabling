@@ -40,8 +40,6 @@ public class Module implements Comparable<Module>{
 		}
 	}
 
-
-	
 	/**
 	 * Constructor for objects of type module, used to create super modules, by collating several together
 	 * @param modules- ArrayList of modules
@@ -97,7 +95,7 @@ public class Module implements Comparable<Module>{
 	 * 
 	 * @param clashedModules
 	 */
-	public void setClashedModules(ArrayList<String> clashedModules) {
+	private void setClashedModules(ArrayList<String> clashedModules) {
 		this.clashedModules = clashedModules;
 
 	}
@@ -113,7 +111,7 @@ public class Module implements Comparable<Module>{
 	/**
 	 * @param coupledModules
 	 */
-	public void setCoupledModules(HashMap<String, Integer> coupledModules) {
+	private void setCoupledModules(HashMap<String, Integer> coupledModules) {
 		this.coupledModules = coupledModules;
 	}
 
@@ -121,7 +119,7 @@ public class Module implements Comparable<Module>{
 	/**
 	 * @param examLength 
 	 */
-	public void setExamLength(double examLength) {
+	private void setExamLength(double examLength) {
 		this.examLength = examLength;
 	}
 
@@ -160,7 +158,7 @@ public class Module implements Comparable<Module>{
 		return time;		
 	}
 	
-	//not sure if needed?
+	//is needed
 	/**
 	 * @param day
 	 */

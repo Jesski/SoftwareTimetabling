@@ -3,6 +3,7 @@ package uk.ac.ncl.csc8005.group3.scheduler.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.junit.Test;
@@ -18,8 +19,9 @@ public class SchedulerTest {
 	@Test
 	public void testGenerateSchedule(){
 		addData();
+		Date day = new Date();
 		Scheduler scheduler = new Scheduler();
-		scheduler.generateSchedule(modules, rooms, 5);
+		scheduler.generateSchedule(modules, rooms, 5, day);
 		System.out.println(modules.get(0));
 	}
 	

@@ -29,7 +29,7 @@ public class SortedArrayList<E extends Comparable<? super E>> extends ArrayList<
             int j;
 
             for (j=size;j>0;j--){
-                if((this.get(j-1)).compareTo(element)<0)
+                if((this.get(j-1)).compareTo(element)<0) 
                 {
                     // if array is less than element, found pos so break
                     break;

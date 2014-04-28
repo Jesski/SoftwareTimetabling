@@ -20,7 +20,7 @@ public class Schedule {
 		scheduleOrder = new Stack<Module>();
 		days = new Day[ExamPeriodLength];
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < ExamPeriodLength; i++) {
 			days[i] = new Day(i, rooms);
 		}
 	}
