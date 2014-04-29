@@ -269,7 +269,7 @@ public class DatabaseIO {
 		try {
 			closeDatabase();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -289,4 +289,37 @@ public class DatabaseIO {
 		}
 	}
 
+	
+	
+	// Insert statement to write a new student to the input database
+	public void writeToInputDB(String studentID) {
+		String query = "INSERT t8005t2 .student values("+studentID+")";
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (Exception e) {
+			System.err.println("Problem executing query");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	
+
+	
+	// Update statement to write to the module table
+	public void writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
+		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
+
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (Exception e) {
+			System.err.println("Problem executing query");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	
+	
+	
 }

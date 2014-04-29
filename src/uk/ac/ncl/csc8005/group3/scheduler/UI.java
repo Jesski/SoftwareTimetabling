@@ -772,11 +772,36 @@ public class UI {
 		/*------------------------------------------------------------------------------------------------------------------*/
 
 		/*------------------------------------------ Load Student ----------------------------------------------------------*/
-
 		panelLoadStudent = new JPanel();
-
-		frame.getContentPane()
-				.add(panelLoadStudent, "name_1395063512959039000");
+		frame.getContentPane().add(panelLoadStudent, "name_1395063512959039000");
+		panelLoadStudent.setLayout(null);
+		
+		JLabel lblLoadStudent = new JLabel("Load Student");
+		lblLoadStudent.setBounds(322, 58, 93, 16);
+		panelLoadStudent.add(lblLoadStudent);
+		
+		JLabel lblStudentId = new JLabel("Student ID:");
+		lblStudentId.setBounds(228, 141, 85, 16);
+		panelLoadStudent.add(lblStudentId);
+		
+		textField = new JTextField();
+		textField.setBounds(387, 135, 134, 28);
+		panelLoadStudent.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnAdd_1 = new JButton("Add");
+		btnAdd_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String stuID = textField.getText();
+				System.out.println("Student check: "+stuID);
+				
+				db.writeToInputDB(stuID);
+				
+			}
+		});
+		btnAdd_1.setBounds(298, 236, 117, 29);
+		panelLoadStudent.add(btnAdd_1);
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
