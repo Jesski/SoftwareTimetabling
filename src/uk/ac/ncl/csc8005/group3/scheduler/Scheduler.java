@@ -18,7 +18,13 @@ public class Scheduler {
 	
 	public Scheduler() {}
 
-	private void checkValidityOfData(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength){
+	/** checks if it is possible to generate a schedule from the modules, room and length specified.
+	 * @param modules arraylist of modules to be scheduled
+	 * @param rooms arraylist of rooms to be used
+	 * @param examPeriodLength length of exam period
+	 * @throws IllegalArgumentException exception containing reason schedule cannot be made 
+	 */
+	private void checkValidityOfData(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws IllegalArgumentException{
 		if (checkAllRoomTypes(modules,rooms )==false){
 			throw new IllegalArgumentException("Not all modules type in the database have a room type");
 		}
@@ -34,6 +40,11 @@ public class Scheduler {
 		}
 	}
 	
+	/** checks if all module room types are in rooms specified.
+	 * @param modules arraylist of modules to be scheduled
+	 * @param rooms arraylist of rooms to be used
+	 * @return false if not, true otherwise
+	 */
 	private boolean checkAllRoomTypes(ArrayList<Module> modules, ArrayList<Room> rooms){
 		Set<String> roomTypes = new HashSet<String>();
 		Set<String> moduleTypes = new HashSet<String>();
@@ -53,6 +64,12 @@ public class Scheduler {
 		}	
 	}
 	
+	/** checks if enough time across all rooms to schedule all exams.
+	 * @param modules arraylist of modules to be scheduled
+	 * @param rooms arraylist of rooms to be used
+	 * @param examPeriodLength length of exam period.
+	 * @return false if not, true otherwise
+	 */
 	private boolean checkEnoughTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength){
 		int roomTime=0;
 		int moduleTime=0;
@@ -72,7 +89,13 @@ public class Scheduler {
 		}
 	}	
 	
-	public boolean checkAdvancedTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength) throws IllegalArgumentException{
+	/** Checks if enough time per room type to schedule all exams of that type
+	 * @param modules arraylist of modules to be scheduled
+	 * @param rooms arraylist of rooms to be used
+	 * @param examPeriodLength length of exam period.
+	 * @throws IllegalArgumentException exception containing reason schedule cannot be made 
+	 */
+	private void checkAdvancedTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength) throws IllegalArgumentException{
 		Set<String> roomTypes = new HashSet<String>();
 		Set<String> moduleTypes = new HashSet<String>();
 		
@@ -108,20 +131,24 @@ public class Scheduler {
 		}
 		
 		for(Room room:rooms){
-			value= moduleTimeByType.get(room.getRoomType());
+			value= roomTimeByType.get(room.getRoomType());
 			value=value+(room.getRoomEnd()-room.getRoomStart());
-			moduleTimeByType.put(room.getRoomType(), value);
+			roomTimeByType.put(room.getRoomType(), value);
 		}
 		
 		for (String module:moduleTypes){
-			if (moduleTimeByType.get(module)>roomTimeByType.get(module)*examPeriodLength){
+			System.out.println(moduleTimeByType.get(module)+"  "+roomTimeByType.get(module)*examPeriodLength);
+			if (moduleTimeByType.get(module)>(roomTimeByType.get(module)*examPeriodLength)){
 				throw new IllegalArgumentException("Number of hours of exam scheduled in " + module +" room type is greater than number of hours of that type avialable!" );
 			}
-		}
-		
-		return true;	
+		}	
 	}
 	
+	/** Checks room capcity ensuring that the max module size is less than the max room size.
+	 * @param modules arraylist of modules to be scheduled
+	 * @param rooms arraylist of rooms to be used
+	 * @return false if room capacity < module size, true otherwise.
+	 */
 	private boolean checkRoomCapacity(ArrayList<Module> modules, ArrayList<Room> rooms){
 		int maxRoomSize=0;
 		int maxModuleSize=0;
@@ -169,6 +196,11 @@ public class Scheduler {
 		return generatedSuccessfully;
 	}
 	
+	/**
+	 * Returns scheduled modules. Note, this MUST be ran after generate schedule.
+	 * @return Arraylist of the scheduled modules
+	 * @throws IllegalStateException if not ran after a schedule has been generated.
+	 */
 	public ArrayList<Module> getScheduledModules()throws IllegalStateException{
 		if (generatedSuccessfully==false){
 			throw new IllegalStateException("must generate schedule first");
@@ -176,6 +208,14 @@ public class Scheduler {
 		return scheduledModules;
 	}
 	
+	/**
+	 * Generates a schedule and returns the now scheduled modules
+	 * @param modules Arraylist of all modules to be scheduled
+	 * @param rooms Arraylist of all rooms to be scheduled
+	 * @param examPeriodLength the numberOfdays which the exams can be schedule in
+	 * @return Arraylist of the scheduled module
+	 * @throws RuntimeException if schedule could not be generated.
+	 */
 	public ArrayList<Module> generateAndReturnSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws RuntimeException{
 		if (generateSchedule(modules,rooms,examPeriodLength)==true){
 			return getScheduledModules();
@@ -250,7 +290,10 @@ public class Scheduler {
 		
 		return managedModules;
 	}
-				
+		/**
+		 * begins the scheduler		
+		 * @param managedModules Arraylist of modules, which have been clashed correctly.
+		 */
 		private void beginScheduler(ArrayList<Module> managedModules){
 			SortedArrayList<Module> unscheduledModules = new SortedArrayList<Module>();
 			
@@ -269,8 +312,8 @@ public class Scheduler {
 			
 		}
 		
-		/*
-		 * Attempts to schedule a module to the schedule(part of the algorithm)
+		/**
+		 * Attempts to schedule a module to the schedule
 		 * @param unscheduledModules the list of modules that need to be schedule 
 		 * @param previouslyScheduled the module which was last scheduled in the schedule 
 		 * @param looping used to create a loop when self calling

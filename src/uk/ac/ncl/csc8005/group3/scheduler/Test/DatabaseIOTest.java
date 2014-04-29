@@ -14,15 +14,10 @@ import uk.ac.ncl.csc8005.group3.scheduler.Scheduler;
 
 public class DatabaseIOTest {
 
-	/**
+	/*
 	 * @Test
 	 *
 	public void testDatabase() {
-		
-
-		
-		
-
 
 		DatabaseIO db = new DatabaseIO();
 

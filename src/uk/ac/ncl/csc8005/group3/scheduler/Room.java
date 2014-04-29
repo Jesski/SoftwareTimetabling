@@ -2,31 +2,26 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.*;
 
-//import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
-
 /**
- * @author:  Denny S Antony & Luke McMahon 
+ * @authors:  Denny S Antony & Luke McMahon 
  * Date: 28/04/2014
  */
 public class Room {
 	private String roomNumber;
 	private String roomType;
 	private ArrayList<Module> modules;
-	private int roomStart; // startTime for using room, eg 9:00
-	private int roomEnd; // end time for using room, eg 17:00
-	private int timeLeftInRoom; // time left in room, eg if can use 9:00 till
-									// 17:00, but already used 2 hours then
-									// equals 6
-	private int roomFireBreak; // time that must be between each exam end and
-									// start, for this room. Default 0
-	private int capacity;
+	private int roomStart; // startTime for using room in minutes from midnight
+	private int roomEnd; // end time for using room in minutes from midnight
+	private int timeLeftInRoom; // time left in room in minutes
+	private int roomFireBreak; // time that must be between each exam end and start Default 0
+	private int capacity; // capacity of the room
 
 	/**
-	 * * Constructor for objects of type room
+	 * Constructor for objects of type room
 	 * @param roomNumber- of the room
 	 * @param roomType- of the room-e.g computer lab, exam hall etc
-	 * @param roomStart- the time the room is available from
-	 * @param roomEnd- the time the room ends
+	 * @param roomStart- startTime for using room in minutes from midnight
+	 * @param roomEnd- end time for using room in minutes from midnight
 	 * @param capacity- of the room
 	 */
 	public Room(String roomNumber, String roomType, int roomStart,
@@ -37,16 +32,16 @@ public class Room {
 		this.roomStart = roomStart;
 		this.roomEnd = roomEnd;
 		timeLeftInRoom = roomEnd - roomStart;
-		this.roomFireBreak = 1;
+		this.roomFireBreak = 0;
 		this.capacity = capacity;
 	}
 
 	/**
-	 * * Constructor for objects of type room with a fire break as well
+	 * Constructor for objects of type room with a fire break as well
 	 * @param roomNumber- of the room
 	 * @param roomType- of the room-e.g computer lab, exam hall etc
-	 * @param roomStart- the time the room is available from
-	 * @param roomEnd- the time the room ends
+	 * @param roomStart- startTime for using room in minutes from midnight
+	 * @param roomEnd- end time for using room in minutes from midnight
 	 * @param capacity- of the room
 	 * @param roomFireBreak- the free time between two exams
 	 */
@@ -62,22 +57,22 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	/**
+	/*
 	 * @param number
-	 */
-	public void setRoomNumber(String number) {
+	 
+	private void setRoomNumber(String number) {
 		roomNumber = number;
 	}
-
-	/**
+*/
+	/*
 	 * @param type
-	 */
-	public void setRoomType(String type) {
+	 
+	private void setRoomType(String type) {
 		roomType = type;
 	}
-
-	/**
-	 * @param module that we are trying to schedule into this room
+*/
+	/** Attempt to add module to the room
+	 * @param module is trying to be schedule into this room
 	 * @return true if this module can be scheduled in this room
 	 */
 	public boolean addModule(Module module) {
@@ -126,15 +121,15 @@ public class Room {
 				+ "]";
 	}
 
-	/**
-	 * @return
+	/** Return the room type
+	 * @return the room type
 	 */
 	public String getRoomType() {
 		return roomType;
 	}
 
-	/**
-	 * @return
+	/**get modules scheduled to the room
+	 * @return modules csheduled to this room  
 	 */
 	public ArrayList<Module> getModules() {
 		return new ArrayList<Module>(modules);
@@ -175,6 +170,9 @@ public class Room {
 		}
 	}
 
+	/**
+	 * @return the capacity of the room
+	 */
 	public int getCapacity() {
 		return capacity;
 	}

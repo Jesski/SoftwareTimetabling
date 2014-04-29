@@ -9,7 +9,8 @@ import java.util.*;
 public class SortedArrayList<E extends Comparable<? super E>> extends ArrayList<E>{
 
     /**
-     *  Constructor for SortedArrayList, simply called the constructor of ArrayList
+     *  Constructor for SortedArrayList.
+     *  Calls constructor of Arraylist.
      */
     public SortedArrayList(){
         super();
@@ -26,16 +27,16 @@ public class SortedArrayList<E extends Comparable<? super E>> extends ArrayList<
         boolean passed = false;
         try{
             int size = this.size();
-            int j;
+            int count;
 
-            for (j=size;j>0;j--){
-                if((this.get(j-1)).compareTo(element)<0) 
+            for (count=size;count>0;count--){
+                if((this.get(count-1)).compareTo(element)<0) 
                 {
-                    // if array is less than element, found pos so break
+                    // if array is less than element, found position so break
                     break;
                 }
             }
-            super.add(j, element);
+            super.add(count, element);
             passed = true;
         }catch (IndexOutOfBoundsException e){
             passed = false; 

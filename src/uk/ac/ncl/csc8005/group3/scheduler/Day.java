@@ -2,7 +2,7 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.*;
 /**
- * @author:  Denny S Antony & Luke McMahon 
+ * @authors:  Denny S Antony & Luke McMahon 
  * Date: 28/04/2014
  */
 public class Day {

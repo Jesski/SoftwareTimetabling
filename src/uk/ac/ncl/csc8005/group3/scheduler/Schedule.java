@@ -11,7 +11,7 @@ public class Schedule {
 	private Day[] days;
 	/**
 	 * Constructor for objects of type Schedule
-	 * @param rooms arraylist of rooms where exams can be scheduled at
+	 * @param rooms ArrayList of rooms where exams can be scheduled at
 	 * @param ExamPeriodLength the number of days of each exam
 	 */
 	public Schedule(ArrayList<Room> rooms, int ExamPeriodLength) throws IllegalArgumentException{
@@ -27,12 +27,12 @@ public class Schedule {
 			days[i] = new Day(i, rooms);
 		}
 	}
+	
 	/**
 	 * Attempts to schedule a module into the schedule order
 	 * @param module the module to be added
 	 * @return false if module was not added successfully, true otherwise.
 	 */
-
 	public boolean scheduleModule(Module module) {
 		for (int i = 0; i < (days.length-1); i++) {
 			if (days[i].addModule(module) == true) {

@@ -3,7 +3,7 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 import java.util.*;
 
 /**
- * @author:  Denny S Antony & Luke McMahon 
+ * @authors:  Denny S Antony & Luke McMahon 
  * Date: 28/04/2014
  */
 public class Module implements Comparable<Module>{
@@ -125,45 +125,41 @@ public class Module implements Comparable<Module>{
 	}
 	
 	/**
-	 * @return
+	 * @return time of exam
 	 */
 	public int getTime(){
 		return time;		
 	}
 	
-	//is needed
-	/**
-	 * @param day
+	/** set day of exam in schedule
+	 * @param day of exam in schedule
 	 */
 	public void setDayNumber(int day){
 		this.day=day;		
 	}
 	
 	/**
-	 * @return
+	 * @return day number of exam in schedule
 	 */
 	public int getDayNumber(){
 		return day;		
 	}
 	
-	//not sure if needed?
 	/**
-	 * @param room
+	 * @param room room for exam to be in
 	 */
 	public void setRoom(String room){
 		this.room=room;		
 	}
 	
-	//not sure if needed?
+	
 	/**
-	 * @return
+	 * @return room name
 	 */
 	public String getRoomName(){
 		return room;		
 	}
 	
-
-
     /**
      * sets logic for comparison of two module objects.
      * Modules are compared and stored by size (number of pupils), with larger modules returning higher values.
@@ -171,9 +167,8 @@ public class Module implements Comparable<Module>{
      * @return 0 if objects are the same
      * @return <0 if in a.compareTo(b) a<b
      * @return >0 if in a.compareTo(b) a>b
-     */
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+     *
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(Module module) {

@@ -11,13 +11,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class DatabaseIO {
-	Connection conn = null;
-	Statement stmt = null;
+	private Connection conn = null;
+	private Statement stmt = null;
 
-	ArrayList<Module> modules = new ArrayList<Module>();
-	ArrayList<Integer> students = new ArrayList<Integer>();
-	ArrayList<String> clashed = new ArrayList<String>();
-	ArrayList<Room> rooms = new ArrayList<Room>();
+	private ArrayList<Module> modules = new ArrayList<Module>();
+	private ArrayList<Integer> students = new ArrayList<Integer>();
+	private ArrayList<String> clashed = new ArrayList<String>();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 
 	public DatabaseIO() {
 		try {

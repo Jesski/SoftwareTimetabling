@@ -21,7 +21,9 @@ public class SuperModule extends Module{
 		clashedModules = new ArrayList<Module>(modules);
 	}
 	
-
+	/**
+	 * Sets time for super module and all of its clashed modules
+	 */
 	public void setTime(int time){
 		super.setTime(time);
 		
@@ -30,6 +32,9 @@ public class SuperModule extends Module{
 		}		
 	}
 	
+	/**
+	 * Sets room for super module and all of its clashed modules
+	 */
 	public void setRoom(String room){
 		super.setRoom(room);
 		
@@ -38,6 +43,9 @@ public class SuperModule extends Module{
 		}	
 	}
 	
+	/**
+	 * Sets Daynumber for super module and all of its clashed modules
+	 */
 	public void setDayNumber(int day){
 		super.setDayNumber(day);
 		for (Module module: clashedModules){
