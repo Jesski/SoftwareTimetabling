@@ -290,4 +290,23 @@ public class DatabaseIO {
 		}
 	}
 
+	
+	
+	// Insert statement to write a new student to the input database
+	private void writeToInputDB(String studentID) {
+		String query = "INSERT t8005t2 .student values("+studentID+")";
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (Exception e) {
+			System.err.println("Problem executing query");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	
+	
+	
+	
+	
 }
