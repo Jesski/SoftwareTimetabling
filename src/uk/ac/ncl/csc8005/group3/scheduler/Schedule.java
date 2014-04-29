@@ -14,9 +14,12 @@ public class Schedule {
 	 * @param rooms arraylist of rooms where exams can be scheduled at
 	 * @param ExamPeriodLength the number of days of each exam
 	 */
-	public Schedule(ArrayList<Room> rooms, int ExamPeriodLength) {
-		rooms = new ArrayList<Room>(rooms);
+	public Schedule(ArrayList<Room> rooms, int ExamPeriodLength) throws IllegalArgumentException{
+		if (ExamPeriodLength<1){
+			throw new IllegalArgumentException("Cannot have exam period less that 1 day!");
+		}
 		
+		rooms = new ArrayList<Room>(rooms);
 		scheduleOrder = new Stack<Module>();
 		days = new Day[ExamPeriodLength];
 

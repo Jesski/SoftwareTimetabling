@@ -1,6 +1,6 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 
-import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
+//import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 import java.util.*;
 
 /**
@@ -11,10 +11,10 @@ public class Module implements Comparable<Module>{
 	private String id;
 	private ArrayList<String> clashedModules; // other Modules that must be ran at same time
 	private HashMap<String, Integer> coupledModules; // modules that cannot be ran on same day (ie other modules also taken by students on this module)													// this module)
-	private double examLength;// length of examination
+	private int examLength;// length of examination
 	private int moduleSize; // number of students in module
 	private String type; // room type <----change to enum
-	private Time time; // time exam is scheduled for.
+	private int time; // time exam is scheduled for.
 	private int day;// the day the module has been scheduled for.
 	private String room; //the room module has been scheduled for.
 
@@ -27,7 +27,7 @@ public class Module implements Comparable<Module>{
 	 * @param moduleSize- the number of people who do this module
 	 * @param type- the type of room which the exam needs to be conducted in
 	 */
-	public Module(String id, ArrayList<String> clashedModules, HashMap<String, Integer> coupledModules, double examLength, int moduleSize, String type) {
+	public Module(String id, ArrayList<String> clashedModules, HashMap<String, Integer> coupledModules, int examLength, int moduleSize, String type) {
 		if (moduleSize > 0) {
 			this.id = id;
 			this.clashedModules = new ArrayList<String>(clashedModules);
@@ -90,16 +90,6 @@ public class Module implements Comparable<Module>{
 		return clashedModules;
 	}
 
-	//not sure if needed?
-	/**
-	 * 
-	 * @param clashedModules
-	 */
-	private void setClashedModules(ArrayList<String> clashedModules) {
-		this.clashedModules = clashedModules;
-
-	}
-
 	/**
 	 * @return returns a hashmap of coupled modules with the module id and number of students in each module
 	 */
@@ -107,26 +97,10 @@ public class Module implements Comparable<Module>{
 		return coupledModules;
 	}
 
-	//not sure if needed?
-	/**
-	 * @param coupledModules
-	 */
-	private void setCoupledModules(HashMap<String, Integer> coupledModules) {
-		this.coupledModules = coupledModules;
-	}
-
-	//not sure if needed?
-	/**
-	 * @param examLength 
-	 */
-	private void setExamLength(double examLength) {
-		this.examLength = examLength;
-	}
-
 	/**
 	 * @return the length of exam for this module
 	 */
-	public double getExamLength() {
+	public int getExamLength() {
 		return examLength;
 	}
 
@@ -147,14 +121,14 @@ public class Module implements Comparable<Module>{
 	/**
 	 * @param time 
 	 */
-	public void setTime(Time time){
+	public void setTime(int time){
 		this.time=time;		
 	}
 	
 	/**
 	 * @return
 	 */
-	public Time getTime(){
+	public int getTime(){
 		return time;		
 	}
 	

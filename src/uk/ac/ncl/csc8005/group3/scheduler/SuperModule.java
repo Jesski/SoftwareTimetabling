@@ -2,7 +2,7 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.ArrayList;
 
-import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
+//import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 
 
 /**
@@ -22,7 +22,7 @@ public class SuperModule extends Module{
 	}
 	
 
-	public void setTime(Time time){
+	public void setTime(int time){
 		super.setTime(time);
 		
 		for (Module module: clashedModules){

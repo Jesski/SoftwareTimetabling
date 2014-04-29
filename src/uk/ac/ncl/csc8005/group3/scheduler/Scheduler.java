@@ -25,8 +25,9 @@ public class Scheduler {
 	 * @param examPeriodLength the numberOfdays which the exams can be schedule in
 	 * @return boolean True if generated succesfully, false if not
 	 */
-	public boolean generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) {
+	public boolean generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws IllegalArgumentException {
 		schedule= new Schedule(rooms, examPeriodLength);
+		
 		beginScheduler(manageDupicateModules(modules));
 		
 		if (generatedSuccessfully=true){

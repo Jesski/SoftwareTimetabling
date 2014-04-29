@@ -77,14 +77,14 @@ public class DatabaseIOTest {
 	@Test
 	public void testGetModules(){
 		DatabaseIO db = new DatabaseIO();
-		System.out.println(db.getModules());
-		System.out.println("check");
+		assert (db.getModules().get(0) instanceof Module);
+		assert(db.getModules().get(0) !=null);
 	}
 	
 	@Test
 	public void testGetRooms(){
 		DatabaseIO db = new DatabaseIO();
-		System.out.println(db.getRooms());
-		System.out.println("check2");
+		assert (db.getRooms().get(0) instanceof Room);
+		assert(db.getRooms().get(0) !=null);
 	}
 }

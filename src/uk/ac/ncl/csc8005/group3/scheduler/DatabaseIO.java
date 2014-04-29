@@ -162,7 +162,7 @@ public class DatabaseIO {
 				String id = rs.getString("ID");
 				ArrayList<String> clashedModules = getClashedModules(id);
 				HashMap<String, Integer> coupledModules = getCoupledModules(id); // hashmap
-				Double examLength = rs.getDouble("examLength");
+				int examLength = rs.getInt("examLength");
 				int moduleSize = rs.getInt(4);
 				String type = rs.getString("type");
 				Module module = new Module(id, clashedModules, coupledModules,
@@ -185,9 +185,9 @@ public class DatabaseIO {
 			while (rs.next()) {
 				String roomNumber = rs.getString("roomNumber");
 				String roomType = rs.getString("roomType");
-				Double roomStart = rs.getDouble("roomStart");
-				Double roomEnd = rs.getDouble("roomEnd");
-				Double roomFireBreak = rs.getDouble("roomFireBreak");
+				int roomStart = rs.getInt("roomStart");
+				int roomEnd = rs.getInt("roomEnd");
+				int roomFireBreak = rs.getInt("roomFireBreak");
 				int capacity = rs.getInt(6);
 				Room room = new Room(roomNumber, roomType, roomStart, roomEnd,
 						roomFireBreak, capacity);
@@ -262,8 +262,7 @@ public class DatabaseIO {
 			startDate.add(Calendar.DATE, module.getDayNumber());
 			java.sql.Date examDate = new java.sql.Date(startDate.getTime()
 					.getTime());
-			writeToDB(module.getId(), module.getExamLength(), module.getTime()
-					.getFullTimeInMinutes() / 60, module.getRoomName(),
+			writeToDB(module.getId(), module.getExamLength(), module.getTime() / 60, module.getRoomName(),
 					examDate);
 		}
 		
@@ -276,7 +275,7 @@ public class DatabaseIO {
 	}
 
 	// Insert statement to write to the output database.
-	private void writeToDB(String moduleID, double examLength, int time,
+	private void writeToDB(String moduleID, int examLength, int time,
 			String room, Date date) {
 		String query = "INSERT t8005t2 .output values('" + moduleID + "','"
 				+ examLength + "','" + time + "','" + room + "','" + date

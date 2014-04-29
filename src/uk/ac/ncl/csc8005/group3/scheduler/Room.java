@@ -2,7 +2,7 @@ package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.util.*;
 
-import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
+//import uk.ac.ncl.csc8005.group3.scheduler.Utils.Time;
 
 /**
  * @author:  Denny S Antony & Luke McMahon 
@@ -12,13 +12,13 @@ public class Room {
 	private String roomNumber;
 	private String roomType;
 	private ArrayList<Module> modules;
-	private double roomStart; // startTime for using room, eg 9:00
-	private double roomEnd; // end time for using room, eg 17:00
-	private double timeLeftInRoom; // time left in room, eg if can use 9:00 till
+	private int roomStart; // startTime for using room, eg 9:00
+	private int roomEnd; // end time for using room, eg 17:00
+	private int timeLeftInRoom; // time left in room, eg if can use 9:00 till
 									// 17:00, but already used 2 hours then
 									// equals 6
-	private double roomFireBreak; // time that must be between each exam end and
-									// start, for this room. Default 1 hour
+	private int roomFireBreak; // time that must be between each exam end and
+									// start, for this room. Default 0
 	private int capacity;
 
 	/**
@@ -29,8 +29,8 @@ public class Room {
 	 * @param roomEnd- the time the room ends
 	 * @param capacity- of the room
 	 */
-	public Room(String roomNumber, String roomType, double roomStart,
-			double roomEnd, int capacity) {
+	public Room(String roomNumber, String roomType, int roomStart,
+			int roomEnd, int capacity) {
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
 		this.modules = new ArrayList<Module>();
@@ -49,10 +49,9 @@ public class Room {
 	 * @param roomEnd- the time the room ends
 	 * @param capacity- of the room
 	 * @param roomFireBreak- the free time between two exams
-
 	 */
-	public Room(String roomNumber, String roomType, double roomStart,
-		double roomEnd, double roomFireBreak, int capacity) {
+	public Room(String roomNumber, String roomType, int roomStart,
+		int roomEnd, int roomFireBreak, int capacity) {
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
 		this.modules = new ArrayList<Module>();
@@ -101,11 +100,10 @@ public class Room {
 		}
 
 		modules.add(module);
-		module.setTime(Time.doubleAsTime(roomStart+((roomEnd - roomStart)-timeLeftInRoom))); // sets scheduled time in this room
+		module.setTime(roomStart+((roomEnd - roomStart)-timeLeftInRoom)); // sets scheduled time in this room
 		module.setRoom(roomNumber);
 		
-		timeLeftInRoom = timeLeftInRoom - module.getExamLength()
-				- roomFireBreak;
+		timeLeftInRoom = timeLeftInRoom - module.getExamLength()- roomFireBreak;
 		return true;
 	}
 
@@ -145,21 +143,21 @@ public class Room {
 	/**
 	 * @return the start time of the room
 	 */
-	public double getRoomStart() {
+	public int getRoomStart() {
 		return roomStart;
 	}
 
 	/**
 	 * @return the end time of the room
 	 */
-	public double getRoomEnd() {
+	public int getRoomEnd() {
 		return roomEnd;
 	}
 
 	/**
 	 * @return the time free in the room which can all be used to schedule further exams
 	 */
-	public double getTimeLeftInRoom() {
+	public int getTimeLeftInRoom() {
 		return timeLeftInRoom;
 	}
 
