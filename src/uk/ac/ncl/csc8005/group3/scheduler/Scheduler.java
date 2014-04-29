@@ -23,7 +23,7 @@ public class Scheduler {
 			throw new IllegalArgumentException("Not all modules type in the database have a room type");
 		}
 		
-		if (checkEnoughTime(modules,rooms)==false){
+		if (checkEnoughTime(modules,rooms,examPeriodLength)==false){
 			throw new IllegalArgumentException("Not enough time in the specified examination time with the rooms in the database to schedule all the exams");
 		}
 		
@@ -51,7 +51,7 @@ public class Scheduler {
 		}	
 	}
 	
-	private boolean checkEnoughTime(ArrayList<Module> modules, ArrayList<Room> rooms){
+	private boolean checkEnoughTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength){
 		int roomTime=0;
 		int moduleTime=0;
 		
@@ -59,16 +59,62 @@ public class Scheduler {
 			moduleTime=moduleTime+module.getExamLength();
 		}
 		
-		for(Room room:rooms){
+		for(Room room:rooms){			
 			roomTime=roomTime+(room.getRoomEnd()-room.getRoomStart());
 		}
 		
-		if (moduleTime>roomTime){
+		if (moduleTime>roomTime*examPeriodLength){
 			return false;
 		}else{
 			return true;
 		}
 	}	
+	
+	private boolean checkAdvancedTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength){
+		Set<String> roomTypes = new HashSet<String>();
+		Set<String> moduleTypes = new HashSet<String>();
+		
+		for(Module module:modules){
+			moduleTypes.add(module.getType());
+		}
+		
+		for(Room room:rooms){
+			roomTypes.add(room.getRoomType());
+		}
+		
+		ArrayList<String> roomTimeType = new ArrayList<String>(roomTypes);
+		ArrayList<String> moduleTimeType = new ArrayList<String>(moduleTypes);
+		
+		HashMap<String, Integer> roomTimeByType = new HashMap<String, Integer>();
+		
+		for(String room: roomTimeType){
+			roomTimeByType.put(room, 0);
+		}
+		
+		HashMap<String, Integer> moduleTimeByType = new HashMap<String, Integer>();
+		
+		for(String module: moduleTimeType){
+			moduleTimeByType.put(module, 0);
+		}
+		
+		int value=0;
+		
+		for(Module module:modules){
+			value= moduleTimeByType.get(module.getType());
+			value=value+module.getExamLength();
+			moduleTimeByType.put(module.getType(), value);
+		}
+		
+		for(Room room:rooms){
+			value= moduleTimeByType.get(room.getRoomType());
+			value=value+(room.getRoomEnd()-room.getRoomStart());
+			moduleTimeByType.put(room.getRoomType(), value);
+		}
+		
+		// take these away from each other, throw error if one is bigger!
+		
+		
+	}
 	
 	private boolean checkRoomCapacity(ArrayList<Module> modules, ArrayList<Room> rooms){
 		int maxRoomSize=0;
@@ -201,7 +247,6 @@ public class Scheduler {
 				
 		private void beginScheduler(ArrayList<Module> managedModules){
 			SortedArrayList<Module> unscheduledModules = new SortedArrayList<Module>();
-			
 			
 			for (Module module: managedModules){
 				unscheduledModules.add(module);
