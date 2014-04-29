@@ -49,7 +49,7 @@ public class ScheduleTest {
 
 	@Test
 	public void testRemoveLastModule() {
-		fail("Not yet implemented");
+		
 	}
 
 }

@@ -8,7 +8,7 @@ import uk.ac.ncl.csc8005.group3.scheduler.Utils.SortedArrayList;
 
 
 /**
- * @author:  Denny S Antony & Luke McMahon 
+ * @authors:  Denny S Antony & Luke McMahon 
  * Date: 28/04/2014
  */
 public class Scheduler {	
@@ -26,6 +26,8 @@ public class Scheduler {
 		if (checkEnoughTime(modules,rooms,examPeriodLength)==false){
 			throw new IllegalArgumentException("Not enough time in the specified examination time with the rooms in the database to schedule all the exams");
 		}
+		
+		checkAdvancedTime(modules,rooms,examPeriodLength);
 		
 		if (checkRoomCapacity(modules,rooms)==false){
 			throw new IllegalArgumentException("The largest room is smaller than the largest exam");
@@ -70,7 +72,7 @@ public class Scheduler {
 		}
 	}	
 	
-	private boolean checkAdvancedTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength){
+	public boolean checkAdvancedTime(ArrayList<Module> modules, ArrayList<Room> rooms,int examPeriodLength) throws IllegalArgumentException{
 		Set<String> roomTypes = new HashSet<String>();
 		Set<String> moduleTypes = new HashSet<String>();
 		
@@ -111,9 +113,13 @@ public class Scheduler {
 			moduleTimeByType.put(room.getRoomType(), value);
 		}
 		
-		// take these away from each other, throw error if one is bigger!
+		for (String module:moduleTypes){
+			if (moduleTimeByType.get(module)>roomTimeByType.get(module)*examPeriodLength){
+				throw new IllegalArgumentException("Number of hours of exam scheduled in " + module +" room type is greater than number of hours of that type avialable!" );
+			}
+		}
 		
-		
+		return true;	
 	}
 	
 	private boolean checkRoomCapacity(ArrayList<Module> modules, ArrayList<Room> rooms){
