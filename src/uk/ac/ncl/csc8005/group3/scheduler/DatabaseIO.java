@@ -308,8 +308,8 @@ public class DatabaseIO {
 
 	
 	// Update statement to write to the module table
-	private void writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
-		String query = "UPDATE t8005t2 .output SET 'examLength'='" +examLength + "' ,'moduleSize'='" +moduleSize + "' ,'type'='" +type + "' WHERE 'ID'= '" + moduleID + "'";
+	public void writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
+		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
 
 		try {
 			stmt = conn.createStatement();
