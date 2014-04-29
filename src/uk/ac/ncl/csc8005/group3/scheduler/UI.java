@@ -42,7 +42,7 @@ import com.toedter.calendar.JDateChooser;
 public class UI {
 	private JFrame frame;
 	private JMenuItem menuItem;
-	JPanel panelMain, panelRun, panelViewModule, panelCreateModule,
+	JPanel panelMain, panelRun, panelViewModule, panelCreateModule, panelEditModule,
 	panelViewSchedule, panelCreateSchedule, panelLoadModule, panelLoadStudent,
 			panelLoadSchedule;
 	private JTable table;
@@ -52,12 +52,23 @@ public class UI {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
 
 	static ArrayList<String> clashedModules = null;
 
+	private String moduleCode;
+	private String examLength;
+	private String moduleSize;
+	private String moduleType;
+	
+	
 	DatabaseIO db = new DatabaseIO();
 
-	private JTextField textField_5;
+	
 
 	/**
 	 * Launch the application.
@@ -104,6 +115,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -122,6 +134,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -139,6 +152,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -159,6 +173,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -177,6 +192,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -198,6 +214,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(true);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -215,6 +232,7 @@ public class UI {
 				panelLoadModule.setVisible(true);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(false);
+				panelEditModule.setVisible(false);
 			}
 
 		});
@@ -233,6 +251,7 @@ public class UI {
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelLoadSchedule.setVisible(true);
+				panelEditModule.setVisible(false);
 
 			}
 
@@ -382,6 +401,15 @@ public class UI {
 		panelViewModule.add(label);
 
 		JButton btnEditDetails = new JButton("Edit details");
+		btnEditDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("Check view module");
+				textField_6.setText(moduleCode);
+				panelViewModule.setVisible(false);
+				panelEditModule.setVisible(true);
+			}
+		});
 
 		btnEditDetails.setBounds(506, 66, 117, 29);
 
@@ -404,19 +432,17 @@ public class UI {
 		// String[] modulesString = {"...", "CSC8001", "CSC8002", "CSC8005",
 		// "CSC8010", "CSC8009"};
 
-		JComboBox comboBox = new JComboBox(modulesString);
-
+		final JComboBox comboBox = new JComboBox(modulesString);
+		comboBox.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        System.out.println("comboBox: " +comboBox.getSelectedItem().toString());
+		        
+		        moduleCode = comboBox.getSelectedItem().toString();
+		        
+		    }
+		});
 		comboBox.setBounds(135, 67, 107, 27);
-
 		panelViewModule.add(comboBox);
-
-		textField = new JTextField();
-
-		textField.setBounds(254, 65, 107, 28);
-
-		panelViewModule.add(textField);
-
-		textField.setColumns(10);
 
 		// View Module Table
 
@@ -814,6 +840,59 @@ public class UI {
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
+		/*----------------------------------------- Edit Module ----------------------------------------------------------*/
+		panelEditModule = new JPanel();
+		frame.getContentPane().add(panelEditModule, "name_1398770634005047000");
+		panelEditModule.setLayout(null);
+		
+		textField_6 = new JTextField();
+		
+		textField_6.setBounds(60, 164, 134, 28);
+		panelEditModule.add(textField_6);
+		textField_6.setColumns(10);
+		
+		JLabel lblModuleCode_1 = new JLabel("Module Code");
+		lblModuleCode_1.setBounds(81, 136, 95, 16);
+		panelEditModule.add(lblModuleCode_1);
+		
+		JLabel lblExamLength = new JLabel("Exam Length");
+		lblExamLength.setBounds(242, 136, 95, 16);
+		panelEditModule.add(lblExamLength);
+		
+		textField_7 = new JTextField();
+		textField_7.setBounds(223, 164, 134, 28);
+		panelEditModule.add(textField_7);
+		textField_7.setColumns(10);
+		
+		JLabel lblSize = new JLabel("Size");
+		lblSize.setBounds(381, 136, 61, 16);
+		panelEditModule.add(lblSize);
+		
+		textField_8 = new JTextField();
+		textField_8.setBounds(369, 164, 61, 28);
+		panelEditModule.add(textField_8);
+		textField_8.setColumns(10);
+		
+		JLabel lblType = new JLabel("Type");
+		lblType.setBounds(460, 136, 61, 16);
+		panelEditModule.add(lblType);
+		
+		textField_9 = new JTextField();
+		textField_9.setBounds(443, 164, 68, 28);
+		panelEditModule.add(textField_9);
+		textField_9.setColumns(10);
+		
+		JButton btnDone = new JButton("Done");
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText());
+				
+			}
+		});
+		btnDone.setBounds(223, 261, 117, 29);
+		panelEditModule.add(btnDone);
+		
 	}
 
 }
