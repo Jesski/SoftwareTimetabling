@@ -162,6 +162,8 @@ public class Module implements Comparable<Module>{
 	public String getRoomName(){
 		return room;		
 	}
+	
+
 
     /**
      * sets logic for comparison of two module objects.

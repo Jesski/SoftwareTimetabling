@@ -174,4 +174,8 @@ public class Room {
 			return false;
 		}
 	}
+
+	public int getCapacity() {
+		return capacity;
+	}
 }

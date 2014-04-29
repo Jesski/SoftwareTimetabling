@@ -18,6 +18,79 @@ public class Scheduler {
 	
 	public Scheduler() {}
 
+	private void checkValidityOfData(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength){
+		if (checkAllRoomTypes(modules,rooms )==false){
+			throw new IllegalArgumentException("Not all modules type in the database have a room type");
+		}
+		
+		if (checkEnoughTime(modules,rooms)==false){
+			throw new IllegalArgumentException("Not enough time in the specified examination time with the rooms in the database to schedule all the exams");
+		}
+		
+		if (checkRoomCapacity(modules,rooms)==false){
+			throw new IllegalArgumentException("The largest room is smaller than the largest exam");
+		}
+	}
+	
+	private boolean checkAllRoomTypes(ArrayList<Module> modules, ArrayList<Room> rooms){
+		Set<String> roomTypes = new HashSet<String>();
+		Set<String> moduleTypes = new HashSet<String>();
+		
+		for(Module module:modules){
+			moduleTypes.add(module.getType());
+		}
+		
+		for(Room room:rooms){
+			roomTypes.add(room.getRoomType());
+		}
+		
+		if (roomTypes.containsAll(moduleTypes)){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
+	private boolean checkEnoughTime(ArrayList<Module> modules, ArrayList<Room> rooms){
+		int roomTime=0;
+		int moduleTime=0;
+		
+		for(Module module:modules){
+			moduleTime=moduleTime+module.getExamLength();
+		}
+		
+		for(Room room:rooms){
+			roomTime=roomTime+(room.getRoomEnd()-room.getRoomStart());
+		}
+		
+		if (moduleTime>roomTime){
+			return false;
+		}else{
+			return true;
+		}
+	}	
+	
+	private boolean checkRoomCapacity(ArrayList<Module> modules, ArrayList<Room> rooms){
+		int maxRoomSize=0;
+		int maxModuleSize=0;
+		
+		for(Module module:modules){
+			if (maxModuleSize<module.getModuleSize()){
+				maxModuleSize=module.getModuleSize();
+			}
+		}
+		for(Room room:rooms){
+			if (maxRoomSize<room.getCapacity()){
+				maxRoomSize=room.getCapacity();
+			}
+		}
+		if (maxModuleSize>maxRoomSize){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	/**
 	 * algorithm of the program
 	 * @param modules Arraylist of all modules to be scheduled
@@ -26,7 +99,15 @@ public class Scheduler {
 	 * @return boolean True if generated succesfully, false if not
 	 */
 	public boolean generateSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws IllegalArgumentException {
+		
+		checkValidityOfData(modules,rooms,examPeriodLength);
 		schedule= new Schedule(rooms, examPeriodLength);
+		
+		ArrayList<Module> sortedModules= new ArrayList<Module>(manageDupicateModules(modules));
+		
+		if (checkRoomCapacity(sortedModules,rooms)==false){
+			throw new IllegalArgumentException("Clashed modules are too big for rooms");
+		}
 		
 		beginScheduler(manageDupicateModules(modules));
 		
