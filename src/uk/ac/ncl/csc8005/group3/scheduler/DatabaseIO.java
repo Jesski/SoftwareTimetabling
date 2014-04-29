@@ -293,7 +293,7 @@ public class DatabaseIO {
 	
 	
 	// Insert statement to write a new student to the input database
-	private void writeToInputDB(String studentID) {
+	public void writeToInputDB(String studentID) {
 		String query = "INSERT t8005t2 .student values("+studentID+")";
 		try {
 			stmt = conn.createStatement();
