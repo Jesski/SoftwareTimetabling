@@ -58,6 +58,12 @@ public class UI {
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
+	private JTextField textField_10;
+	private JTextField textField_11;
+	private JTextField textField_12;
+	private JTextField textField_13;
+	private JTextField textField_14;
+	private JTextField textField_15;
 
 	static ArrayList<String> clashedModules = null;
 
@@ -202,8 +208,8 @@ public class UI {
 		mnMenu.add(mntmSchedule);
 		JSeparator separator = new JSeparator();
 		mnMenu.add(separator);
-		JMenuItem mntmLoadStudent = new JMenuItem("Load Student");
-		mntmLoadStudent.addActionListener(new ActionListener() {
+		JMenuItem mntmAddStudent = new JMenuItem("Add Student");
+		mntmAddStudent.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				panelCreateModule.setVisible(false);
@@ -219,8 +225,8 @@ public class UI {
 			}
 
 		});
-
-		mnMenu.add(mntmLoadStudent);
+		mnMenu.add(mntmAddStudent);
+		
 		JMenuItem mntmLoadModule = new JMenuItem("Load Module");
 		mntmLoadModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -235,12 +241,11 @@ public class UI {
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
-
 		});
 
 		mnMenu.add(mntmLoadModule);
-		JMenuItem mntmLoadSchedule = new JMenuItem("Load Schedule");
-		mntmLoadSchedule.addActionListener(new ActionListener() {
+		JMenuItem mntmAddRoom = new JMenuItem("Add Room");
+		mntmAddRoom.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				panelCreateModule.setVisible(false);
@@ -257,8 +262,7 @@ public class UI {
 			}
 
 		});
-
-		mnMenu.add(mntmLoadSchedule);
+		mnMenu.add(mntmAddRoom);
 
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -354,7 +358,7 @@ public class UI {
 					endDate2 = format.parse(endDate);
 
 				}
-				catch (Exception e)
+				catch(Exception e)
 				{
 
 				}
@@ -372,8 +376,19 @@ public class UI {
 				try{
 				db.openDatabase();
 				}catch(Exception e){}
-				db.writeAllToDB(scheduler.generateAndReturnSchedule(db.getModules(), db.getRooms(), examPeriodLength),cal );
 				
+				try
+				{
+					db.writeAllToDB(scheduler.generateAndReturnSchedule(db.getModules(), db.getRooms(), examPeriodLength),cal );
+					//if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText()))
+					//{
+					//	JOptionPane.showMessageDialog(null, "Edit module, successful!");
+					//}
+				}
+				catch(Exception editModuleE)
+				{
+					JOptionPane.showMessageDialog(null, "Sorry, there is some error!");
+				}
 				
 			}
 
@@ -421,13 +436,12 @@ public class UI {
 		System.out.println("----------------------------");
 
 		for (Room room : db.getRooms())
-
 		{
-
 			System.out.println(room.getRoomNumber());
-
 		}
 
+		System.out.println(db.getModules());
+		
 		String[] modulesString = Arrays.copyOf(db.getModuletitles().toArray(), db.getModuletitles().size(), String[].class);
 
 		// String[] modulesString = {"...", "CSC8001", "CSC8002", "CSC8005",
@@ -447,7 +461,7 @@ public class UI {
 
 		// View Module Table
 
-		String[] columnNames = { "Code", "Title", "Date", "Time", "Length",
+		String[] columnNames = { "Code", "Date", "Time", "Length",
 				"Room" };
 
 		table = new JTable();
@@ -464,17 +478,17 @@ public class UI {
 
 		new Object[][] {
 
-				{ "CSC8001", "Programming and Data Sreuctures", "13-Jan-14",
+				{ "CSC8001", "13-Jan-14",
 						"14.00", "3h", "BSB" },
 
-				{ "CSC8010", "Computer Environments", "17-Jan-14", "14.00",
+				{ "CSC8010", "17-Jan-14", "14.00",
 						"1h 30m", "BSB" },
 
 		},
 
 		new String[] {
 
-		"Code", "Title", "Date", "Time", "Length", "Room"
+		"Code", "Date", "Time", "Length", "Room"
 
 		}
 
@@ -517,13 +531,13 @@ public class UI {
 
 		new Object[][] {
 
-		{ "Code", "Title", "Date", "Time", "Length", "Location" },
+		{ "Code", "Date", "Time", "Length", "Location" },
 
 		},
 
 		new String[] {
 
-		"c0", "c1", "c2", "c3", "c4", "c5"
+		"c1", "c2", "c3", "c4", "c5"
 
 		}
 
@@ -531,7 +545,7 @@ public class UI {
 
 			Class[] columnTypes = new Class[] {
 
-			String.class, Object.class, Object.class, Object.class,
+			String.class, Object.class, Object.class,
 					Object.class, Object.class
 
 			};
@@ -545,13 +559,9 @@ public class UI {
 		});
 
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(230);
-
 		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-
 		table_1.setBackground(Color.ORANGE);
-
 		table_1.setBounds(73, 115, 550, 26);
-
 		panelViewModule.add(table_1);
 
 		/*------------------------------------------------------------------------------------------------------------------*/
@@ -836,10 +846,88 @@ public class UI {
 		panelAddRoom = new JPanel();
 		frame.getContentPane().add(panelAddRoom, "name_1395063531440464000");
 		panelAddRoom.setLayout(null);
-
+		
 		JLabel lblAddRoom = new JLabel("Add Room");
-		lblAddRoom.setBounds(420, 91, 78, 16);
+		lblAddRoom.setBounds(301, 87, 78, 16);
 		panelAddRoom.add(lblAddRoom);
+		
+		JLabel lblRoomNumber = new JLabel("Room Number");
+		lblRoomNumber.setBounds(82, 153, 96, 16);
+		panelAddRoom.add(lblRoomNumber);
+		
+		JLabel lblRoomType_1 = new JLabel("Room Type");
+		lblRoomType_1.setBounds(203, 153, 86, 16);
+		panelAddRoom.add(lblRoomType_1);
+		
+		JLabel lblRoomStart = new JLabel("Room Start");
+		lblRoomStart.setBounds(301, 153, 78, 16);
+		panelAddRoom.add(lblRoomStart);
+		
+		JLabel lblFireBreak = new JLabel("Fire Break");
+		lblFireBreak.setBounds(391, 153, 61, 16);
+		panelAddRoom.add(lblFireBreak);
+		
+		JLabel lblCapacity = new JLabel("Capacity");
+		lblCapacity.setBounds(476, 153, 61, 16);
+		panelAddRoom.add(lblCapacity);
+		
+		JLabel lblRoomEnd = new JLabel("Room End");
+		lblRoomEnd.setBounds(549, 153, 78, 16);
+		panelAddRoom.add(lblRoomEnd);
+		
+		textField_10 = new JTextField();
+		textField_10.setBounds(82, 183, 86, 28);
+		panelAddRoom.add(textField_10);
+		textField_10.setColumns(10);
+		
+		textField_11 = new JTextField();
+		textField_11.setBounds(203, 181, 71, 28);
+		panelAddRoom.add(textField_11);
+		textField_11.setColumns(10);
+		
+		textField_12 = new JTextField();
+		textField_12.setBounds(301, 183, 71, 28);
+		panelAddRoom.add(textField_12);
+		textField_12.setColumns(10);
+		
+		textField_13 = new JTextField();
+		textField_13.setBounds(391, 183, 61, 28);
+		panelAddRoom.add(textField_13);
+		textField_13.setColumns(10);
+		
+		textField_14 = new JTextField();
+		textField_14.setBounds(476, 183, 61, 28);
+		panelAddRoom.add(textField_14);
+		textField_14.setColumns(10);
+		
+		textField_15 = new JTextField();
+		textField_15.setBounds(549, 181, 71, 28);
+		panelAddRoom.add(textField_15);
+		textField_15.setColumns(10);
+		
+		JButton btnAdd_2 = new JButton("Add");
+		btnAdd_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try
+				{
+					if(db.addRoom(Integer.parseInt(textField_10.getText()), textField_11.getText(), 
+							Integer.parseInt(textField_12.getText()), Integer.parseInt(textField_13.getText()), 
+							Integer.parseInt(textField_14.getText()), Integer.parseInt(textField_15.getText())))
+					{
+						JOptionPane.showMessageDialog(null, "Add room, successful!");
+					}
+				}
+				catch(Exception roomE)
+				{
+					JOptionPane.showMessageDialog(null, "Sorry, there is some error!");
+				}
+			}
+		});
+		btnAdd_2.setBounds(274, 267, 117, 29);
+		panelAddRoom.add(btnAdd_2);
+		
+		// addRoom(int roomNumber, String roomType, int roomStart,int roomFireBreak, int capacity, int roomEnd)
 		
 		
 		/*------------------------------------------------------------------------------------------------------------------*/
@@ -890,8 +978,17 @@ public class UI {
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText());
-				
+				try
+				{
+					if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText()))
+					{
+						JOptionPane.showMessageDialog(null, "Edit module, successful!");
+					}
+				}
+				catch(Exception editModuleE)
+				{
+					JOptionPane.showMessageDialog(null, "Sorry, there is some error!");
+				}
 			}
 		});
 		btnDone.setBounds(223, 261, 117, 29);
