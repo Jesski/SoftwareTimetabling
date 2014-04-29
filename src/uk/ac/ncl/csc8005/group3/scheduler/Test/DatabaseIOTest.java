@@ -86,5 +86,17 @@ public class DatabaseIOTest {
 		DatabaseIO db = new DatabaseIO();
 		System.out.println(db.getRooms());
 		System.out.println("check2");
+		try{
+		db.openDatabase();
+		}
+		catch(Exception E){
+			
+		}
+		db.writeToModuleTable("CSC8003", 2.1, 1,"TYP");
+		System.out.println("check3");
 	}
+	
+	
+	
+	
 }

@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
@@ -44,7 +45,7 @@ public class UI {
 	private JMenuItem menuItem;
 	JPanel panelMain, panelRun, panelViewModule, panelCreateModule, panelEditModule,
 	panelViewSchedule, panelCreateSchedule, panelLoadModule, panelLoadStudent,
-			panelLoadSchedule;
+	panelAddRoom;
 	private JTable table;
 	private JTable table_1;
 	private JTextField textField;
@@ -114,7 +115,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -133,7 +134,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -151,7 +152,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -172,7 +173,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -191,7 +192,7 @@ public class UI {
 				panelCreateSchedule.setVisible(true);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -213,7 +214,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(true);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -231,7 +232,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(true);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(false);
+				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 
@@ -250,7 +251,7 @@ public class UI {
 				panelCreateSchedule.setVisible(false);
 				panelLoadModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
-				panelLoadSchedule.setVisible(true);
+				panelAddRoom.setVisible(true);
 				panelEditModule.setVisible(false);
 
 			}
@@ -831,13 +832,16 @@ public class UI {
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
-		/*----------------------------------------- Load Schedule ----------------------------------------------------------*/
+		/*----------------------------------------- Add Room ----------------------------------------------------------*/
+		panelAddRoom = new JPanel();
+		frame.getContentPane().add(panelAddRoom, "name_1395063531440464000");
+		panelAddRoom.setLayout(null);
 
-		panelLoadSchedule = new JPanel();
-
-		frame.getContentPane().add(panelLoadSchedule,
-				"name_1395063531440464000");
-
+		JLabel lblAddRoom = new JLabel("Add Room");
+		lblAddRoom.setBounds(420, 91, 78, 16);
+		panelAddRoom.add(lblAddRoom);
+		
+		
 		/*------------------------------------------------------------------------------------------------------------------*/
 
 		/*----------------------------------------- Edit Module ----------------------------------------------------------*/
@@ -892,6 +896,16 @@ public class UI {
 		});
 		btnDone.setBounds(223, 261, 117, 29);
 		panelEditModule.add(btnDone);
+		
+		JButton btnTest = new JButton("Test");
+		btnTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
+			}
+		});
+		btnTest.setBounds(92, 303, 117, 29);
+		panelEditModule.add(btnTest);
 		
 	}
 
