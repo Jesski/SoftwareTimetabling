@@ -308,20 +308,36 @@ public class DatabaseIO {
 
 	
 	// Update statement to write to the module table
-	public void writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
+	public boolean writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
 		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
 
 
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
+			return true;
 		} catch (Exception e) {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
+			return false;
 		}
 	}
 	
 	
+	// Add a room to the database
+	public boolean addRoom(int roomNumber, String roomType, int roomStart,int roomFireBreak, int capacity, int roomEnd) {
+		String query = "INSERT t8005t2 .rooms values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
+		System.out.println(query);
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+			return true;
+		} catch (Exception e) {
+			System.err.println("Problem executing query");
+			System.err.println(e.getMessage());
+			return false;
+		}
+	}
 	
 	
 }
