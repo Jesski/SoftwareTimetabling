@@ -10,6 +10,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -44,10 +46,10 @@ public class UI {
 	private JFrame frame;
 	private JMenuItem menuItem;
 	JPanel panelMain, panelRun, panelViewModule, panelCreateModule, panelEditModule,
-	panelViewSchedule, panelCreateSchedule, panelLoadModule, panelLoadStudent,
+	panelViewSchedule, panelCreateSchedule, panelStudentModule, panelLoadStudent,
 	panelAddRoom;
-	private JTable table;
-	private JTable table_1;
+	private JTable table, table2;
+	private JTable table_1, table_2;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -64,6 +66,7 @@ public class UI {
 	private JTextField textField_13;
 	private JTextField textField_14;
 	private JTextField textField_15;
+	private JTextField textField_16;
 
 	static ArrayList<String> clashedModules = null;
 
@@ -71,11 +74,8 @@ public class UI {
 	private String examLength;
 	private String moduleSize;
 	private String moduleType;
-	
-	
+		
 	DatabaseIO db = new DatabaseIO();
-
-	
 
 	/**
 	 * Launch the application.
@@ -83,8 +83,6 @@ public class UI {
 	 */
 
 	public UI() {
-		// UI window = new UI();
-		// this.frame.setVisible(true);
 		try {
 			db.openDatabase();
 		}catch (Exception e) {}
@@ -119,7 +117,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -138,7 +136,7 @@ public class UI {
 				panelCreateModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -156,7 +154,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -177,7 +175,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(true);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -196,7 +194,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(true);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -218,7 +216,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(true);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
@@ -227,8 +225,8 @@ public class UI {
 		});
 		mnMenu.add(mntmAddStudent);
 		
-		JMenuItem mntmLoadModule = new JMenuItem("Load Module");
-		mntmLoadModule.addActionListener(new ActionListener() {
+		JMenuItem mntmStudentModule = new JMenuItem("Student Module");
+		mntmStudentModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelCreateModule.setVisible(false);
 				panelRun.setVisible(false);
@@ -236,14 +234,14 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(true);
+				panelStudentModule.setVisible(true);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
 				panelEditModule.setVisible(false);
 			}
 		});
-
-		mnMenu.add(mntmLoadModule);
+		mnMenu.add(mntmStudentModule);
+		
 		JMenuItem mntmAddRoom = new JMenuItem("Add Room");
 		mntmAddRoom.addActionListener(new ActionListener() {
 
@@ -254,7 +252,7 @@ public class UI {
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
 				panelCreateSchedule.setVisible(false);
-				panelLoadModule.setVisible(false);
+				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(true);
 				panelEditModule.setVisible(false);
@@ -375,19 +373,26 @@ public class UI {
 				db.openDatabase();
 				}catch(Exception e){}
 				
+				boolean successful = false;
 				try
 				{
-					db.writeAllToDB(scheduler.generateAndReturnSchedule(db.getModules(), db.getRooms(), examPeriodLength),cal );
-					//if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText()))
-					//{
-					//	JOptionPane.showMessageDialog(null, "Edit module, successful!");
-					//}
+					db.writeAllToDB(scheduler.generateAndReturnSchedule(db.getModules(), db.getRooms(), examPeriodLength),cal);
+					successful=true;
 				}
-				catch(Exception editModuleE)
+				catch(IllegalArgumentException e)
 				{
-					JOptionPane.showMessageDialog(null, "Sorry, there is some error!");
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					successful=false;
 				}
-				
+				catch(Exception e2){
+					JOptionPane.showMessageDialog(null, "Sorry, there is some error");
+					successful=false;
+				}
+				finally{
+					if (successful==true){
+						JOptionPane.showMessageDialog(null,"Generate Schedule is successful!");
+					}
+				}
 			}
 
 		});
@@ -432,35 +437,27 @@ public class UI {
 		System.out.println("CHECK");
 
 		System.out.println("----------------------------");
-
-		for (Room room : db.getRooms())
-		{
-			System.out.println(room.getRoomNumber());
-		}
-
-		System.out.println(db.getModules().toArray()[0]);
 		
 		String[] modulesString = Arrays.copyOf(db.getModuletitles().toArray(), db.getModuletitles().size(), String[].class);
 		
 
 		// View Module Table
 
-				String[] columnNames = {"Code", "Number of Student", "Room Type"};
+		String[] columnNames = {"Code", "Number of Student", "Room Type"};
 
-				table = new JTable();
-				table.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-				table.setEnabled(false);
-				table.setBackground(Color.WHITE);
-				table.setForeground(Color.BLACK);
+		table = new JTable();
+		table.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		table.setEnabled(false);
+		table.setBackground(Color.WHITE);
+		table.setForeground(Color.BLACK);
 				
+		panelViewModule.add(table);
 
-				panelViewModule.add(table);
-
-				table_1 = new JTable();
-				table_1.setShowHorizontalLines(false);
-				table_1.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-				table_1.setEnabled(false);
-				table_1.setModel(new DefaultTableModel(
+		table_1 = new JTable();
+		table_1.setShowHorizontalLines(false);
+		table_1.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		table_1.setEnabled(false);
+		table_1.setModel(new DefaultTableModel(
 
 				new Object[][] {
 
@@ -775,11 +772,37 @@ public class UI {
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------ Load Module -----------------------------------------------------------*/
-
-		panelLoadModule = new JPanel();
-
-		frame.getContentPane().add(panelLoadModule, "name_1395058344668467000");
+		/*------------------------------------------ Student Modules -----------------------------------------------------------*/
+		panelStudentModule = new JPanel();
+		frame.getContentPane().add(panelStudentModule, "name_1395058344668467000");
+		panelStudentModule.setLayout(null);
+		
+		JLabel lblStudentId_1 = new JLabel("Student ID:");
+		lblStudentId_1.setBounds(185, 146, 81, 16);
+		panelStudentModule.add(lblStudentId_1);
+		
+		textField_16 = new JTextField();
+		textField_16.setBounds(299, 140, 134, 28);
+		panelStudentModule.add(textField_16);
+		textField_16.setColumns(10);
+		
+		
+		final JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setBounds(200, 173, 250, 200);
+		panelStudentModule.add(textArea);
+			
+		JButton btnView = new JButton("View");
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				textArea.setText(db.query1(Integer.parseInt(textField_16.getText())).toString());
+			}
+		});
+		btnView.setBounds(476, 141, 117, 29);
+		panelStudentModule.add(btnView);
+		
+		
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
