@@ -535,7 +535,7 @@ public class UI {
 		        
 		    }
 		});
-		comboBox.setBounds(135, 67, 107, 27);
+		comboBox.setBounds(135, 67, 120, 27);
 		panelViewModule.add(comboBox);
 
 		
