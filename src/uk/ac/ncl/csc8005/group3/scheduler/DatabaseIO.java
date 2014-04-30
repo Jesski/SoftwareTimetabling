@@ -167,7 +167,7 @@ public class DatabaseIO {
 	 * Returns the number of students taking a particular module.
 	 */
 	public String roomType(String name) {
-		String query = "SELECT type FROM t8005t2 .takes WHERE name =" + name;
+		String query = "SELECT type FROM t8005t2 .modules WHERE name =" + name;
 		String type = null;
 		try {
 			stmt = conn.createStatement();
