@@ -201,9 +201,9 @@ public class Scheduler {
 	 * @return Arraylist of the scheduled modules
 	 * @throws IllegalStateException if not ran after a schedule has been generated.
 	 */
-	public ArrayList<Module> getScheduledModules()throws IllegalStateException{
+	public ArrayList<Module> getScheduledModules()throws IllegalArgumentException{
 		if (generatedSuccessfully==false){
-			throw new IllegalStateException("must generate schedule first");
+			throw new IllegalArgumentException("must generate schedule first");
 		}
 		return scheduledModules;
 	}
@@ -214,13 +214,13 @@ public class Scheduler {
 	 * @param rooms Arraylist of all rooms to be scheduled
 	 * @param examPeriodLength the numberOfdays which the exams can be schedule in
 	 * @return Arraylist of the scheduled module
-	 * @throws RuntimeException if schedule could not be generated.
+	 * @throws IllegalArgumentException if schedule could not be generated.
 	 */
-	public ArrayList<Module> generateAndReturnSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws RuntimeException{
+	public ArrayList<Module> generateAndReturnSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws IllegalArgumentException{
 		if (generateSchedule(modules,rooms,examPeriodLength)==true){
 			return getScheduledModules();
 		}else{
-			throw new RuntimeException("Cannot generate schedule");
+			throw new IllegalArgumentException("Cannot generate schedule");
 		}
 	}
 	

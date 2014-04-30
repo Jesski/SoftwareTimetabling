@@ -246,13 +246,15 @@ public class DatabaseIO {
 		return rooms;
 	}
 
+
 	/*
 	 * Supply this with a student ID and you will get a list of modules that the student is taking
 	 * 
 	 * @param StudentID
 	 * @return ArrayList of modules  
 	 */
-	private ArrayList<String> query1(int studentid) {
+
+	public ArrayList<String> query1(int studentid) {
 		String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = "
 				+ studentid + ")";
 		ArrayList<String> modules = new ArrayList<String>();
