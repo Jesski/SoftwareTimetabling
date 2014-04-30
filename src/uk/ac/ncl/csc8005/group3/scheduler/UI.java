@@ -621,73 +621,64 @@ public class UI {
 		// s.scheduleModule(new Module(db.getModules())));
 
 		panelViewSchedule = new JPanel();
-
-		frame.getContentPane().add(panelViewSchedule,
-				"name_1394971129929447000");
-
+		frame.getContentPane().add(panelViewSchedule, "name_1394971129929447000");
 		panelViewSchedule.setLayout(null);
 
-		JLabel label_1 = new JLabel("Start date:");
-
-		label_1.setBounds(186, 139, 71, 16);
-
-		panelViewSchedule.add(label_1);
-
-		JLabel label_2 = new JLabel("End date:");
-
-		label_2.setBounds(186, 184, 61, 16);
-
-		panelViewSchedule.add(label_2);
-
-		JLabel label_3 = new JLabel("Time exam start:");
-
-		label_3.setBounds(186, 227, 112, 16);
-
-		panelViewSchedule.add(label_3);
-
-		JLabel label_4 = new JLabel("Time exam end:");
-
-		label_4.setBounds(186, 269, 112, 16);
-
-		panelViewSchedule.add(label_4);
-
-		textField_1 = new JTextField();
-
-		textField_1.setBounds(428, 127, 134, 28);
-
-		panelViewSchedule.add(textField_1);
-
-		textField_1.setColumns(10);
-
-		textField_2 = new JTextField();
-
-		textField_2.setBounds(428, 172, 134, 28);
-
-		panelViewSchedule.add(textField_2);
-
-		textField_2.setColumns(10);
-
-		textField_3 = new JTextField();
-
-		textField_3.setBounds(428, 221, 134, 28);
-
-		panelViewSchedule.add(textField_3);
-
-		textField_3.setColumns(10);
-
-		textField_4 = new JTextField();
-
-		textField_4.setBounds(428, 263, 134, 28);
-
-		panelViewSchedule.add(textField_4);
-
-		textField_4.setColumns(10);
-
-		JLabel lblViewSchedule = new JLabel("View Schedule");
-
-		lblViewSchedule.setBounds(319, 78, 89, 16);
-
-		panelViewSchedule.add(lblViewSchedule);
+		//View Schedule Table
+		String[] columnScheduleNames = {"Code", "Title","Date", "Time", "Length", "Room"};
+		
+		table2 = new JTable();
+		table2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		table2.setEnabled(false);
+		table2.setBackground(Color.WHITE);
+		table2.setForeground(Color.BLACK);
+		table2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"CSC8001", "13-Jan-14", "14.00", "3h", "BSB"},
+				{"CSC8010", "17-Jan-14", "14.00", "1h 30m", "BSB"},
+			},
+			new String[] {
+				"Code", "Date", "Time", "Length", "Room"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Object.class, Object.class, Object.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table2.getColumnModel().getColumn(1).setPreferredWidth(230);
+		table2.setBounds(73, 139, 550, 200);
+		table2.setRowHeight(25);
+		table2.setVisible(true);
+	
+		panelViewSchedule.add(table2);
+		
+		table_2 = new JTable();
+		table_2.setShowHorizontalLines(false);
+		table_2.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		table_2.setEnabled(false);
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Code", "Date", "Time", "Length", "Location"},
+			},
+			new String[] {
+				"c1", "c2", "c3", "c4", "c5"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Object.class, Object.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_2.getColumnModel().getColumn(1).setPreferredWidth(230);
+		table_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table_2.setBackground(Color.ORANGE);
+		table_2.setBounds(73, 115, 550, 26);
+		panelViewSchedule.add(table_2);
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
