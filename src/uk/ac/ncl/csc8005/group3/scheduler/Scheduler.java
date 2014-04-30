@@ -82,7 +82,7 @@ public class Scheduler {
 			roomTime=roomTime+(room.getRoomEnd()-room.getRoomStart());
 		}
 		
-		if (moduleTime>roomTime*examPeriodLength){
+		if (moduleTime>(roomTime*examPeriodLength)){
 			return false;
 		}else{
 			return true;

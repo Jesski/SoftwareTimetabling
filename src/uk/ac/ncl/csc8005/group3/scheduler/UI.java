@@ -364,7 +364,8 @@ public class UI {
 				ArrayList<Room> rooms= new ArrayList<Room>(db.getRooms());
 				
 				int examPeriodLength = (int)( (endDate2.getTime() - startDate2.getTime())/ (1000 * 60 * 60 * 24) );
-               
+				System.out.println(endDate2.getTime());
+				System.out.println(startDate2.getTime());
 				System.out.println(examPeriodLength);
               
 				Calendar cal = Calendar.getInstance();

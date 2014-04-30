@@ -200,11 +200,11 @@ public class DatabaseIO {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String id = rs.getString("ID");
+				String id = rs.getString("name");
 				ArrayList<String> clashedModules = getClashedModules(id);
 				HashMap<String, Integer> coupledModules = getCoupledModules(id); 
 				int examLength = rs.getInt("examLength");
-				int moduleSize = rs.getInt(4);
+				int moduleSize = numberOfStudents(id);
 				String type = rs.getString("type");
 				Module module = new Module(id, clashedModules, coupledModules,
 						examLength, moduleSize, type);
