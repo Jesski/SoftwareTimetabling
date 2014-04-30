@@ -1,10 +1,21 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Test;
 
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import org.junit.Test;
 
 import uk.ac.ncl.csc8005.group3.scheduler.DatabaseIO;
 import uk.ac.ncl.csc8005.group3.scheduler.Module;
 import uk.ac.ncl.csc8005.group3.scheduler.Room;
+
+/**
+ * @authors: Jessica King and Luke McMahon 
+ * Date: 30/04/2014
+ * Class DatabaseIOTest includes tests to chekc the functionallity of the DatabaseIO class.
+ */
 
 public class DatabaseIOTest {
 
@@ -62,7 +73,10 @@ public class DatabaseIOTest {
 		System.out.println("check2");
 	}
 	*/
-	
+
+	/*
+	 * Tests the getModules method.
+	 */
 	@Test
 	public void testGetModules(){
 		DatabaseIO db = new DatabaseIO();
@@ -70,20 +84,27 @@ public class DatabaseIOTest {
 		assert(db.getModules().get(0) !=null);
 	}
 	
+	/*
+	 * Tests the getRooms method.
+	 */
 	@Test
 	public void testGetRooms(){
 		DatabaseIO db = new DatabaseIO();
 		assert (db.getRooms().get(0) instanceof Room);
 		assert(db.getRooms().get(0) !=null);
 	}
+		
 	
-	
+	/*
+	 * Tests that when provided with a module code, the correct room type is returned.
+	 */
 	@Test
-	public void testRoomType(){
-		//	db.openDatabase();
-		//System.out.println(db.roomType("CSC8003"));
-		System.out.println("test");
+	public void testRoomType() throws Exception{
+		DatabaseIO db = new DatabaseIO();
+		db.openDatabase();
+		assertEquals(db.roomType("CSC8003"),"CPT");
 	}
-	
+
+
 	
 }

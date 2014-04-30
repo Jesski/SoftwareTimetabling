@@ -13,6 +13,8 @@ import java.util.HashMap;
 /**
  * @author: Jessica King 
  * Date: 30/04/2014
+ * Class DatabaseIO includes all the database connectivity and querys to read and write to the database. When this class is loaded all modules and rooms are populated 
+ * from the database, through the constructor.
  */
 
 public class DatabaseIO {
@@ -42,6 +44,7 @@ public class DatabaseIO {
 
 	/*
 	 * Return an array list of modules that have been populated.
+	 * @return ArrayList of modules
 	 */
 	public ArrayList<Module> getModules() {
 		return modules;
@@ -49,6 +52,7 @@ public class DatabaseIO {
 
 	/*
 	 * Return an array list of rooms that have been populated.
+	 * @return ArrayList of rooms.
 	 */
 	public ArrayList<Room> getRooms() {
 		return rooms;
@@ -185,7 +189,10 @@ public class DatabaseIO {
 	
 	
 	
-	// Populates all modules with data from the database.
+	/*
+	 * Populates all modules with data from the database.
+	 * @Return ArrayList of modules
+	 */
 	private ArrayList<Module> populateModules() {
 		String query = "SELECT * FROM t8005t2 .modules";
 		ArrayList<Module> modules = new ArrayList<Module>();
@@ -210,6 +217,11 @@ public class DatabaseIO {
 		return modules;
 	}
 
+	
+	/*
+	 * Populates all rooms with data from the database.
+	 * @Return ArrayList of rooms
+	 */
 	private ArrayList<Room> populateRooms() {
 		String query = "SELECT * FROM t8005t2 .rooms";
 		ArrayList<Room> rooms = new ArrayList<Room>();
@@ -234,7 +246,12 @@ public class DatabaseIO {
 		return rooms;
 	}
 
-	// Supply this with a student ID and you will get a list of modules
+	/*
+	 * Supply this with a student ID and you will get a list of modules that the student is taking
+	 * 
+	 * @param StudentID
+	 * @return ArrayList of modules  
+	 */
 	private ArrayList<String> query1(int studentid) {
 		String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = "
 				+ studentid + ")";
@@ -255,7 +272,12 @@ public class DatabaseIO {
 		return modules;
 	}
 
-	// Supply a module name and get an array of student IDs taking that module
+	/*
+	 * Supply a module code and get an array of student IDs taking that module
+	 * 
+	 * @param The code of the module.
+	 * @return An arrayList of Student IDs.
+	 */
 	private ArrayList<Integer> query2(String name) {
 		String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name = '"
 				+ name + "')";
@@ -275,7 +297,9 @@ public class DatabaseIO {
 		return students;
 	}
 
-	// Delete data in table output.
+	/*
+	 * Delete all data in table output.
+	 */
 	private void deleteTable() {
 		String deleteQuery = "DELETE FROM t8005t2 .output";
 		try {
@@ -287,30 +311,43 @@ public class DatabaseIO {
 		}
 	}
 
-	public void writeAllToDB(ArrayList<Module> schedule,
-			final Calendar startDateMaster) {
+	/*
+	 * CLears the output table of data, and then writes new data to the Output database.
+	 * @param ArrayList of modules
+	 * @param startDate Start date of exam period.
+	 */
+	public boolean writeAllToDB(ArrayList<Module> schedule, final Calendar startDateMaster) {
 		deleteTable();
 		Calendar startDate = (Calendar) startDateMaster.clone();
 
+		//Loop through all modules in the schedule and write to database.
 		for (Module module : schedule) {
 			startDate.add(Calendar.DATE, module.getDayNumber());
-			java.sql.Date examDate = new java.sql.Date(startDate.getTime()
-					.getTime());
-			writeToDB(module.getId(), module.getExamLength(), module.getTime() / 60, module.getRoomName(),
-					examDate);
+			java.sql.Date examDate = new java.sql.Date(startDate.getTime().getTime());   //Convert to SQL date
+			writeToDB(module.getId(), module.getExamLength(), module.getTime() / 60, module.getRoomName(), examDate);
 		}
 		
 		try {
 			closeDatabase();
+			return true;
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			return false;
 		}
 	}
 
-	// Insert statement to write to the output database.
-	private void writeToDB(String moduleID, int examLength, int time,
-			String room, Date date) {
+	/*
+	 * Insert query to write data to the output database.
+	 * 
+	 * @param ModuleID. The ID of the module
+	 * @param examLength. The length that the exam will take
+	 * @param time. The time that the exam is scheduled for.
+	 * @param room. The room that the exam is scheduled in.
+	 * @param date. The date that the exam is scheduled on.
+	 * 
+	 */
+	private void writeToDB(String moduleID, int examLength, int time,String room, Date date) {
 		String query = "INSERT t8005t2 .output values('" + moduleID + "','"
 				+ examLength + "','" + time + "','" + room + "','" + date
 				+ "')";
@@ -325,7 +362,11 @@ public class DatabaseIO {
 
 	
 	
-	// Insert statement to write a new student to the input database
+	/*
+	 * Insert statement to write a new student to the input database
+	 * 
+	 * @param StudentID. ID of the student
+	 */
 	public void writeToInputDB(String studentID) {
 		String query = "INSERT t8005t2 .student values("+studentID+")";
 		try {
@@ -340,7 +381,15 @@ public class DatabaseIO {
 	
 
 	
-	// Update statement to write to the module table
+	/*
+	 * Update statement to write to the module table
+	 * 
+	 * @param moduleID. ID of the module
+	 * @param examLength. The length of the exam
+	 * @param moduleSize. The amount of students taking the module.
+	 * @param type. The room type that the module requires.
+	 * @return boolean.  
+	 */
 	public boolean writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
 		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
 
@@ -357,7 +406,16 @@ public class DatabaseIO {
 	}
 	
 	
-	// Add a room to the database
+	/*
+	 * Adds a room to the database (rooms table)
+	 * 
+	 * @param roomNumber. The Number of the room
+	 * @param roomType. The type of the room (eg lab).
+	 * @param roomStart. The start time that the room can be booked.
+	 * @param roomFireBreak. The amount of time required for a FireBreak.
+	 * @param capacity. Capacity the room can hold.
+	 * @param roomEnd. The end time the room is booked for.
+	 */
 	public boolean addRoom(int roomNumber, String roomType, int roomStart,int roomFireBreak, int capacity, int roomEnd) {
 		String query = "INSERT t8005t2 .rooms values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
 		System.out.println(query);
@@ -370,6 +428,36 @@ public class DatabaseIO {
 			System.err.println(e.getMessage());
 			return false;
 		}
+	}
+	
+	
+	/*
+	 * Returns data from the output database.
+	 * @Return ArrayList of rooms
+	 */
+	public ArrayList<String> returnOutput() {
+		String query = "SELECT * FROM t8005t2 .output";
+		ArrayList<String> output = new ArrayList<String>();
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String moduleID = rs.getString("moduleID");
+				String examLength = rs.getString("examLength");
+				String time = rs.getString("time");
+				String room = rs.getString("room");
+				String date = rs.getString("date");
+				output.add(moduleID);
+				output.add(examLength);
+				output.add(time);
+				output.add(room);
+				output.add(date);
+			}
+		} catch (Exception e) {
+			System.err.println("Cannot connect to database server");
+			System.err.println(e.getMessage());
+		}
+		return output;
 	}
 	
 	
