@@ -35,7 +35,7 @@ public class Module implements Comparable<Module>{
 			this.moduleSize = moduleSize;
 			this.type = type;
 		} else {
-			throw new IllegalArgumentException("Module size is 0");
+			throw new IllegalArgumentException("Module size of " + id + " is 0, please add students to module before generating");
 		}
 	}
 
