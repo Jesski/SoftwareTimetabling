@@ -301,16 +301,14 @@ public class UI {
 		}
 
 		/*
-		 * Icon simage = new ImageIcon(img.getScaledInstance(img.getWidth()/7,
-		 * img.getHeight()/8, Image.SCALE_DEFAULT));//Standard Image
-		 * 
-		 * JLabel Im = new JLabel(simage);
-		 * 
-		 * panelBackground.add(Im);
-		 * 
-		 * panelBackground.setBounds(6, 6, 688, 194);
-		 * 
-		 * panelMain.add(panelBackground);
+		 Icon simage = new ImageIcon(img.getScaledInstance(img.getWidth()/7, img.getHeight()/8, Image.SCALE_DEFAULT));//Standard Image
+		 JLabel Im = new JLabel(simage);
+		 
+		 panelBackground.add(Im);
+		 
+		 panelBackground.setBounds(6, 6, 688, 194);
+		 
+		 panelMain.add(panelBackground);
 		 */
 
 		/*------------------------------------------------------------------------------------------------------------------*/
@@ -440,130 +438,111 @@ public class UI {
 			System.out.println(room.getRoomNumber());
 		}
 
-		System.out.println(db.getModules());
+		System.out.println(db.getModules().toArray()[0]);
 		
 		String[] modulesString = Arrays.copyOf(db.getModuletitles().toArray(), db.getModuletitles().size(), String[].class);
-
+		
 		// String[] modulesString = {"...", "CSC8001", "CSC8002", "CSC8005",
 		// "CSC8010", "CSC8009"};
+
+		// View Module Table
+
+				String[] columnNames = {"Code", "Number of Student", "Room Type"};
+
+				table = new JTable();
+				table.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+				table.setEnabled(false);
+				table.setBackground(Color.WHITE);
+				table.setForeground(Color.BLACK);
+				
+
+				panelViewModule.add(table);
+
+				table_1 = new JTable();
+				table_1.setShowHorizontalLines(false);
+				table_1.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+				table_1.setEnabled(false);
+				table_1.setModel(new DefaultTableModel(
+
+				new Object[][] {
+
+				{"Code", "Number of Student", "Room Type"},
+
+				},
+
+				new String[] {"c1", "c2", "c3"}
+
+				) {
+
+					Class[] columnTypes = new Class[] {
+
+					String.class, Object.class, Object.class,
+							Object.class, Object.class
+
+					};
+
+					public Class getColumnClass(int columnIndex) {
+
+						return columnTypes[columnIndex];
+
+					}
+
+				});
+
+				table_1.getColumnModel().getColumn(1).setPreferredWidth(230);
+				table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+				table_1.setBackground(Color.ORANGE);
+				table_1.setBounds(73, 115, 550, 26);
+				panelViewModule.add(table_1);
 
 		final JComboBox comboBox = new JComboBox(modulesString);
 		comboBox.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
+		    	
 		        System.out.println("comboBox: " +comboBox.getSelectedItem().toString());
 		        
 		        moduleCode = comboBox.getSelectedItem().toString();
+		        
+		        table.setModel(new DefaultTableModel(
+
+						new Object[][] {
+
+								{ moduleCode, "13-Jan-14", "14.00", "3h", "BSB" },
+
+								{ "CSC8010", "17-Jan-14", "14.00", "1h 30m", "BSB" },
+
+						},
+
+						new String[] {"Code", "Number of Student", "Room Type"}
+
+						) {
+
+							Class[] columnTypes = new Class[] {
+
+							String.class, String.class, Object.class, Object.class,
+									Object.class, String.class
+
+							};
+
+							public Class getColumnClass(int columnIndex) {
+
+								return columnTypes[columnIndex];
+
+							}
+
+						});
+
+						table.getColumnModel().getColumn(1).setPreferredWidth(230);
+						table.setBounds(73, 139, 550, 200);
+						table.setRowHeight(25);
+						table.setVisible(true);
 		        
 		    }
 		});
 		comboBox.setBounds(135, 67, 107, 27);
 		panelViewModule.add(comboBox);
 
-		// View Module Table
-
-		String[] columnNames = { "Code", "Date", "Time", "Length",
-				"Room" };
-
-		table = new JTable();
-
-		table.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-
-		table.setEnabled(false);
-
-		table.setBackground(Color.WHITE);
-
-		table.setForeground(Color.BLACK);
-
-		table.setModel(new DefaultTableModel(
-
-		new Object[][] {
-
-				{ "CSC8001", "13-Jan-14",
-						"14.00", "3h", "BSB" },
-
-				{ "CSC8010", "17-Jan-14", "14.00",
-						"1h 30m", "BSB" },
-
-		},
-
-		new String[] {
-
-		"Code", "Date", "Time", "Length", "Room"
-
-		}
-
-		) {
-
-			Class[] columnTypes = new Class[] {
-
-			String.class, String.class, Object.class, Object.class,
-					Object.class, String.class
-
-			};
-
-			public Class getColumnClass(int columnIndex) {
-
-				return columnTypes[columnIndex];
-
-			}
-
-		});
-
-		table.getColumnModel().getColumn(1).setPreferredWidth(230);
-
-		table.setBounds(73, 139, 550, 200);
-
-		table.setRowHeight(25);
-
-		table.setVisible(true);
-
-		panelViewModule.add(table);
-
-		table_1 = new JTable();
-
-		table_1.setShowHorizontalLines(false);
-
-		table_1.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-
-		table_1.setEnabled(false);
-
-		table_1.setModel(new DefaultTableModel(
-
-		new Object[][] {
-
-		{ "Code", "Date", "Time", "Length", "Location" },
-
-		},
-
-		new String[] {
-
-		"c1", "c2", "c3", "c4", "c5"
-
-		}
-
-		) {
-
-			Class[] columnTypes = new Class[] {
-
-			String.class, Object.class, Object.class,
-					Object.class, Object.class
-
-			};
-
-			public Class getColumnClass(int columnIndex) {
-
-				return columnTypes[columnIndex];
-
-			}
-
-		});
-
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(230);
-		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table_1.setBackground(Color.ORANGE);
-		table_1.setBounds(73, 115, 550, 26);
-		panelViewModule.add(table_1);
-
+		
 		/*------------------------------------------------------------------------------------------------------------------*/
 
 		/*----------------------------------------- Create Module ----------------------------------------------------------*/
@@ -993,16 +972,6 @@ public class UI {
 		});
 		btnDone.setBounds(223, 261, 117, 29);
 		panelEditModule.add(btnDone);
-		
-		JButton btnTest = new JButton("Test");
-		btnTest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-				JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
-			}
-		});
-		btnTest.setBounds(92, 303, 117, 29);
-		panelEditModule.add(btnTest);
 		
 	}
 
