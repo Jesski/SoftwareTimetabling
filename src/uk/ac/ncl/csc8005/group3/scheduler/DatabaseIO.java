@@ -1,11 +1,11 @@
 package uk.ac.ncl.csc8005.group3.scheduler;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -107,21 +107,26 @@ public class DatabaseIO {
 	 * 
 	 * @param ID of the student
 	 */
-	private ArrayList<String> getClashedModules(String id) {
-		ArrayList<String> ClashedModulesAsArray;
+	private HashMap<String, Integer> getcoupledModules(String id) {
+
 		ArrayList<Integer> SID = query2(id);
-		Set<String> ClashedModules= new HashSet<String>();
+		HashMap<String, Integer> coupledMap = new HashMap<String, Integer>(); 
+		Set<String> coupledModules= new HashSet<String>();
 		
 		for (int studentid : SID) {
 			ArrayList<String> modules = query1(studentid);
 			for (String moduleid : modules) {
-				ClashedModules.add(moduleid);
+				coupledModules.add(moduleid);
 			}
 		}
 		
-		ClashedModulesAsArray= new ArrayList<String>(ClashedModules);
+		for(String var : coupledModules){
+			coupledMap.put(var,numberOfStudents(var));
+		}
 		
-		return ClashedModulesAsArray;
+
+		
+		return coupledMap;
 	}
 
 	/*
@@ -130,26 +135,25 @@ public class DatabaseIO {
 	 * 
 	 * @param name of module.
 	 */
-	private HashMap<String, Integer> getCoupledModules(String name) {
+	private ArrayList<String> getclashedModules(String name) {
 		// String part is module ID that it's clashed with, integer is how many
 		// students take that module.
-		String query = "SELECT ForeignID FROM t8005t2 .coupledModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
+		String query = "SELECT ForeignID FROM t8005t2 .clashedModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
 				+ name + "')";
-		HashMap<String, Integer> coupledModules = new HashMap<String, Integer>();
+		ArrayList<String> clashedModules = new ArrayList<String>();
 
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String foreignID = rs.getString("foreignID");
-				int numberOfStudents = numberOfStudents(foreignID);
-				coupledModules.put(foreignID, numberOfStudents);
+				clashedModules.add(foreignID);
 			}
 		} catch (Exception e) {
 			System.err.println("Error");
 			System.err.println(e.getMessage());
 		}
-		return coupledModules;
+		return clashedModules;
 	}
 
 	/*
@@ -207,13 +211,12 @@ public class DatabaseIO {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String id = rs.getString("name");
-				ArrayList<String> clashedModules = getClashedModules(id);
-				HashMap<String, Integer> coupledModules = getCoupledModules(id); 
+				ArrayList<String> clashedModules = getclashedModules(id);
+				HashMap<String,Integer> coupledModules = getcoupledModules(id); 
 				int examLength = rs.getInt("examLength");
 				int moduleSize = numberOfStudents(id);
 				String type = rs.getString("type");
-				Module module = new Module(id, clashedModules, coupledModules,
-						examLength, moduleSize, type);
+				Module module = new Module(id, clashedModules, coupledModules, examLength, moduleSize, type);
 				modules.add(module);
 			}
 		} catch (Exception e) {
