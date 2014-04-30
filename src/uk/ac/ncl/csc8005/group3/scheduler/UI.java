@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.Color;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
@@ -35,18 +37,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import com.toedter.calendar.JDateChooser;
 
 public class UI {
 	private JFrame frame;
 	private JMenuItem menuItem;
 	JPanel panelMain, panelRun, panelViewModule, panelCreateModule, panelEditModule,
-	panelViewSchedule, panelCreateSchedule, panelStudentModule, panelLoadStudent,
+	panelViewSchedule, panelStudentModule, panelLoadStudent,
 	panelAddRoom;
 	private JTable table, table2;
 	private JTable table_1, table_2;
@@ -116,7 +122,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
@@ -135,7 +140,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelCreateModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
@@ -153,7 +157,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
@@ -162,7 +165,7 @@ public class UI {
 
 		});
 
-		mntmModule.add(menuItem);
+		//mntmModule.add(menuItem);
 		mnMenu.add(mntmModule);
 		JMenu mntmSchedule = new JMenu("Schedule");
 		menuItem = new JMenuItem("View Schedule");
@@ -174,7 +177,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(true);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
@@ -184,26 +186,9 @@ public class UI {
 		});
 
 		mntmSchedule.add(menuItem);
-		menuItem = new JMenuItem("Create Schedule");
-		menuItem.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				panelCreateModule.setVisible(false);
-				panelRun.setVisible(false);
-				panelMain.setVisible(false);
-				panelViewModule.setVisible(false);
-				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(true);
-				panelStudentModule.setVisible(false);
-				panelLoadStudent.setVisible(false);
-				panelAddRoom.setVisible(false);
-				panelEditModule.setVisible(false);
-			}
-
-		});
-
-		mntmSchedule.add(menuItem);
+		
 		mnMenu.add(mntmSchedule);
+		
 		JSeparator separator = new JSeparator();
 		mnMenu.add(separator);
 		JMenuItem mntmAddStudent = new JMenuItem("Add Student");
@@ -215,7 +200,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(true);
 				panelAddRoom.setVisible(false);
@@ -233,7 +217,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(true);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(false);
@@ -251,7 +234,6 @@ public class UI {
 				panelMain.setVisible(false);
 				panelViewModule.setVisible(false);
 				panelViewSchedule.setVisible(false);
-				panelCreateSchedule.setVisible(false);
 				panelStudentModule.setVisible(false);
 				panelLoadStudent.setVisible(false);
 				panelAddRoom.setVisible(true);
@@ -332,6 +314,7 @@ public class UI {
 		dateChooser_2.setBounds(366, 136, 123, 28);
 		panelRun.add(dateChooser_2);
 		final JDateChooser dateChooser_3 = new JDateChooser();
+		//dateChooser_3.setDate(dateChooser_2.getDate());
 		dateChooser_3.setBounds(366, 178, 123, 28);
 		panelRun.add(dateChooser_3);
 		JButton btnRun = new JButton("Run");
@@ -625,30 +608,39 @@ public class UI {
 		panelViewSchedule.setLayout(null);
 
 		//View Schedule Table
-		String[] columnScheduleNames = {"Code", "Title","Date", "Time", "Length", "Room"};
 		
-		table2 = new JTable();
+		String[] columnScheduleNames = {"Code", "Length","Time", "Room", "Date"};
+		int size = 0;
+		size = db.returnOutput().size()/5;
+		
+		ListTableModel model = new ListTableModel(Arrays.asList(columnScheduleNames));
+		model.setColumnClass(2, Integer.class);
+		model.setColumnEditable(2, false);
+		
+		//Object[] r1 = {"Homer", "Simpson", new Integer(40)};
+		
+		String dbOutput = db.returnOutput().toString();
+		dbOutput = dbOutput.substring(1, dbOutput.length() - 1);
+		
+		// Add data into table
+		for(int i = 0; i < size; i++)
+		{
+			String[] value = mySplitIntoThree(dbOutput)[i].split(",");
+			Object[] r1 = {value[0], value[1], value[2], value[3], value[4]};
+			model.addRow(r1);
+		}
+		
+		System.out.println(db.returnOutput());
+		System.out.println("Size: "+size);
+		
+		table2 = new JTable(model);
 		table2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		table2.setEnabled(false);
 		table2.setBackground(Color.WHITE);
 		table2.setForeground(Color.BLACK);
-		table2.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"CSC8001", "13-Jan-14", "14.00", "3h", "BSB"},
-				{"CSC8010", "17-Jan-14", "14.00", "1h 30m", "BSB"},
-			},
-			new String[] {
-				"Code", "Date", "Time", "Length", "Room"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, Object.class, Object.class, Object.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table2.getColumnModel().getColumn(1).setPreferredWidth(230);
+		table2.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table2.getColumnModel().getColumn(2).setPreferredWidth(70);
+		table2.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table2.setBounds(73, 139, 550, 200);
 		table2.setRowHeight(25);
 		table2.setVisible(true);
@@ -661,7 +653,7 @@ public class UI {
 		table_2.setEnabled(false);
 		table_2.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Code", "Date", "Time", "Length", "Location"},
+				{"Code", "Length","Time", "Room", "Date"},
 			},
 			new String[] {
 				"c1", "c2", "c3", "c4", "c5"
@@ -674,92 +666,13 @@ public class UI {
 				return columnTypes[columnIndex];
 			}
 		});
-		table_2.getColumnModel().getColumn(1).setPreferredWidth(230);
+		table_2.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table_2.getColumnModel().getColumn(2).setPreferredWidth(70);
+		table_2.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table_2.setBackground(Color.ORANGE);
 		table_2.setBounds(73, 115, 550, 26);
 		panelViewSchedule.add(table_2);
-
-		/*------------------------------------------------------------------------------------------------------------------*/
-
-		/*---------------------------------------- Create Schedule ---------------------------------------------------------*/
-
-		panelCreateSchedule = new JPanel();
-
-		frame.getContentPane().add(panelCreateSchedule,
-				"name_1394971515747404000");
-
-		panelCreateSchedule.setLayout(null);
-
-		JLabel lblCreateSchedule = new JLabel("Create Schedule");
-
-		lblCreateSchedule.setBounds(305, 67, 105, 16);
-
-		panelCreateSchedule.add(lblCreateSchedule);
-
-		JLabel lblNewLabel = new JLabel("Start date:");
-
-		lblNewLabel.setBounds(170, 135, 71, 16);
-
-		panelCreateSchedule.add(lblNewLabel);
-
-		JLabel lblEndDate = new JLabel("End date:");
-
-		lblEndDate.setBounds(170, 180, 61, 16);
-
-		panelCreateSchedule.add(lblEndDate);
-
-		JLabel lblTimeExamStart = new JLabel("Time exam start:");
-
-		lblTimeExamStart.setBounds(170, 223, 112, 16);
-
-		panelCreateSchedule.add(lblTimeExamStart);
-
-		JLabel lblTimeExamEnd = new JLabel("Time exam end:");
-
-		lblTimeExamEnd.setBounds(170, 265, 112, 16);
-
-		panelCreateSchedule.add(lblTimeExamEnd);
-
-		JDateChooser dateChooser = new JDateChooser();
-
-		dateChooser.setBounds(373, 123, 123, 28);
-
-		panelCreateSchedule.add(dateChooser);
-
-		JDateChooser dateChooser_1 = new JDateChooser();
-
-		dateChooser_1.setBounds(373, 168, 123, 28);
-
-		panelCreateSchedule.add(dateChooser_1);
-
-		String[] examTime = { "...", "9 A.M.", "10 A.M.", "11 A.M.", "12 A.M.",
-
-		"13 P.M.", "14 P.M.", "15 P.M.", "16 P.M.", "17 P.M." };
-
-		JComboBox comboBox_examTimeStart = new JComboBox(examTime);
-
-		comboBox_examTimeStart.setBounds(373, 219, 123, 27);
-
-		panelCreateSchedule.add(comboBox_examTimeStart);
-
-		JComboBox comboBox_comboBox_examTimeEnd = new JComboBox(examTime);
-
-		comboBox_comboBox_examTimeEnd.setBounds(373, 261, 123, 27);
-
-		panelCreateSchedule.add(comboBox_comboBox_examTimeEnd);
-
-		JButton btnReset_1 = new JButton("Reset");
-
-		btnReset_1.setBounds(170, 354, 117, 29);
-
-		panelCreateSchedule.add(btnReset_1);
-
-		JButton btnOk = new JButton("Ok");
-
-		btnOk.setBounds(379, 354, 117, 29);
-
-		panelCreateSchedule.add(btnOk);
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
@@ -797,12 +710,12 @@ public class UI {
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------ Load Student ----------------------------------------------------------*/
+		/*------------------------------------------ Add Student ----------------------------------------------------------*/
 		panelLoadStudent = new JPanel();
 		frame.getContentPane().add(panelLoadStudent, "name_1395063512959039000");
 		panelLoadStudent.setLayout(null);
 		
-		JLabel lblLoadStudent = new JLabel("Load Student");
+		JLabel lblLoadStudent = new JLabel("Add Student");
 		lblLoadStudent.setBounds(322, 58, 93, 16);
 		panelLoadStudent.add(lblLoadStudent);
 		
@@ -840,7 +753,7 @@ public class UI {
 		lblAddRoom.setBounds(301, 87, 78, 16);
 		panelAddRoom.add(lblAddRoom);
 		
-		JLabel lblRoomNumber = new JLabel("Room Number");
+		JLabel lblRoomNumber = new JLabel("Room Name");
 		lblRoomNumber.setBounds(82, 153, 96, 16);
 		panelAddRoom.add(lblRoomNumber);
 		
@@ -985,4 +898,19 @@ public class UI {
 		
 	}
 
+	public String[] mySplitIntoThree(String str) 
+	{
+	    String[] parts = str.split(",");
+
+	    List<String> strList = new ArrayList<String>();
+
+	    for(int x = 0; x < parts.length - 2; x = x+5) 
+	    {
+	        String tmpStr = parts[x] + "," + parts[x+1] + "," + parts[x+2] + "," + parts[x+3] + "," + parts[x+4];
+
+	        strList.add(tmpStr);
+	    }
+
+	    return strList.toArray(new String[strList.size()]);
+	}
 }
