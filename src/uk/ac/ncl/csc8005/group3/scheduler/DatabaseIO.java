@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+/**
+ * @author: Jessica King 
+ * Date: 30/04/2014
+ */
+
 public class DatabaseIO {
 	private Connection conn = null;
 	private Statement stmt = null;
@@ -35,10 +40,16 @@ public class DatabaseIO {
 		}
 	}
 
+	/*
+	 * Return an array list of modules that have been populated.
+	 */
 	public ArrayList<Module> getModules() {
 		return modules;
 	}
 
+	/*
+	 * Return an array list of rooms that have been populated.
+	 */
 	public ArrayList<Room> getRooms() {
 		return rooms;
 	}
@@ -57,15 +68,15 @@ public class DatabaseIO {
 		
 		modules = populateModules();
 		rooms = populateRooms();
-	}
-
+	}	
+	
 	public void closeDatabase() throws SQLException {
 		conn.close();
 		System.out.println("Database connection terminated");
 	}
 
 	/*
-	 * Returns all module titles from the database
+	 * Returns all module titles from the database.
 	 */
 	public ArrayList<String> getModuletitles() {
 		String query = "SELECT name FROM t8005t2 .modules";
@@ -134,7 +145,7 @@ public class DatabaseIO {
 	/*
 	 * Returns the number of students taking a particular module.
 	 */
-	private int numberOfStudents(String name) {
+	public int numberOfStudents(String name) {
 		String query = "SELECT COUNT(*) FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
 				+ name + "')";
 		int count = 0;
@@ -151,6 +162,29 @@ public class DatabaseIO {
 		return count;
 	}
 
+	
+	/*
+	 * Returns the number of students taking a particular module.
+	 */
+	public String roomType(String name) {
+		String query = "SELECT type FROM t8005t2 .takes WHERE name =" + name;
+		String type = null;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				type = rs.getString("type");
+			}
+		} catch (Exception e) {
+			System.err.println("Cannot connect to database server");
+			System.err.println(e.getMessage());
+		}
+		return type;
+	}
+
+	
+	
+	
 	// Populates all modules with data from the database.
 	private ArrayList<Module> populateModules() {
 		String query = "SELECT * FROM t8005t2 .modules";
@@ -161,7 +195,7 @@ public class DatabaseIO {
 			while (rs.next()) {
 				String id = rs.getString("ID");
 				ArrayList<String> clashedModules = getClashedModules(id);
-				HashMap<String, Integer> coupledModules = getCoupledModules(id); // hashmap
+				HashMap<String, Integer> coupledModules = getCoupledModules(id); 
 				int examLength = rs.getInt("examLength");
 				int moduleSize = rs.getInt(4);
 				String type = rs.getString("type");

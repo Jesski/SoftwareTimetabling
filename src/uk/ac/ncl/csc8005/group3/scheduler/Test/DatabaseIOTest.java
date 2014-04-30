@@ -1,16 +1,10 @@
 package uk.ac.ncl.csc8005.group3.scheduler.Test;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-
 import org.junit.Test;
 
 import uk.ac.ncl.csc8005.group3.scheduler.DatabaseIO;
 import uk.ac.ncl.csc8005.group3.scheduler.Module;
 import uk.ac.ncl.csc8005.group3.scheduler.Room;
-import uk.ac.ncl.csc8005.group3.scheduler.Scheduler;
 
 public class DatabaseIOTest {
 
@@ -82,4 +76,14 @@ public class DatabaseIOTest {
 		assert (db.getRooms().get(0) instanceof Room);
 		assert(db.getRooms().get(0) !=null);
 	}
+	
+	
+	@Test
+	public void testRoomType(){
+		//	db.openDatabase();
+		//System.out.println(db.roomType("CSC8003"));
+		System.out.println("test");
+	}
+	
+	
 }
