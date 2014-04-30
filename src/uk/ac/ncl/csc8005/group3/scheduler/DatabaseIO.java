@@ -32,7 +32,7 @@ public class DatabaseIO {
 	private boolean invalidModules =false;
 	
 	public DatabaseIO() {
-		openCloseDatabase();
+		populateProgram();
 	}
 
 	/*
@@ -59,30 +59,11 @@ public class DatabaseIO {
 	 * Opens the connection to the database. This needs to be executed before
 	 * any query is ran.
 	 */
-	public void openCloseDatabase(){
-		try {
-			String userName = "t8005t2"; // t8005t2
-			String password = ".oweRaps"; // .oweRaps
-			String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; // jdbc:mysql://localhost:3306"
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection(url, userName, password);
-			System.out.println("Database connection established");
-		
-			modules = populateModules();
-			rooms = populateRooms();
-		} catch (Exception e) {
-			System.err.println("Cannot connect to database server...");
-			System.err.println(e.getMessage());
-		} finally {
-		if (conn != null) {
-			try {
-				conn.close();
-				System.out.println("Database connection terminated");
-			} catch (Exception e) { /* ignore close errors */
-				}
-			}
-		}
-	}	
+	
+	public void populateProgram(){
+		modules = populateModules();
+		rooms = populateRooms();
+	}
 	
 	public void openDatabase() throws Exception{
 			String userName = "t8005t2"; // t8005t2
@@ -92,8 +73,7 @@ public class DatabaseIO {
 			conn = DriverManager.getConnection(url, userName, password);
 			System.out.println("Database connection established");
 		
-			modules = populateModules();
-			rooms = populateRooms();
+
 	}
 	
 	
@@ -107,6 +87,10 @@ public class DatabaseIO {
 	 * Returns all module titles from the database.
 	 */
 	public ArrayList<String> getModuletitles() {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
+		
 		String query = "SELECT name FROM t8005t2 .modules";
 		ArrayList<String> modules = new ArrayList<String>();
 		try {
@@ -120,6 +104,11 @@ public class DatabaseIO {
 			System.err.println("Cannot run query");
 			System.err.println(e.getMessage());
 		}
+		
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
+		
 		return modules;
 	}
 
@@ -160,6 +149,9 @@ public class DatabaseIO {
 	private ArrayList<String> getclashedModules(String name) {
 		// String part is module ID that it's clashed with, integer is how many
 		// students take that module.
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ForeignID FROM t8005t2 .clashedModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
 				+ name + "'))";
 		ArrayList<String> clashedModules = new ArrayList<String>();
@@ -168,13 +160,16 @@ public class DatabaseIO {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String foreignID = rs.getString("foreignID");
+				String foreignID = rs.getString("name");
 				clashedModules.add(foreignID);
 			}
 		} catch (Exception e) {
 			System.err.println("Error");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return clashedModules;
 	}
 
@@ -182,6 +177,10 @@ public class DatabaseIO {
 	 * Returns the number of students taking a particular module.
 	 */
 	public int numberOfStudents(String name) {
+		try{
+	        	openDatabase();
+	    }catch(Exception e){}
+		
 		String query = "SELECT COUNT(*) FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
 				+ name + "')";
 		int count = 0;
@@ -195,6 +194,10 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		try{
+			closeDatabase();
+		}catch(Exception e){}
+		
 		return count;
 	}
 
@@ -203,6 +206,10 @@ public class DatabaseIO {
 	 * Returns the number of students taking a particular module.
 	 */
 	public String roomType(String name) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
+		
 		String query = "SELECT type FROM t8005t2 .modules WHERE name= '" + name + "'";
 		String type = null;
 		try {
@@ -215,6 +222,10 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return type;
 	}
 
@@ -227,6 +238,9 @@ public class DatabaseIO {
 	 * @throws IllegalArgumentException
 	 */
 	private ArrayList<Module> populateModules() throws IllegalArgumentException {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "SELECT * FROM t8005t2 .modules";
 		ArrayList<Module> modules = new ArrayList<Module>();
 		try {
@@ -249,9 +263,14 @@ public class DatabaseIO {
 				
 			}
 		} catch (Exception e) {
+			System.out.print(e);
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return modules;
 	}
 
@@ -261,6 +280,9 @@ public class DatabaseIO {
 	 * @Return ArrayList of rooms
 	 */
 	private ArrayList<Room> populateRooms() {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "SELECT * FROM t8005t2 .rooms";
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		try {
@@ -272,7 +294,7 @@ public class DatabaseIO {
 				int roomStart = rs.getInt("roomStart");
 				int roomEnd = rs.getInt("roomEnd");
 				int roomFireBreak = rs.getInt("roomFireBreak");
-				int capacity = rs.getInt(6);
+				int capacity = rs.getInt("capacity");
 				Room room = new Room(roomNumber, roomType, roomStart, roomEnd,
 						roomFireBreak, capacity);
 				rooms.add(room);
@@ -281,6 +303,9 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return rooms;
 	}
 
@@ -293,6 +318,9 @@ public class DatabaseIO {
 	 */
 
 	public ArrayList<String> query1(int studentid) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ID FROM t8005t2 .takes WHERE StudentID = "
 				+ studentid + ")";
 		ArrayList<String> modules = new ArrayList<String>();
@@ -309,6 +337,10 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return modules;
 	}
 
@@ -319,6 +351,10 @@ public class DatabaseIO {
 	 * @return An arrayList of Student IDs.
 	 */
 	private ArrayList<Integer> query2(String name) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
+		
 		String query = "SELECT StudentID FROM t8005t2 .takes WHERE ID IN (SELECT ID FROM t8005t2 .modules WHERE name = '"
 				+ name + "')";
 		ArrayList<Integer> students = new ArrayList<Integer>();
@@ -334,6 +370,10 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return students;
 	}
 
@@ -341,6 +381,9 @@ public class DatabaseIO {
 	 * Delete all data in table output.
 	 */
 	private void deleteTable() {
+		try{
+        	openDatabase();
+		}catch(Exception e){}		
 		String deleteQuery = "DELETE FROM t8005t2 .output";
 		try {
 			stmt = conn.createStatement();
@@ -349,6 +392,9 @@ public class DatabaseIO {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 	}
 
 	/*
@@ -364,17 +410,11 @@ public class DatabaseIO {
 		for (Module module : schedule) {
 			startDate.add(Calendar.DATE, module.getDayNumber());
 			java.sql.Date examDate = new java.sql.Date(startDate.getTime().getTime());   //Convert to SQL date
-			writeToDB(module.getId(), module.getExamLength(), module.getTime() / 60, module.getRoomName(), examDate);
+			writeToDB(module.getId(), module.getExamLength(), module.getTime(), module.getRoomName(), examDate);
 		}
 		
-		try {
-			closeDatabase();
-			return true;
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-			return false;
-		}
+		return true;
+
 	}
 
 	/*
@@ -387,7 +427,10 @@ public class DatabaseIO {
 	 * @param date. The date that the exam is scheduled on.
 	 * 
 	 */
-	private void writeToDB(String moduleID, int examLength, int time,String room, Date date) {
+	private void writeToDB(String moduleID, int examLength, int time, String room, Date date) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "INSERT t8005t2 .output values('" + moduleID + "','"
 				+ examLength + "','" + time + "','" + room + "','" + date
 				+ "')";
@@ -398,6 +441,9 @@ public class DatabaseIO {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 	}
 
 	
@@ -408,6 +454,9 @@ public class DatabaseIO {
 	 * @param StudentID. ID of the student
 	 */
 	public void writeToInputDB(String studentID) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "INSERT t8005t2 .student values("+studentID+")";
 		try {
 			stmt = conn.createStatement();
@@ -416,6 +465,9 @@ public class DatabaseIO {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 	}
 	
 	
@@ -431,9 +483,12 @@ public class DatabaseIO {
 	 * @return boolean.  
 	 */
 	public boolean writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
+		
 		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
-
-
+		
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -441,9 +496,15 @@ public class DatabaseIO {
 		} catch (Exception e) {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
-			return false;
+			
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
+		
+		return false;
 	}
+
 	
 	
 	/*
@@ -456,18 +517,30 @@ public class DatabaseIO {
 	 * @param capacity. Capacity the room can hold.
 	 * @param roomEnd. The end time the room is booked for.
 	 */
-	public boolean addRoom(int roomNumber, String roomType, int roomStart,int roomFireBreak, int capacity, int roomEnd) {
+	public boolean addRoom(String roomNumber, String roomType, int roomStart,int roomFireBreak, int capacity, int roomEnd) {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "INSERT t8005t2 .rooms values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
 		System.out.println(query);
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
+			try{
+	        	closeDatabase();
+			}catch(Exception e){}
+			
 			return true;
 		} catch (Exception e) {
 			System.err.println("Problem executing query");
 			System.err.println(e.getMessage());
+			
+			try{
+	        	closeDatabase();
+			}catch(Exception q){}
 			return false;
 		}
+		
 	}
 	
 	
@@ -476,6 +549,9 @@ public class DatabaseIO {
 	 * @Return ArrayList of rooms
 	 */
 	public ArrayList<String> returnOutput() {
+		try{
+        	openDatabase();
+		}catch(Exception e){}
 		String query = "SELECT * FROM t8005t2 .output";
 		ArrayList<String> output = new ArrayList<String>();
 		try {
@@ -483,13 +559,13 @@ public class DatabaseIO {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String moduleID = rs.getString("moduleID");
-				String examLength = rs.getString("examLength");
-				String time = rs.getString("time");
+				int examLength = rs.getInt("examLength");
+				int time = rs.getInt("time");
 				String room = rs.getString("room");
 				String date = rs.getString("date");
 				output.add(moduleID);
-				output.add(examLength);
-				output.add(time);
+				output.add(""+examLength);
+				output.add(""+time);
 				output.add(room);
 				output.add(date);
 			}
@@ -497,6 +573,9 @@ public class DatabaseIO {
 			System.err.println("Cannot connect to database server");
 			System.err.println(e.getMessage());
 		}
+		try{
+        	closeDatabase();
+		}catch(Exception e){}
 		return output;
 	}
 	

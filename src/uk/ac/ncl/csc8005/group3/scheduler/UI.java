@@ -77,7 +77,7 @@ public class UI {
 
 	public UI() {
 		try {
-			db.openDatabase();
+			db.populateProgram();
 		}catch (Exception e) {}
 
 		initialize();
@@ -307,10 +307,7 @@ public class UI {
 		JButton btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				System.out.println("Test");
 				String startDate = ((JTextField) dateChooser_2.getDateEditor().getUiComponent()).getText();
-
 				String endDate = ((JTextField) dateChooser_3.getDateEditor().getUiComponent()).getText();
 				
 				DateFormat format= new SimpleDateFormat("dd-MMMM-yyyy");
@@ -319,29 +316,17 @@ public class UI {
 				
 				
 				try {
-					System.out.println("Test2 "+startDate);
 					startDate2 = format.parse(startDate);
 					endDate2 = format.parse(endDate);
-
 				}
-				catch(Exception e)
-				{
-
-				}
+				catch(Exception e){}
 
 				Scheduler scheduler = new Scheduler();
-				//ArrayList<Module> modules= new ArrayList<Module>(db.getModules());
-				//ArrayList<Room> rooms= new ArrayList<Room>(db.getRooms());
-				
 				int examPeriodLength = (int)( (endDate2.getTime() - startDate2.getTime())/ (1000 * 60 * 60 * 24) );
-				System.out.println(endDate2.getTime());
-				System.out.println(startDate2.getTime());
-				System.out.println(examPeriodLength);
-              
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate2);
 				try{
-					db.openDatabase();
+					db.populateProgram();
 				}catch(Exception e){}
 				
 				boolean successful = false;
@@ -468,7 +453,6 @@ public class UI {
 		        System.out.println("comboBox: " +comboBox.getSelectedItem().toString());
 		        
 		        moduleCode = comboBox.getSelectedItem().toString();
-		        
 		        table.setModel(new DefaultTableModel(
 
 						new Object[][] {
@@ -801,7 +785,7 @@ public class UI {
 				
 				try
 				{
-					if(db.addRoom(Integer.parseInt(textField_10.getText()), textField_11.getText(), 
+					if(db.addRoom((textField_10.getText()), textField_11.getText(), 
 							Integer.parseInt(textField_12.getText()), Integer.parseInt(textField_13.getText()), 
 							Integer.parseInt(textField_14.getText()), Integer.parseInt(textField_15.getText())))
 					{
