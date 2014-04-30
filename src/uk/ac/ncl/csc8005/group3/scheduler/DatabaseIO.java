@@ -138,7 +138,7 @@ public class DatabaseIO {
 	private ArrayList<String> getclashedModules(String name) {
 		// String part is module ID that it's clashed with, integer is how many
 		// students take that module.
-		String query = "SELECT name FROM t8005t2 WHERE ID IN (SELECT ForeignID FROM t8005t2 .clashedModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
+		String query = "SELECT name FROM t8005t2 .modules WHERE ID IN (SELECT ForeignID FROM t8005t2 .clashedModules WHERE moduleID IN (SELECT ID FROM t8005t2 .modules WHERE name= '"
 				+ name + "'))";
 		ArrayList<String> clashedModules = new ArrayList<String>();
 
