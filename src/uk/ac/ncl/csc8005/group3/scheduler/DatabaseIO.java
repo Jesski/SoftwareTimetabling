@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author: Jessica King 
@@ -106,16 +108,20 @@ public class DatabaseIO {
 	 * @param ID of the student
 	 */
 	private ArrayList<String> getClashedModules(String id) {
-		ArrayList<String> ClashedModules = new ArrayList<String>();
+		ArrayList<String> ClashedModulesAsArray;
 		ArrayList<Integer> SID = query2(id);
-
+		Set<String> ClashedModules= new HashSet<String>();
+		
 		for (int studentid : SID) {
 			ArrayList<String> modules = query1(studentid);
 			for (String moduleid : modules) {
 				ClashedModules.add(moduleid);
 			}
 		}
-		return ClashedModules;
+		
+		ClashedModulesAsArray= new ArrayList<String>(ClashedModules);
+		
+		return ClashedModulesAsArray;
 	}
 
 	/*

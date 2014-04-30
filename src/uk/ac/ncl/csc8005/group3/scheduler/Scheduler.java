@@ -234,7 +234,7 @@ public class Scheduler {
 		ArrayList<Module> managedModules = new ArrayList<Module>(); // array of now non repeated, coupled modules.
 		ArrayList<Module> modulesWithClashes = new ArrayList<Module>(); // array ofModuels that need to be clashed
 		Module tempModule;
-		ArrayList<String> tempClashed = new ArrayList<String>(); // array of moduels that are clashed with current module
+		ArrayList<String> tempClashed = new ArrayList<String>(); // array of modules that are clashed with current module
 		boolean finishedClashing =false;
 	
 		managedModules.addAll(modules);
@@ -267,6 +267,7 @@ public class Scheduler {
 				modulesToBeClashedTogether.clear(); // intalise before creating list of modules that need to be clashed together.
 				while(!found){ //cycle through modules with clashes list looking for moduletoFind &remove
 					if (modulesWithClashes.get(count2).getId().equals(moduleTofind)){
+						
 						modulesToBeClashedTogether.add(modulesWithClashes.get(count2));//save found modules in one array list,as can be used to create the new module
 						modulesWithClashes.remove(count2);
 						found=true;

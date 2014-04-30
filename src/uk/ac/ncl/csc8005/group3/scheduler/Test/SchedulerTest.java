@@ -28,6 +28,7 @@ public class SchedulerTest {
 		Scheduler scheduler = new Scheduler();
 		assertEquals("should only be 3 modules now",3, scheduler.manageDupicateModules(modules).size());
 		assertFalse(modules.size()==scheduler.manageDupicateModules(modules).size());
+		System.out.println(scheduler.manageDupicateModules(modules));
 	}
 
 	public void addData() {
