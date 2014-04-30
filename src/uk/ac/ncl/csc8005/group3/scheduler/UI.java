@@ -442,8 +442,6 @@ public class UI {
 		
 		String[] modulesString = Arrays.copyOf(db.getModuletitles().toArray(), db.getModuletitles().size(), String[].class);
 		
-		// String[] modulesString = {"...", "CSC8001", "CSC8002", "CSC8005",
-		// "CSC8010", "CSC8009"};
 
 		// View Module Table
 
@@ -507,9 +505,7 @@ public class UI {
 
 						new Object[][] {
 
-								{ moduleCode, "13-Jan-14", "14.00", "3h", "BSB" },
-
-								{ "CSC8010", "17-Jan-14", "14.00", "1h 30m", "BSB" },
+								{ moduleCode, db.numberOfStudents(moduleCode), db.roomType(moduleCode) }
 
 						},
 
