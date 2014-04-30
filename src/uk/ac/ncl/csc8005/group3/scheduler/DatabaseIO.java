@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * @author: Jessica King 
  * Date: 30/04/2014
@@ -24,24 +25,14 @@ public class DatabaseIO {
 	private Statement stmt = null;
 
 	private ArrayList<Module> modules = new ArrayList<Module>();
-	private ArrayList<Integer> students = new ArrayList<Integer>();
-	private ArrayList<String> clashed = new ArrayList<String>();
+	//private ArrayList<Integer> students = new ArrayList<Integer>();
+	//private ArrayList<String> clashed = new ArrayList<String>();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 
+	private boolean invalidModules =false;
+	
 	public DatabaseIO() {
-		try {
-			openDatabase();
-		} catch (Exception e) {
-			System.err.println("Cannot connect to database server...");
-			System.err.println(e.getMessage());
-		} finally {
-			if (conn != null) {
-				try {
-					closeDatabase();
-				} catch (Exception e) { /* ignore close errors */
-				}
-			}
-		}
+		openCloseDatabase();
 	}
 
 	/*
@@ -49,7 +40,11 @@ public class DatabaseIO {
 	 * @return ArrayList of modules
 	 */
 	public ArrayList<Module> getModules() {
-		return modules;
+		if (invalidModules==false){
+			return modules;
+		}else{
+			throw new IllegalArgumentException("A module has no pupils!");
+		}
 	}
 
 	/*
@@ -64,17 +59,44 @@ public class DatabaseIO {
 	 * Opens the connection to the database. This needs to be executed before
 	 * any query is ran.
 	 */
-	public void openDatabase() throws Exception {
-		String userName = "t8005t2"; // t8005t2
-		String password = ".oweRaps"; // .oweRaps
-		String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; // jdbc:mysql://localhost:3306"
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection(url, userName, password);
-		System.out.println("Database connection established");
+	public void openCloseDatabase(){
+		try {
+			String userName = "t8005t2"; // t8005t2
+			String password = ".oweRaps"; // .oweRaps
+			String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; // jdbc:mysql://localhost:3306"
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(url, userName, password);
+			System.out.println("Database connection established");
 		
-		modules = populateModules();
-		rooms = populateRooms();
+			modules = populateModules();
+			rooms = populateRooms();
+		} catch (Exception e) {
+			System.err.println("Cannot connect to database server...");
+			System.err.println(e.getMessage());
+		} finally {
+		if (conn != null) {
+			try {
+				conn.close();
+				System.out.println("Database connection terminated");
+			} catch (Exception e) { /* ignore close errors */
+				}
+			}
+		}
 	}	
+	
+	public void openDatabase() throws Exception{
+			String userName = "t8005t2"; // t8005t2
+			String password = ".oweRaps"; // .oweRaps
+			String url = "jdbc:mysql://homepages.cs.ncl.ac.uk"; // jdbc:mysql://localhost:3306"
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(url, userName, password);
+			System.out.println("Database connection established");
+		
+			modules = populateModules();
+			rooms = populateRooms();
+	}
+	
+	
 	
 	public void closeDatabase() throws SQLException {
 		conn.close();
@@ -202,8 +224,9 @@ public class DatabaseIO {
 	/*
 	 * Populates all modules with data from the database.
 	 * @Return ArrayList of modules
+	 * @throws IllegalArgumentException
 	 */
-	private ArrayList<Module> populateModules() {
+	private ArrayList<Module> populateModules() throws IllegalArgumentException {
 		String query = "SELECT * FROM t8005t2 .modules";
 		ArrayList<Module> modules = new ArrayList<Module>();
 		try {
@@ -216,8 +239,14 @@ public class DatabaseIO {
 				int examLength = rs.getInt("examLength");
 				int moduleSize = numberOfStudents(id);
 				String type = rs.getString("type");
-				Module module = new Module(id, clashedModules, coupledModules, examLength, moduleSize, type);
-				modules.add(module);
+				try{
+					Module module = new Module(id, clashedModules, coupledModules, examLength, moduleSize, type);
+					modules.add(module);
+				}catch(IllegalArgumentException e){
+					invalidModules=true;
+					throw new IllegalArgumentException(e.getMessage());
+				}
+				
 			}
 		} catch (Exception e) {
 			System.err.println("Cannot connect to database server");

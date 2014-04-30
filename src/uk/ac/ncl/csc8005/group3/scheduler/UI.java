@@ -330,8 +330,8 @@ public class UI {
 				}
 
 				Scheduler scheduler = new Scheduler();
-				ArrayList<Module> modules= new ArrayList<Module>(db.getModules());
-				ArrayList<Room> rooms= new ArrayList<Room>(db.getRooms());
+				//ArrayList<Module> modules= new ArrayList<Module>(db.getModules());
+				//ArrayList<Room> rooms= new ArrayList<Room>(db.getRooms());
 				
 				int examPeriodLength = (int)( (endDate2.getTime() - startDate2.getTime())/ (1000 * 60 * 60 * 24) );
 				System.out.println(endDate2.getTime());
@@ -341,7 +341,7 @@ public class UI {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate2);
 				try{
-				db.openDatabase();
+					db.openDatabase();
 				}catch(Exception e){}
 				
 				boolean successful = false;
