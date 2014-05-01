@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * @author: Jessica King 
- * Date: 30/04/2014
+ * Date: 01/05/2014
  * Class DatabaseIO includes all the database connectivity and querys to read and write to the database. When this class is loaded all modules and rooms are populated 
  * from the database, through the constructor.
  */
@@ -482,12 +482,12 @@ public class DatabaseIO {
 	 * @param type. The room type that the module requires.
 	 * @return boolean.  
 	 */
-	public boolean writeToModuleTable(String moduleID, double examLength, int moduleSize,String type) {
+	public boolean writeToModuleTable(String moduleID, double examLength, int moduleSize,String type, String department) {
 		try{
         	openDatabase();
 		}catch(Exception e){}
 		
-		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "' WHERE name= '" + moduleID + "'";
+		String query = "UPDATE t8005t2 .modules SET examLength='" +examLength + "', moduleSize='" +moduleSize + "', type='" +type + "', department='" +department+ "' WHERE name= '" + moduleID + "'";
 		
 		try {
 			stmt = conn.createStatement();
