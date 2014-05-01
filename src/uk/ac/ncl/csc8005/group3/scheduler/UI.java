@@ -654,18 +654,20 @@ public class UI {
 				
 				try
 				{
-					model.removeRowRange(0, table2.getRowCount());
+					
+					//model.removeRowRange(0, table2.getRowCount());
 				}
 				catch(Exception e3)
 				{}
-				
 				System.out.println("SIZE:" +db.returnOutput().size()/5);
 				// Add data into table
 				for(int i = 0; i < db.returnOutput().size()/5; i++)
 				{
 					String[] value = mySplitIntoThree(dbOutput)[i].split(",");
-					value[1] = new String("" +Double.parseDouble(value[1]) / 60);
-					Object[] r1 = {value[0], " "+(Integer.parseInt(value[1]) / 60), value[2], value[3], value[4]};
+
+					value[2] = String.valueOf(Double.parseDouble(value[2])/60);
+					Object[] r1 = {value[0], value[1], value[2], value[3], value[4]};
+
 					model.addRow(r1);
 				}
 				
