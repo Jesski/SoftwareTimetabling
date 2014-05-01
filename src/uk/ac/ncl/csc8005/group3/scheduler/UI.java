@@ -893,7 +893,7 @@ public class UI {
 				
 				try
 				{
-					if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), textField_9.getText(), textField_dp.getText()))
+					if(db.writeToModuleTable(moduleCode, Integer.parseInt(textField_7.getText()), textField_9.getText(), textField_dp.getText()))
 					{
 						JOptionPane.showMessageDialog(null, "Edit module, successful!");
 					}

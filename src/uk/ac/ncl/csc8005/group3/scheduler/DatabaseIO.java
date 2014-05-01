@@ -524,7 +524,9 @@ public class DatabaseIO {
 		System.out.println(query);
 		try {
 			stmt = conn.createStatement();
+			System.out.println("check");
 			stmt.executeUpdate(query);
+			System.out.println("check2");
 			try{
 	        	closeDatabase();
 			}catch(Exception e){}
