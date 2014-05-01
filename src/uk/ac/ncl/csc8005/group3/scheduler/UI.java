@@ -251,7 +251,7 @@ public class UI {
 
 		JLabel lblNewcastleTimetabling = new JLabel("Newcastle Timetabling");
 
-		lblNewcastleTimetabling.setBounds(40, 272, 143, 16);
+		lblNewcastleTimetabling.setBounds(40, 272, 250, 18);
 
 		panelMain.add(lblNewcastleTimetabling);
 
@@ -859,30 +859,21 @@ public class UI {
 		panelEditModule.add(textField_7);
 		textField_7.setColumns(10);
 		
-		JLabel lblSize = new JLabel("Size");
-		lblSize.setBounds(381, 136, 61, 16);
-		panelEditModule.add(lblSize);
-		
-		textField_8 = new JTextField();
-		textField_8.setBounds(369, 164, 61, 28);
-		panelEditModule.add(textField_8);
-		textField_8.setColumns(10);
-		
 		JLabel lblType = new JLabel("Type");
-		lblType.setBounds(460, 136, 61, 16);
+		lblType.setBounds(381, 136, 61, 16);
 		panelEditModule.add(lblType);
 		
 		textField_9 = new JTextField();
-		textField_9.setBounds(443, 164, 68, 28);
+		textField_9.setBounds(369, 164, 68, 28);
 		panelEditModule.add(textField_9);
 		textField_9.setColumns(10);
 		
 		JLabel lblDepartment = new JLabel("Department");
-		lblDepartment.setBounds(520, 136, 100, 16);
+		lblDepartment.setBounds(450, 136, 100, 16);
 		panelEditModule.add(lblDepartment);
 		
 		textField_dp = new JTextField();
-		textField_dp.setBounds(517, 164, 100, 28);
+		textField_dp.setBounds(443, 164, 100, 28);
 		panelEditModule.add(textField_dp);
 		textField_dp.setColumns(10);
 		
