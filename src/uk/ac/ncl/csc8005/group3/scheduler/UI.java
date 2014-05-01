@@ -311,6 +311,8 @@ public class UI {
 		JButton btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Begin generating schedule");
+				
 				String startDate = ((JTextField) dateChooser_2.getDateEditor().getUiComponent()).getText();
 				String endDate = ((JTextField) dateChooser_3.getDateEditor().getUiComponent()).getText();
 				
@@ -330,13 +332,17 @@ public class UI {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate2);
 				try{
+					System.out.println("before the before here?");
 					db.populateProgram();
 				}catch(Exception e){}
 				
 				boolean successful = false;
 				try
 				{
-					db.writeAllToDB(scheduler.generateAndReturnSchedule(db.getModules(), db.getRooms(), examPeriodLength),cal);
+					ArrayList<Module> modulesToBeUsed = new ArrayList<Module>(db.getModules());
+					ArrayList<Room> roomsToBeUsed = new ArrayList<Room>(db.getRooms());
+					ArrayList<Module> generatedSchedule = new ArrayList<Module>(scheduler.generateAndReturnSchedule(modulesToBeUsed,roomsToBeUsed, examPeriodLength));
+					db.writeAllToDB(generatedSchedule, cal);
 					successful=true;
 				}
 				catch(IllegalArgumentException e)

@@ -217,6 +217,7 @@ public class Scheduler {
 	 * @throws IllegalArgumentException if schedule could not be generated.
 	 */
 	public ArrayList<Module> generateAndReturnSchedule(ArrayList<Module> modules, ArrayList<Room> rooms, int examPeriodLength) throws IllegalArgumentException{
+		System.out.println("before here?");
 		if (generateSchedule(modules,rooms,examPeriodLength)==true){
 			return getScheduledModules();
 		}else{
