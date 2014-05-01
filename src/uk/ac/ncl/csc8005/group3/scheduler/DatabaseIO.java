@@ -480,7 +480,7 @@ public class DatabaseIO {
 	 * @param type. The room type that the module requires.
 	 * @return boolean.  
 	 */
-	public boolean writeToModuleTable(String moduleID, double examLength, String type, String department) {
+	public boolean writeToModuleTable(String moduleID, int examLength, String type, String department) {
 		try{
         	openDatabase();
 		}catch(Exception e){}
