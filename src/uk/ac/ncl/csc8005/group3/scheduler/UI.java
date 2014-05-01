@@ -645,13 +645,14 @@ public class UI {
 				
 				String dbOutput = db.returnOutput().toString();
 				dbOutput = dbOutput.substring(1, dbOutput.length() - 1);
-				
+				/*
 				try
 				{
 					model.removeRowRange(0, table2.getRowCount());
 				}
 				catch(Exception e3)
 				{}
+				*/
 				System.out.println("SIZE:" +db.returnOutput().size()/5);
 				// Add data into table
 				for(int i = 0; i < db.returnOutput().size()/5; i++)
