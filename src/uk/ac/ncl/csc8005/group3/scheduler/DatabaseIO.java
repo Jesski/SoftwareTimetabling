@@ -25,8 +25,6 @@ public class DatabaseIO {
 	private Statement stmt = null;
 
 	private ArrayList<Module> modules = new ArrayList<Module>();
-	//private ArrayList<Integer> students = new ArrayList<Integer>();
-	//private ArrayList<String> clashed = new ArrayList<String>();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 
 	private boolean invalidModules =false;
