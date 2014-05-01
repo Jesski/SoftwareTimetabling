@@ -261,7 +261,7 @@ public class UI {
 
 		try {
 
-			img = ImageIO.read(new File("src/Newcastle_logo.png"));
+			img = ImageIO.read(new File("src/Newcastle_Logo.jpg"));
 
 		} catch (IOException e1) {
 
@@ -665,7 +665,21 @@ public class UI {
 				{
 					String[] value = mySplitIntoThree(dbOutput)[i].split(",");
 
-					value[2] = String.valueOf(Double.parseDouble(value[2])/60);
+					Double hours = new Double((Double.parseDouble(value[2])-(Double.parseDouble(value[2])%60))/60);
+					int hours2=hours.intValue();
+					
+					Double mins = new Double(Double.parseDouble(value[2])%60);
+					int mins2= mins.intValue();
+					String minsString;
+					
+					if(mins2<10){
+						minsString="0"+mins2;
+					}else{
+						minsString=""+mins2;
+						
+					}
+					
+					value[2] = String.valueOf(hours2)+":"+minsString;
 					Object[] r1 = {value[0], value[1], value[2], value[3], value[4]};
 
 					model.addRow(r1);
