@@ -664,7 +664,7 @@ public class UI {
 				for(int i = 0; i < db.returnOutput().size()/5; i++)
 				{
 					String[] value = mySplitIntoThree(dbOutput)[i].split(",");
-					Object[] r1 = {value[0], (Integer.parseInt(value[1]) * 60), value[2], value[3], value[4]};
+					Object[] r1 = {value[0], (Integer.parseInt(value[1]) / 60), value[2], value[3], value[4]};
 					model.addRow(r1);
 				}
 				
