@@ -256,12 +256,12 @@ public class UI {
 		panelMain.add(lblNewcastleTimetabling);
 
 		JPanel panelBackground = new JPanel();
-		/*
+		
 		BufferedImage img = null;
 
 		try {
 
-			img = ImageIO.read(new File("doc/images/Newcastle_Logo.jpg"));
+			img = ImageIO.read(new File("src/Newcastle_logo.png"));
 
 		} catch (IOException e1) {
 
@@ -280,7 +280,7 @@ public class UI {
 		 panelBackground.setBounds(6, 6, 688, 194);
 		 
 		 panelMain.add(panelBackground);
-		 */
+		 
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
