@@ -56,6 +56,7 @@ public class UI {
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
+	private JTextField textField_dp;
 	private JTextField textField_10;
 	private JTextField textField_11;
 	private JTextField textField_12;
@@ -876,13 +877,22 @@ public class UI {
 		panelEditModule.add(textField_9);
 		textField_9.setColumns(10);
 		
+		JLabel lblDepartment = new JLabel("Department");
+		lblDepartment.setBounds(520, 136, 100, 16);
+		panelEditModule.add(lblDepartment);
+		
+		textField_dp = new JTextField();
+		textField_dp.setBounds(517, 164, 100, 28);
+		panelEditModule.add(textField_dp);
+		textField_dp.setColumns(10);
+		
 		JButton btnDone = new JButton("Done");
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try
 				{
-					if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText()))
+					if(db.writeToModuleTable(moduleCode, Double.parseDouble(textField_7.getText()), Integer.parseInt(textField_8.getText()), textField_9.getText(), textField_dp.getText()))
 					{
 						JOptionPane.showMessageDialog(null, "Edit module, successful!");
 					}
