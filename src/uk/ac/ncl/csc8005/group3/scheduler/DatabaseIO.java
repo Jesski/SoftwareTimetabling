@@ -101,7 +101,7 @@ public class DatabaseIO {
 				modules.add(name);
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot run query");
+			System.err.println("Problem executing getmoduletitles query");
 			System.err.println(e.getMessage());
 		}
 		
@@ -164,7 +164,7 @@ public class DatabaseIO {
 				clashedModules.add(foreignID);
 			}
 		} catch (Exception e) {
-			System.err.println("Error");
+			System.err.println("Problem executing getclashedModules query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -191,7 +191,7 @@ public class DatabaseIO {
 				count = rs.getInt("COUNT(*)");
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing numberOfStudents query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -219,7 +219,7 @@ public class DatabaseIO {
 				type = rs.getString("type");
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing roomType query");
 			System.err.println(e.getMessage());
 		}
 		
@@ -264,7 +264,7 @@ public class DatabaseIO {
 			}
 		} catch (Exception e) {
 			System.out.print(e);
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing populateModules query");
 			System.err.println(e.getMessage());
 		}
 		
@@ -300,7 +300,7 @@ public class DatabaseIO {
 				rooms.add(room);
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing populateRooms query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -334,7 +334,7 @@ public class DatabaseIO {
 				modules.add(module);
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing query1");
 			System.err.println(e.getMessage());
 		}
 		
@@ -367,7 +367,7 @@ public class DatabaseIO {
 				students.add(student);
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing 'query2'");
 			System.err.println(e.getMessage());
 		}
 		
@@ -389,7 +389,7 @@ public class DatabaseIO {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(deleteQuery);
 		} catch (Exception e) {
-			System.err.println("Problem executing query");
+			System.err.println("Problem executing deleteTable query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -438,7 +438,7 @@ public class DatabaseIO {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 		} catch (Exception e) {
-			System.err.println("Problem executing query");
+			System.err.println("Problem executing output query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -462,7 +462,7 @@ public class DatabaseIO {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 		} catch (Exception e) {
-			System.err.println("Problem executing query");
+			System.err.println("Problem executing writetoInputDB query");
 			System.err.println(e.getMessage());
 		}
 		try{
@@ -494,7 +494,7 @@ public class DatabaseIO {
 			stmt.executeUpdate(query);
 			return true;
 		} catch (Exception e) {
-			System.err.println("Problem executing query");
+			System.err.println("Problem executing writeToModule query");
 			System.err.println(e.getMessage());
 			
 		}
@@ -532,7 +532,7 @@ public class DatabaseIO {
 			
 			return true;
 		} catch (Exception e) {
-			System.err.println("Problem executing query");
+			System.err.println("Problem executing addRoom query");
 			System.err.println(e.getMessage());
 			
 			try{
@@ -570,7 +570,7 @@ public class DatabaseIO {
 				output.add(date);
 			}
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			System.err.println("Problem executing returnOutput query");
 			System.err.println(e.getMessage());
 		}
 		try{
