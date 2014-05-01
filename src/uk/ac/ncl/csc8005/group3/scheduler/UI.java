@@ -584,83 +584,95 @@ public class UI {
 		lblViewSchedule.setBounds(300, 78, 89, 16);
 		panelViewSchedule.add(lblViewSchedule);
 		
+		//View Schedule Table
+		
+		String[] columnScheduleNames = {"Code", "Length","Time", "Room", "Date"};
+		//final int size = db.returnOutput().size()/5;
+		//size = 
+		
+		final ListTableModel model = new ListTableModel(Arrays.asList(columnScheduleNames));
+		model.setColumnClass(2, Integer.class);
+		model.setColumnEditable(2, false);
+		
+		//Object[] r1 = {"Homer", "Simpson", new Integer(40)};
+		
+		
+		
+		System.out.println(db.returnOutput());
+		System.out.println("Size: "+db.returnOutput().size()/5);
+		
+		table2 = new JTable();
+		table2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		table2.setEnabled(false);
+		table2.setBackground(Color.WHITE);
+		table2.setForeground(Color.BLACK);
+		
+		
+	
+		panelViewSchedule.add(table2);
+		
+		table_2 = new JTable();
+		table_2.setShowHorizontalLines(false);
+		table_2.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		table_2.setEnabled(false);
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Code", "Length","Time", "Room", "Date"},
+			},
+			new String[] {
+				"c1", "c2", "c3", "c4", "c5"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Object.class, Object.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_2.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table_2.getColumnModel().getColumn(2).setPreferredWidth(70);
+		table_2.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table_2.setBackground(Color.ORANGE);
+		table_2.setBounds(73, 115, 550, 26);
+		panelViewSchedule.add(table_2);
+		
 		JButton btnView_1 = new JButton("View");
 		btnView_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				//View Schedule Table
-				
-				String[] columnScheduleNames = {"Code", "Length","Time", "Room", "Date"};
-				int size = 0;
-				size = db.returnOutput().size()/5;
-				
-				ListTableModel model = new ListTableModel(Arrays.asList(columnScheduleNames));
-				model.setColumnClass(2, Integer.class);
-				model.setColumnEditable(2, false);
-				
-				//Object[] r1 = {"Homer", "Simpson", new Integer(40)};
-				
 				String dbOutput = db.returnOutput().toString();
 				dbOutput = dbOutput.substring(1, dbOutput.length() - 1);
 				
+				try
+				{
+					model.removeRowRange(0, table2.getRowCount());
+				}
+				catch(Exception e3)
+				{}
+				System.out.println("SIZE:" +db.returnOutput().size()/5);
 				// Add data into table
-				for(int i = 0; i < size; i++)
+				for(int i = 0; i < db.returnOutput().size()/5; i++)
 				{
 					String[] value = mySplitIntoThree(dbOutput)[i].split(",");
 					Object[] r1 = {value[0], value[1], value[2], value[3], value[4]};
 					model.addRow(r1);
 				}
 				
-				System.out.println(db.returnOutput());
-				System.out.println("Size: "+size);
-				
-				table2 = new JTable(model);
-				table2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-				table2.setEnabled(false);
-				table2.setBackground(Color.WHITE);
-				table2.setForeground(Color.BLACK);
+				table2.setModel(model);
 				table2.getColumnModel().getColumn(1).setPreferredWidth(70);
 				table2.getColumnModel().getColumn(2).setPreferredWidth(70);
 				table2.getColumnModel().getColumn(4).setPreferredWidth(100);
 				table2.setBounds(73, 139, 550, 200);
 				table2.setRowHeight(25);
 				table2.setVisible(true);
-			
-				panelViewSchedule.add(table2);
 				
-				table_2 = new JTable();
-				table_2.setShowHorizontalLines(false);
-				table_2.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-				table_2.setEnabled(false);
-				table_2.setModel(new DefaultTableModel(
-					new Object[][] {
-						{"Code", "Length","Time", "Room", "Date"},
-					},
-					new String[] {
-						"c1", "c2", "c3", "c4", "c5"
-					}
-				) {
-					Class[] columnTypes = new Class[] {
-						String.class, Object.class, Object.class, Object.class, Object.class
-					};
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-				});
-				table_2.getColumnModel().getColumn(1).setPreferredWidth(70);
-				table_2.getColumnModel().getColumn(2).setPreferredWidth(70);
-				table_2.getColumnModel().getColumn(4).setPreferredWidth(100);
-				table_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-				table_2.setBackground(Color.ORANGE);
-				table_2.setBounds(73, 115, 550, 26);
-				panelViewSchedule.add(table_2);
 				
 			}
 		});
 		btnView_1.setBounds(455, 73, 117, 29);
 		panelViewSchedule.add(btnView_1);
-		
-		
 
 		/*------------------------------------------------------------------------------------------------------------------*/
 
