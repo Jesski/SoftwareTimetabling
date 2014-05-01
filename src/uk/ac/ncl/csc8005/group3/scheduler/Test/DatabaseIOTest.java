@@ -94,6 +94,7 @@ public class DatabaseIOTest {
 		assert(db.getRooms().get(0) !=null);
 		db.openDatabase();
 		db.writeToModuleTable("CSC8003",2 , "type", "department");
+		db.addRoom("roomNumber", "roomType", 12,12, 12, 12);
 	}
 		
 	

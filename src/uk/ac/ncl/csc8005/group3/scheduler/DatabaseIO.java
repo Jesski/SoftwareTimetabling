@@ -521,7 +521,8 @@ public class DatabaseIO {
 		try{
         	openDatabase();
 		}catch(Exception e){}
-		String query = "INSERT t8005t2 .rooms values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
+		//String query = "INSERT t8005t2 .rooms values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
+		String query = "INSERT t8005t2 .rooms (roomNumber, roomType, roomStart,roomFireBreak, capacity, roomEnd) values('" + roomNumber + "','"+ roomType + "','" + roomStart + "','" + roomFireBreak + "','" + capacity+  "','" + roomEnd + "')";
 		System.out.println(query);
 		try {
 			stmt = conn.createStatement();
