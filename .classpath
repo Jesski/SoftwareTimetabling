@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="junit-4.6.jar"/>
+	<classpathentry kind="lib" path="doc/images/Newcastle_Logo.jpg"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
