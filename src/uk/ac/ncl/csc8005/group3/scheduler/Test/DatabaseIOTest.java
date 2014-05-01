@@ -88,10 +88,12 @@ public class DatabaseIOTest {
 	 * Tests the getRooms method.
 	 */
 	@Test
-	public void testGetRooms(){
+	public void testGetRooms() throws Exception{
 		DatabaseIO db = new DatabaseIO();
 		assert (db.getRooms().get(0) instanceof Room);
 		assert(db.getRooms().get(0) !=null);
+		db.openDatabase();
+		db.writeToModuleTable("CSC8003",2 , "type", "department");
 	}
 		
 	
